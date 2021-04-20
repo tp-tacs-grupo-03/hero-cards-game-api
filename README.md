@@ -11,4 +11,4 @@ Pre-requisitos:
 
 El proyecto se levanta en el puerto 8080.
 
-[Link](localhost:8080/swagger-ui.html) de swagger
+[Link](http://localhost:8080/swagger-ui.html) de swagger
