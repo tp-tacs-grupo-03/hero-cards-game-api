@@ -5,7 +5,7 @@
 Pre-requisitos:
 * Docker
 
-###Levantar el proyecto
+### Levantar el proyecto
 * Clonar el repositorio
 * En la raiz del proyecto correr el comando `docker-compose up`
 
