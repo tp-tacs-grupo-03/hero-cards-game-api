@@ -1,13 +1,5 @@
 package com.tacs.tacs.api;
-import java.sql.Date;
-import java.util.UUID;
 
-import com.tacs.tacs.model.responseModel.BattleModel;
-import com.tacs.tacs.model.responseModel.MatchModel;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiOperation;

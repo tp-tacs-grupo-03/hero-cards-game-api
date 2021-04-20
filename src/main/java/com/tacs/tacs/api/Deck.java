@@ -1,12 +1,9 @@
 package com.tacs.tacs.api;
-import java.util.UUID;
 
-import com.tacs.tacs.model.responseModel.BattleModel;
-import com.tacs.tacs.model.responseModel.MatchModel;
+
 import com.tacs.tacs.model.requestModel.CardModel;
 import com.tacs.tacs.model.requestModel.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
