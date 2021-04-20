@@ -2,8 +2,9 @@ package com.tacs.tacs.model.responseModel;
 
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
+
 @Validated
-public class CardModel {
+public class CardDataModel {
     @NonNull
     public float height;
     @NonNull
