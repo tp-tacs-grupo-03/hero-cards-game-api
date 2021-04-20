@@ -7,4 +7,8 @@ import org.springframework.validation.annotation.Validated;
 public class CardModel {
     @NonNull
     public int id;
+
+    public int getId() {
+        return id;
+    }
 }

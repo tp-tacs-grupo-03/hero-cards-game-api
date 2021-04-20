@@ -13,5 +13,13 @@ public class MatchModel {
     public MatchStatusEnum status;
     public Date creationDate;
     public Date endDate;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
     
 }

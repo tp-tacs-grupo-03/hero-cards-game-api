@@ -3,27 +3,38 @@ package com.tacs.tacs.api;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RequestMapping("api/stats")
 @RestController
 public class Stat {
 
-    @GetMapping("/matches?status={matchStatus}&init_date={initDate}&finish_date={finish_date}")
+    @GetMapping("/matches/{matchStatus}/{initDate}/{finishDate}")
     @ApiOperation(value = "Obtener cantidad de partidas de determinado estado entre determinadas fechas")
+    @ApiResponses({
+        @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de las partidas en el estado dado entre las fechas informadas")
+    })
     public String getMatches(@PathVariable("matchStatus") String matchStatus, @PathVariable("initDate") String initDate,@PathVariable("finishDate") String finishDate ){
-        return "Cantidad de partidas " + matchStatus;
+        return "Hay 12 partidas con el estado de " + matchStatus;
     }
 
     @GetMapping("/leadderboard")
     @ApiOperation(value = "Obtener listado de estadisticas de los mejores jugadores")
-    public String getLeadderboard(@PathVariable("userId") String userId){
-        return "Historial del usuario numero "+ userId;
+    @ApiResponses({
+        @ApiResponse(code = 200, response = Object.class, message = "Tablero de posiciones")
+    })
+    public String getLeadderboard(){
+        return "LEADBOARD actual ";
     }
 
     @GetMapping("/users/{userId}")
     @ApiOperation(value = "Obtener estadisticas personales de un usuario")
+    @ApiResponses({
+        @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de un usuario")
+    })
     public String getRecord(@PathVariable("userId") String userId){
-        return "Historial del usuario numero "+ userId;
+        return "Estadisticas del usuario numero "+ userId;
     }
 
 }
