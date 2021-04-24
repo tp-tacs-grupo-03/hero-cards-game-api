@@ -1,8 +1,8 @@
 package com.tacs.tacs.api;
 
 
-import com.tacs.tacs.model.requestModel.CardModel;
 import com.tacs.tacs.model.requestModel.*;
+import com.tacs.tacs.model.responseModel.*;
 
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
@@ -48,18 +48,17 @@ public class Deck {
     @ApiResponses({
         @ApiResponse(code = 200, response = Integer.class, message = "Id del deck creado")
     })
-    public int newDeck(@Validated @NonNull @RequestBody DeckModel deck){
+    public int newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
         return 1;
     }
 
-    @PatchMapping
-    @ApiOperation(value = "Modificar el nombre de un deck")
+    @PatchMapping("/{id}")
+    @ApiOperation(value = "Modificar un deck")
     @ApiResponses({
         @ApiResponse(code = 200, response = Object.class, message = "Deck con la modificacion")
     })
-    public DeckModel modifyDeck(@Validated @NonNull @RequestBody DeckModel deck){
-        deck.nombre = "Te cambie el nombre";
-        return deck;
+    public DeckModelResponse modifyDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
+        return null;
     }
     
     @DeleteMapping("/{id}")

@@ -1,7 +1,7 @@
 package com.tacs.tacs.model.responseModel;
 
-import java.sql.Date;
 
+import java.sql.Date;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -10,6 +10,8 @@ public class MatchModel {
     public String id;
     public String enemy;
     public String deck;
+    public PlayerStatusEnum statusPlayer1;
+    public PlayerStatusEnum statusPlayer2;
     public MatchStatusEnum status;
     public Date creationDate;
     public Date endDate;

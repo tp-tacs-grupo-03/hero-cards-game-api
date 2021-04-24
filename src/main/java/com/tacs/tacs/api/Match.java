@@ -15,6 +15,15 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("api/matches")
 @RestController
 public class Match {
+    
+    @GetMapping
+    @ApiOperation(value = "Obtener todas las partidas")
+    @ApiResponses({
+        @ApiResponse(code = 200, response = Object.class, message = "Las partidas")
+    })
+    public String getAllMatches(){
+        return "todos los matches";
+    }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtener una partida por id")
@@ -43,16 +52,13 @@ public class Match {
     public String draw(@PathVariable("id") int id){
         return "agarro una carta";
     }
-    @PostMapping("/{id}/ready")
-    @ApiOperation(value = "Actualiza estado del jugador a READY, en caso de ser su turno debe especificar un atributo elegido")
-    public String ready(@Validated @NonNull @RequestBody BattleModel battle){
-        return "se pelea con el atributo "+ battle.attribute;
-    }
-    
-    @PostMapping("/{id}/surrender")
-    @ApiOperation(value = "Abandona una partida segun id")
-    public String surrender(){
-        return "El usuario abandona la partida";
-    }
 
+    @PatchMapping("/{id}")
+    @ApiOperation(value = "Modificar un deck")
+    @ApiResponses({
+        @ApiResponse(code = 200, response = Object.class, message = "Deck con la modificacion")
+    })
+    public MatchModel modifyMatch(@Validated @NonNull @RequestBody MatchModel match){
+        return match;
+    }
 }
