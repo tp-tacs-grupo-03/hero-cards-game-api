@@ -10,12 +10,12 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 public class Stat {
 
-    @GetMapping("/matches/{matchStatus}/{initDate}/{finishDate}")
+    @GetMapping("/matches")
     @ApiOperation(value = "Obtener cantidad de partidas de determinado estado entre determinadas fechas")
     @ApiResponses({
         @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de las partidas en el estado dado entre las fechas informadas")
     })
-    public String getMatches(@PathVariable("matchStatus") String matchStatus, @PathVariable("initDate") String initDate,@PathVariable("finishDate") String finishDate ){
+    public String getMatches(@RequestParam(value = "matchStatus",required = false) String matchStatus, @RequestParam(value = "initDate", required = false) String initDate,@RequestParam(value = "finishDate",required = false) String finishDate ){
         return "Hay 12 partidas con el estado de " + matchStatus;
     }
 

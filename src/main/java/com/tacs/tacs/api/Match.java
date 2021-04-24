@@ -44,7 +44,7 @@ public class Match {
         return match;
     }
 
-    @GetMapping("/{id}/draw")
+    @GetMapping("/{id}/cards")
     @ApiOperation(value = "Obtener proxima carta del mazo")
     @ApiResponses({
         @ApiResponse(code = 200, response = Object.class, message = "La carta")
