@@ -1,9 +1,10 @@
 package com.tacs.tacs.api;
-import java.util.UUID;
+import java.util.*;
 
-import com.tacs.tacs.model.responseModel.BattleModel;
+import com.tacs.tacs.model.responseModel.CardDataModel;
 import com.tacs.tacs.model.responseModel.MatchModel;
 
+import com.tacs.tacs.model.responseModel.PlayerStatusEnum;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,11 @@ public class Match {
     @ApiResponses({
         @ApiResponse(code = 200, response = Object.class, message = "Las partidas")
     })
-    public String getAllMatches(){
-        return "todos los matches";
+    public List<MatchModel> getAllMatches(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
+                                          @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
+                                          @RequestParam(value = "sortBy",required = false) String sortField,
+                                          @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
+        return null;
     }
 
     @GetMapping("/{id}")
@@ -30,8 +34,8 @@ public class Match {
     @ApiResponses({
         @ApiResponse(code = 200, response = Object.class, message = "La partida")
     })
-    public String getMatch(@PathVariable("id") int id){
-        return "esta es la partida numero " + id;
+    public MatchModel getMatch(@PathVariable("id") int id){
+        return null;
     }
    
     @PostMapping
@@ -45,20 +49,28 @@ public class Match {
     }
 
     @GetMapping("/{id}/cards")
-    @ApiOperation(value = "Obtener proxima carta del mazo")
+    @ApiOperation(value = "Obtener carta actual del mazo")
     @ApiResponses({
         @ApiResponse(code = 200, response = Object.class, message = "La carta")
     })
-    public String draw(@PathVariable("id") int id){
-        return "agarro una carta";
+    public CardDataModel draw(@PathVariable("id") int id){
+        return null;
     }
 
     @PatchMapping("/{id}")
-    @ApiOperation(value = "Modificar un deck")
+    @ApiOperation(value = "Modificar un match")
     @ApiResponses({
-        @ApiResponse(code = 200, response = Object.class, message = "Deck con la modificacion")
+        @ApiResponse(code = 200, response = Object.class, message = "Match con la modificación")
     })
-    public MatchModel modifyMatch(@Validated @NonNull @RequestBody MatchModel match){
-        return match;
+    public MatchModel modifyMatch(@RequestParam(value = "playerStatus") String playerStatus, @PathVariable("id") int id){
+        return null;
+    }
+    @GetMapping("/{id}/turns")
+    @ApiOperation(value = "Recrear una partida")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Object.class, message = "La partida recreada")
+    })
+    public MatchModel recreateMatch(@PathVariable("id") int id){
+        return null;
     }
 }
