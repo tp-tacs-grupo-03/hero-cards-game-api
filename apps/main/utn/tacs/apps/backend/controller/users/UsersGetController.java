@@ -1,17 +1,19 @@
-package com.tacs.tacs.api;
-import com.tacs.tacs.model.requestModel.*;
-import com.tacs.tacs.model.responseModel.*;
+package utn.tacs.apps.backend.controller.users;
 
+import com.tacs.tacs.model.responseModel.UserModelRespones;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RequestMapping("api/users")
 @RestController
-public class User {
+public class UsersGetController {
     @GetMapping
     @ApiOperation(value = "Obtener todos los usuarios")
     @ApiResponses({

@@ -1,32 +1,30 @@
-package com.tacs.tacs.api;
+package utn.tacs.apps.backend.controller.stats;
 
 import com.tacs.tacs.model.responseModel.PlayerStatsModel;
-import com.tacs.tacs.model.responseModel.PlayerStatusEnum;
-import org.springframework.web.bind.annotation.*;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequestMapping("api/stats")
 @RestController
-public class Stat {
+public class StatsGetController {
 
     @GetMapping("/matches")
     @ApiOperation(value = "Obtener cantidad de partidas de determinado estado entre determinadas fechas")
     @ApiResponses({
-        @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de las partidas en el estado dado entre las fechas informadas")
+            @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de las partidas en el estado dado entre las fechas informadas")
     })
-    public int getMatches(@RequestParam(value = "matchStatus",required = false) String matchStatus, @RequestParam(value = "initDate", required = false) String initDate,@RequestParam(value = "finishDate",required = false) String finishDate ){
+    public int getMatches(@RequestParam(value = "matchStatus",required = false) String matchStatus, @RequestParam(value = "initDate", required = false) String initDate, @RequestParam(value = "finishDate",required = false) String finishDate ){
         return 0;
     }
 
     @GetMapping("/leadderboard")
     @ApiOperation(value = "Obtener listado de estadisticas de los mejores jugadores")
     @ApiResponses({
-        @ApiResponse(code = 200, response = Object.class, message = "Tablero de posiciones")
+            @ApiResponse(code = 200, response = Object.class, message = "Tablero de posiciones")
     })
     public List<PlayerStatsModel> getLeadderboard(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
                                                   @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
@@ -38,10 +36,9 @@ public class Stat {
     @GetMapping("/users/{userId}")
     @ApiOperation(value = "Obtener estadisticas personales de un usuario")
     @ApiResponses({
-        @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de un usuario")
+            @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de un usuario")
     })
     public PlayerStatsModel getRecord(@PathVariable("userId") String userId){
         return null;
     }
-
 }
