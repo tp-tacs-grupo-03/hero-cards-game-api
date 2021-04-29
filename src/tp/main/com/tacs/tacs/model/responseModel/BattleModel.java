@@ -8,5 +8,5 @@ public class BattleModel {
 
     public int getWinner(){
         return 1;
-    };
+    }
 }
