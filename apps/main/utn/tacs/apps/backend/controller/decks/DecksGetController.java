@@ -1,6 +1,6 @@
 package utn.tacs.apps.backend.controller.decks;
 
-import com.tacs.tacs.model.responseModel.DeckModelResponse;
+import utn.tacs.model.responseModel.DeckModelResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

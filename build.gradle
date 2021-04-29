@@ -110,7 +110,7 @@ group = 'com.tacs'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
-mainClassName = 'utn.tacs.apps.Starter'
+mainClassName = 'utn.tacs.apps.TacsApplication'
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.1.8.RELEASE'

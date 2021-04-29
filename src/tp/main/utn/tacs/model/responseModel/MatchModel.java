@@ -1,4 +1,4 @@
-package com.tacs.tacs.model.responseModel;
+package utn.tacs.model.responseModel;
 
 
 import java.sql.Date;

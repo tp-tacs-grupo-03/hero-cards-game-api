@@ -1,6 +1,6 @@
 package utn.tacs.apps.backend.controller.stats;
 
-import com.tacs.tacs.model.responseModel.PlayerStatsModel;
+import utn.tacs.model.responseModel.PlayerStatsModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

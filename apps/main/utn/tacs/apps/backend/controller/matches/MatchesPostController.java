@@ -1,6 +1,6 @@
 package utn.tacs.apps.backend.controller.matches;
 
-import com.tacs.tacs.model.responseModel.MatchModel;
+import utn.tacs.model.responseModel.MatchModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

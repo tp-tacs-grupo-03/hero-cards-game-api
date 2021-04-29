@@ -1,6 +1,7 @@
 package utn.tacs.apps.backend.controller.cards;
 
-import com.tacs.tacs.model.responseModel.CardDataModel;
+import utn.tacs.cards.application.list.CardsLister;
+import utn.tacs.model.responseModel.CardDataModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -13,7 +14,13 @@ import java.util.List;
 
 @RequestMapping("api/cards")
 @RestController
-public class Cards {
+public class CardsGetController {
+    private CardsLister lister;
+
+    public CardsGetController(CardsLister lister){
+        this.lister = lister;
+    }
+
     @GetMapping
     @ApiOperation(value = "Obtener todas las cartas")
     @ApiResponses({
@@ -23,6 +30,6 @@ public class Cards {
                                            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                                            @RequestParam(value = "sortBy", required = false) String sortField,
                                            @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
-        return null;
+        return lister.list();
     }
 }

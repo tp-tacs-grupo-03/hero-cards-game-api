@@ -1,4 +1,4 @@
-package com.tacs.tacs.model.requestModel;
+package utn.tacs.model.requestModel;
 
 public class UserModel {
     public String id;

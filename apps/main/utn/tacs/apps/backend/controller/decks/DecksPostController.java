@@ -1,8 +1,8 @@
 package utn.tacs.apps.backend.controller.decks;
 
-import com.tacs.tacs.model.requestModel.CardModel;
-import com.tacs.tacs.model.requestModel.DeckModelRequest;
-import com.tacs.tacs.model.responseModel.DeckModelResponse;
+import utn.tacs.model.requestModel.CardModel;
+import utn.tacs.model.requestModel.DeckModelRequest;
+import utn.tacs.model.responseModel.DeckModelResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

@@ -1,6 +1,6 @@
 package utn.tacs.apps.backend.controller.users;
 
-import com.tacs.tacs.model.responseModel.UserModelRespones;
+import utn.tacs.model.responseModel.UserModelRespones;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

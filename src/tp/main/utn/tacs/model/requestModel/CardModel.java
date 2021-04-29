@@ -1,4 +1,4 @@
-package com.tacs.tacs.model.requestModel;
+package utn.tacs.model.requestModel;
 
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
