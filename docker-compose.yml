@@ -1,9 +1,0 @@
-version: "3.3"
-services:
-    backend:
-        build: 
-            context: .
-            dockerfile: dockerfile
-        image: springio/gs-spring-boot-docker
-        ports:
-            - 8080:8080
