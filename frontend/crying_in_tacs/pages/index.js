@@ -6,23 +6,8 @@ import Navbar from '../components/navbar'
 
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  return (
-    isAuthenticated ? (
-      <div>
-        PANTALLA AUTENTICADO
-        <LogoutButton/>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
-    ) : (
-      <div>
-          PANTALLA SIN AUTENTICAR
-        <LoginButton/>
-      </div>
-      )
-  );
+  return <></>
+
 };
 
 export default Profile;

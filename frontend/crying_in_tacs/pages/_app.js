@@ -8,10 +8,10 @@ function MyApp({ Component, pageProps }) {
     domain="dev-jx8fysvq.us.auth0.com"
     clientId="H8EX00DegtNbsp2PdUCZxvNuu1RI6vdZ"
     redirectUri="http://localhost:3000"
+    audience="https://tacs.2021.com"
   >
     <Navbar/>
-
-<Component {...pageProps} />
+    <Component {...pageProps} />
   </Auth0Provider>
   )
 }

@@ -2,20 +2,21 @@ import Link from 'next/link';
 import LogoutButton from './logoutButton';
 import LoginButton from './loginButton';
 import { useAuth0 } from "@auth0/auth0-react";
+import { useState } from 'react';
 
 const Navbar = () => {
-    const { user, isAuthenticated, isLoading } = useAuth0();
-  return (
-    <>
-    <p>
-      isAuth:
-      {JSON.stringify(isAuthenticated)}
-    </p>
-    <p>
-      user:
-      {JSON.stringify(user)}
-    </p>
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const [ token, setToken ] = useState("")
 
+  const getToken = async () => {
+    const accessToken = await getAccessTokenSilently({
+      audience: "https://tacs.2021.com"
+    })
+    setToken(accessToken)
+  }
+
+  return (
+    <div style={{backgroundColor:'red'}}>
     {
       (
         isAuthenticated ? (
@@ -27,6 +28,8 @@ const Navbar = () => {
                 <img src={user.picture} alt={user.name} />
                 <h2>{user.name}</h2>
                 <p>{user.email}</p>
+                <button onClick={getToken}>GET TOKEN</button>
+                <p>{JSON.stringify(token)}</p>
                 <LogoutButton />
               </div>
               
@@ -39,12 +42,11 @@ const Navbar = () => {
         <Link href='/'>
           <a className='inline-flex items-center p-2 mr-4 '>
             <span className='text-xl text-white font-bold uppercase tracking-wide'>
-              TalwindCSS
             </span>
           </a>
         </Link>
       </nav>
-    </>
+    </div>
   );
 };
 
