@@ -5,7 +5,10 @@ import com.tacs.tacs.model.responseModel.CardDataModel;
 import com.tacs.tacs.model.responseModel.MatchModel;
 
 import com.tacs.tacs.model.responseModel.PlayerStatusEnum;
+import io.swagger.annotations.Authorization;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,8 +65,9 @@ public class Match {
     @ApiResponses({
         @ApiResponse(code = 200, response = Object.class, message = "Match con la modificación")
     })
-    public MatchModel modifyMatch(@RequestParam(value = "playerStatus") String playerStatus, @PathVariable("id") int id){
-        return null;
+    public Object modifyMatch(@RequestParam(value = "playerStatus") String playerStatus, @PathVariable("id") int id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
     }
     @GetMapping("/{id}/turns")
     @ApiOperation(value = "Recrear una partida")
