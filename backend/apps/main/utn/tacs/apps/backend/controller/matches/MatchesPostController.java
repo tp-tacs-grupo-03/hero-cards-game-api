@@ -1,5 +1,6 @@
 package utn.tacs.apps.backend.controller.matches;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.model.responseModel.MatchModel;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.UUID;
 
 @RequestMapping("api/matches")
+@Api(tags = "Matches")
 @RestController
 public class MatchesPostController {
     @PostMapping

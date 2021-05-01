@@ -1,5 +1,6 @@
 package utn.tacs.apps.backend.controller.cards;
 
+import io.swagger.annotations.Api;
 import utn.tacs.cards.application.list.CardsLister;
 import utn.tacs.model.responseModel.CardDataModel;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequestMapping("api/cards")
+@Api(tags = "Cards")
 @RestController
 public class CardsGetController {
     private CardsLister lister;
