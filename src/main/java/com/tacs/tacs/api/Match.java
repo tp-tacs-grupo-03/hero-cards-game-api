@@ -65,9 +65,10 @@ public class Match {
     @ApiResponses({
         @ApiResponse(code = 200, response = Object.class, message = "Match con la modificación")
     })
-    public Object modifyMatch(@RequestParam(value = "playerStatus") String playerStatus, @PathVariable("id") int id){
+    public MatchModel modifyMatch(@RequestParam(value = "playerStatus") String playerStatus, @PathVariable("id") int id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getName();
+        System.out.println(auth);
+        return null;
     }
     @GetMapping("/{id}/turns")
     @ApiOperation(value = "Recrear una partida")
