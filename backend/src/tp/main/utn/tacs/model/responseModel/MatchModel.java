@@ -1,24 +1,13 @@
 package utn.tacs.model.responseModel;
 
 
+import org.springframework.validation.annotation.Validated;
+
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.validation.annotation.Validated;
-
 @Validated
 public class MatchModel {
-
-    public MatchModel(String player1ID, String player2ID, String deck, PlayerStatusEnum statusPlayer1, PlayerStatusEnum statusPlayer2, MatchStatusEnum status, Date creationDate, Date endDate) {
-        this.player1ID = player1ID;
-        this.player2ID = player2ID;
-        this.deck = deck;
-        this.statusPlayer1 = statusPlayer1;
-        this.statusPlayer2 = statusPlayer2;
-        this.status = status;
-        this.creationDate = creationDate;
-        this.endDate = endDate;
-    }
 
     private String id;
     private String player1ID;
@@ -31,6 +20,17 @@ public class MatchModel {
     private Date endDate;
     private String winnerID;
     private List<BattleModel> battles;
+
+    public MatchModel(String player1ID, String player2ID, String deck, PlayerStatusEnum statusPlayer1, PlayerStatusEnum statusPlayer2, MatchStatusEnum status, Date creationDate, Date endDate) {
+        this.player1ID = player1ID;
+        this.player2ID = player2ID;
+        this.deck = deck;
+        this.statusPlayer1 = statusPlayer1;
+        this.statusPlayer2 = statusPlayer2;
+        this.status = status;
+        this.creationDate = creationDate;
+        this.endDate = endDate;
+    }
 
     public List<BattleModel> getBattles() {
         return battles;

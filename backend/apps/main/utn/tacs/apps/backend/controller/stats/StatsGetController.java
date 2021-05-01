@@ -1,5 +1,6 @@
 package utn.tacs.apps.backend.controller.stats;
 
+import io.swagger.annotations.Api;
 import utn.tacs.model.responseModel.PlayerStatsModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("api/stats")
+@Api(tags = "Stats")
 @RestController
 public class StatsGetController {
 

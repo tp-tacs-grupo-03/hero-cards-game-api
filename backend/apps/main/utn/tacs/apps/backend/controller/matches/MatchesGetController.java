@@ -1,18 +1,18 @@
 package utn.tacs.apps.backend.controller.matches;
-import java.util.*;
-
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.bind.annotation.*;
 import utn.tacs.model.responseModel.CardDataModel;
 import utn.tacs.model.responseModel.MatchModel;
 
-
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 
 
 @RequestMapping("api/matches")
+@Api(tags = "Matches")
 @RestController
 public class MatchesGetController {
     @GetMapping

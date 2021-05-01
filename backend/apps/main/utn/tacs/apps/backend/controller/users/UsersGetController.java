@@ -1,5 +1,6 @@
 package utn.tacs.apps.backend.controller.users;
 
+import io.swagger.annotations.Api;
 import utn.tacs.model.responseModel.UserModelRespones;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequestMapping("api/users")
+@Api(tags = "Users")
 @RestController
 public class UsersGetController {
     @GetMapping

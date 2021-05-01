@@ -1,15 +1,17 @@
 package utn.tacs.apps.backend.controller.matches;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import utn.tacs.model.responseModel.MatchModel;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import utn.tacs.model.responseModel.Request;
 
 
 @RequestMapping("api/matches")
+@Api(tags = "Matches")
 @RestController
 public class MatchesPatchController {
 
@@ -18,10 +20,9 @@ public class MatchesPatchController {
     @ApiResponses({
             @ApiResponse(code = 200, response = Object.class, message = "Match con la modificación")
     })
-    public MatchModel modifyMatch(@RequestParam(value = "playerStatus") String playerStatus, @PathVariable("id") int id){
+    public Object modifyMatch(@RequestBody Request request, @PathVariable("id") int id ){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth);
-        return null;
+        return request;
     }
 
 }

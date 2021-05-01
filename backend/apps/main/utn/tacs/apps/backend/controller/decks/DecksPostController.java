@@ -1,5 +1,6 @@
 package utn.tacs.apps.backend.controller.decks;
 
+import io.swagger.annotations.Api;
 import utn.tacs.model.requestModel.CardModel;
 import utn.tacs.model.requestModel.DeckModelRequest;
 import utn.tacs.model.responseModel.DeckModelResponse;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("api/decks")
+@Api(tags = "Decks")
 @RestController
 public class DecksPostController {
 
