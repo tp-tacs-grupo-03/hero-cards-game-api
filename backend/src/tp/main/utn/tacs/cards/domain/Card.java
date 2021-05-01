@@ -3,7 +3,10 @@ package utn.tacs.cards.domain;
 import java.util.Objects;
 
 public class Card {
-    String id;
+
+    private String id;
+
+    public Card(){}
 
     public Card(String id) {
         this.id = id;
@@ -27,6 +30,6 @@ public class Card {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(Integer.valueOf(id));
     }
 }

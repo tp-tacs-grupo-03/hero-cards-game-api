@@ -1,11 +1,9 @@
 package utn.tacs.decks.application.addCard;
 
-import org.springframework.stereotype.Service;
 import utn.tacs.cards.domain.Card;
 
 import java.util.List;
 
-@Service
 public class DeckAddRequest {
     private String deckId;
     private List<Card> cards;

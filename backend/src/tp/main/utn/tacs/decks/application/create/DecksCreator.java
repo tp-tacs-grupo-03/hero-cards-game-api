@@ -10,6 +10,10 @@ public class DecksCreator {
 
     DecksRepository repository;
 
+    public DecksCreator(DecksRepository repository) {
+        this.repository = repository;
+    }
+
     public DeckModelResponse create(DeckCreateRequest deckCreateRequest){
         Deck deck = new Deck(deckCreateRequest.getCards(), deckCreateRequest.getName());
         repository.save(deck);

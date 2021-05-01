@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 final class DecksGetControllerTest extends RequestTestCase {
     @Test
     void get_all_decks() throws Exception{
-        assertResponse("/api/decks", 200, "");
+        assertResponse("/api/decks", 200, "[]");
     }
 
     @Test

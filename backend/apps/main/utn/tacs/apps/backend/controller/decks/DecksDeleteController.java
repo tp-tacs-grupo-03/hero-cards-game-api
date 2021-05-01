@@ -4,8 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.lang.NonNull;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.cards.domain.Card;
 import utn.tacs.decks.application.delete.DeckDeleteRequest;
@@ -40,7 +38,7 @@ public class DecksDeleteController {
     @ApiResponses({
             @ApiResponse(code = 200, response = Object.class, message = "Deck con la carta nueva")
     })
-    public void deleteCard(@PathVariable("id") String id, @Validated @NonNull @RequestBody String card) throws Exception {
-        decksCardDeleter.delete(new DeckCardDeleteRequest(id, new Card(card)));
+    public void deleteCard(@PathVariable("id") String id, @RequestBody Card card) throws Exception {
+        decksCardDeleter.delete(new DeckCardDeleteRequest(id, card));
     }
 }
