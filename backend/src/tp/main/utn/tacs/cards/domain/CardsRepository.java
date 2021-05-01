@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CardsRepository {
     List<CardDataModel> findAll();
+    void save(CardDataModel cardDataModel);
 }

@@ -19,4 +19,14 @@ public class CardDataModel {
     public float combat;
     @NonNull
     public float strength;
+
+    public CardDataModel(float height, float weight, float intelligence, float speed, float power, float combat, float strength) {
+        this.height = height;
+        this.weight = weight;
+        this.intelligence = intelligence;
+        this.speed = speed;
+        this.power = power;
+        this.combat = combat;
+        this.strength = strength;
+    }
 }

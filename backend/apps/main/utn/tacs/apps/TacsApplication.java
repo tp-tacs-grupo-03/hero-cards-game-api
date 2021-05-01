@@ -24,18 +24,6 @@ public class TacsApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext context){
-        return args -> {
-            System.out.println("Start");
-            String[] beanNames = context.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames){
-                System.out.println(beanName);
-            }
-        };
-    }
-
-    @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors.basePackage("utn.tacs.apps.backend")).build();
