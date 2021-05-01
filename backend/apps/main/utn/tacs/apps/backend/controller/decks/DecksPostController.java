@@ -1,30 +1,33 @@
 package utn.tacs.apps.backend.controller.decks;
 
 import io.swagger.annotations.Api;
-import utn.tacs.model.requestModel.CardModel;
-import utn.tacs.model.requestModel.DeckModelRequest;
-import utn.tacs.model.responseModel.DeckModelResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import utn.tacs.cards.domain.Card;
+import utn.tacs.decks.application.create.DeckCreateRequest;
+import utn.tacs.decks.application.create.DecksCreator;
+import utn.tacs.model.requestModel.DeckModelRequest;
+import utn.tacs.model.responseModel.DeckModelResponse;
+
+import java.util.stream.Collectors;
 
 @RequestMapping("api/decks")
 @Api(tags = "Decks")
 @RestController
 public class DecksPostController {
 
-    @PostMapping("/{id}/cards")
-    @ApiOperation(value = "Agregar una carta al deck de id")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Deck con la carta nueva")
-    })
-    public DeckModelResponse addCard(@PathVariable("id") int id, @Validated @NonNull @RequestBody CardModel card){
-        return null;
-    }
+    DecksCreator creator;
 
+    public DecksPostController(DecksCreator creator) {
+        this.creator = creator;
+    }
 
     @PostMapping
     @ApiOperation(value = "Crear deck")
@@ -32,6 +35,11 @@ public class DecksPostController {
             @ApiResponse(code = 200, response = Integer.class, message = "Deck creado")
     })
     public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
-        return null;
+        return creator.create(
+                new DeckCreateRequest(
+                        deck.getCards().stream().map(Card::new).collect(Collectors.toList()),
+                        deck.getNombre()
+                )
+        );
     }
 }
