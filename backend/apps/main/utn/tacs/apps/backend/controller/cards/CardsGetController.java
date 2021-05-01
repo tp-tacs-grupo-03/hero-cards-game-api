@@ -32,6 +32,6 @@ public class CardsGetController {
                                            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                                            @RequestParam(value = "sortBy", required = false) String sortField,
                                            @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
-        return lister.list();
+        return lister.list(page, pageSize, sortField, sortDirection);
     }
 }
