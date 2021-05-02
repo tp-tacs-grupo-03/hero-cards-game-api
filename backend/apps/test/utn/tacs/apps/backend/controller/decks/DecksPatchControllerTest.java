@@ -22,6 +22,6 @@ final class DecksPatchControllerTest extends RequestTestCase {
                 mapper.writeValueAsString(deckModelRequest),
                 200);
         DeckModelResponse deckModelResponse = mapper.readValue(result, DeckModelResponse.class);
-        assertRequestWithBody("PATCH", "/api/decks/" + deckModelResponse.getId(), "Nuevo", 201);
+        assertRequestWithBody("PATCH", "/api/decks/" + deckModelResponse.getId(), "Nuevo", 200);
     }
 }
