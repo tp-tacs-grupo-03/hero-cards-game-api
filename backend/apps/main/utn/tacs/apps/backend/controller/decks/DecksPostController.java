@@ -6,10 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import utn.tacs.cards.domain.Card;
 import utn.tacs.decks.application.create.DeckCreateRequest;
 import utn.tacs.decks.application.create.DecksCreator;
@@ -20,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RequestMapping("api/decks")
 @Api(tags = "Decks")
+@CrossOrigin("*")
 @RestController
 public class DecksPostController {
 

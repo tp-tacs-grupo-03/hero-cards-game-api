@@ -13,6 +13,7 @@ import utn.tacs.decks.application.deleteCard.DecksCardDeleter;
 
 @RequestMapping("api/decks")
 @Api(tags = "Decks")
+@CrossOrigin("*")
 @RestController
 public class DecksDeleteController {
 

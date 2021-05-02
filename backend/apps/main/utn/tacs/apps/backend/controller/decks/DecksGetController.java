@@ -16,6 +16,7 @@ import java.util.List;
 
 @RequestMapping("api/decks")
 @Api(tags = "Decks")
+@CrossOrigin("*")
 @RestController
 public class DecksGetController {
 
