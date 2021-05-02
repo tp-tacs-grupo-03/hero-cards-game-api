@@ -2,13 +2,12 @@ package utn.tacs.decks.domain;
 
 import utn.tacs.cards.domain.Card;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Deck {
 
     String id;
-    List<Card> cards = new ArrayList<>();
+    List<Card> cards;
     String name;
 
     public Deck(List<Card> cards, String name) {
@@ -42,5 +41,20 @@ public class Deck {
 
     public void deleteCard(Card card){
         cards.remove(card);
+    }
+
+    public void shuffle() {
+        Collections.shuffle(this.cards);
+    }
+
+    public List<Queue<Card>> split(int users) {
+        int module = this.cards.size() % users;
+        int partitionSize = this.cards.size() / users;
+        List<Queue<Card>> partitions = new LinkedList<>();
+        for (int i = 0; i < this.cards.size() - module; i += partitionSize) {
+            partitions.add(new LinkedList<>(this.cards.subList(i,
+                    Math.min(i + partitionSize, this.cards.size()))));
+        }
+        return partitions;
     }
 }

@@ -1,4 +1,4 @@
-package utn.tacs.model.responseModel;
+package utn.tacs.decks.application;
 
 import utn.tacs.cards.domain.Card;
 

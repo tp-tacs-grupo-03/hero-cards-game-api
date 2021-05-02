@@ -11,7 +11,7 @@ import utn.tacs.cards.domain.Card;
 import utn.tacs.decks.application.create.DeckCreateRequest;
 import utn.tacs.decks.application.create.DecksCreator;
 import utn.tacs.model.requestModel.DeckModelRequest;
-import utn.tacs.model.responseModel.DeckModelResponse;
+import utn.tacs.decks.application.DeckModelResponse;
 
 import java.util.stream.Collectors;
 

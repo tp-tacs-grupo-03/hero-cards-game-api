@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import utn.tacs.apps.TacsApplication;
 import utn.tacs.apps.backend.controller.RequestTestCase;
 import utn.tacs.model.requestModel.DeckModelRequest;
-import utn.tacs.model.responseModel.DeckModelResponse;
+import utn.tacs.decks.application.DeckModelResponse;
 
 import java.util.ArrayList;
 
