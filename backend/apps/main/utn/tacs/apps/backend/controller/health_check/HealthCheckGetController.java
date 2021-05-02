@@ -16,4 +16,5 @@ public class HealthCheckGetController {
         status.put("status", "ok");
         return status;
     }
+
 }

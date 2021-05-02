@@ -10,6 +10,6 @@ final class HealthCheckGetControllerTest extends RequestTestCase {
 
     @Test
     void test_health_check_working() throws Exception{
-        assertResponse("/health-check",200, "{'status':'ok'}");
+        assertRequestWithContent("GET","/health-check",200, "{'status':'ok'}");
     }
 }
