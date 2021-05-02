@@ -1,53 +1,47 @@
-import Link from 'next/link';
-import LogoutButton from './logoutButton';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Image } from '@chakra-ui/image';
+import { Text } from '@chakra-ui/layout';
+import React, { useState } from 'react';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import LoginButton from './loginButton';
-import { useAuth0 } from "@auth0/auth0-react";
-import { useState } from 'react';
+import LogoutButton from './logoutButton';
 
-const Navbar = () => {
-  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const [ token, setToken ] = useState("")
+const Example = (props) => {
+  const { user, isAuthenticated } = useAuth0()
+  const [collapsed, setCollapsed] = useState(true);
 
-  const getToken = async () => {
-    const accessToken = await getAccessTokenSilently({
-      audience: "https://tacs.2021.com"
-    })
-    setToken(accessToken)
-  }
+  const toggleNavbar = () => setCollapsed(!collapsed);
 
   return (
-    <div style={{backgroundColor:'red'}}>
-    {
-      (
-        isAuthenticated ? (
-          <div>
-            PANTALLA AUTENTICADO
-            {
-              isAuthenticated &&
-              <div>
-                <img src={user.picture} alt={user.name} />
-                <h2>{user.name}</h2>
-                <p>{user.email}</p>
-                <button onClick={getToken}>GET TOKEN</button>
-                <p>{JSON.stringify(token)}</p>
-                <LogoutButton />
-              </div>
-              
-            }
-          </div>
-        ) : <div> <LoginButton /> PANTALLA SIN AUTENTICAR </div>
-      )
-    }
-     <nav className='flex items-center flex-wrap bg-green-300 p-3 '>
-        <Link href='/'>
-          <a className='inline-flex items-center p-2 mr-4 '>
-            <span className='text-xl text-white font-bold uppercase tracking-wide'>
-            </span>
-          </a>
-        </Link>
-      </nav>
-    </div>
-  );
-};
+      <Navbar color="dark" light>
+      <NavbarBrand href="/" className="mr-auto"><Text color="white">TACS</Text></NavbarBrand>
+      <Nav><p>Black Lives Matter.Support the Equal Justice Initiative.</p></Nav>
 
-export default Navbar;
+      <Dropdown isOpen={!collapsed} toggle={toggleNavbar}>
+          {
+            isAuthenticated ?
+            <DropdownToggle color="grey" borderRadius="25px">
+            <Image
+                h="35px"
+                w="35px"
+                src={user.picture}
+                cursor="pointer"
+                onClick={toggleNavbar}
+                borderRadius="15px"
+              /> 
+              </DropdownToggle>
+              :
+              <LoginButton />
+          }
+        <DropdownMenu positionFixed>
+          <DropdownItem header>{user.name}</DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem><LogoutButton /></DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      </Navbar>
+  );
+}
+
+export default Example;
