@@ -21,9 +21,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - name: Position in folder
-      run: cd backend
     - name: Grant execute permission for gradlew
       run: chmod +x backend/gradlew
     - name: Build with Gradle
-      run: ./backend/gradlew build
+      run: ./backend/gradlew test
