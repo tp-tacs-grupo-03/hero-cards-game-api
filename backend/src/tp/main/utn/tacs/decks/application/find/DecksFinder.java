@@ -2,7 +2,7 @@ package utn.tacs.decks.application.find;
 
 import org.springframework.stereotype.Service;
 import utn.tacs.decks.domain.DecksRepository;
-import utn.tacs.model.responseModel.DeckModelResponse;
+import utn.tacs.decks.application.DeckModelResponse;
 
 @Service
 public class DecksFinder {
