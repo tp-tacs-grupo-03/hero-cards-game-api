@@ -5,6 +5,7 @@ import utn.tacs.superHeroAPI.clientApi.model.Character;
 import utn.tacs.superHeroAPI.clientApi.model.Image;
 import utn.tacs.superHeroAPI.clientApi.model.Powerstats;
 
+
 public class SuperHeroApi extends ApiClient {
 
         public ResponseEntity<Character> getCharacter(String id) {

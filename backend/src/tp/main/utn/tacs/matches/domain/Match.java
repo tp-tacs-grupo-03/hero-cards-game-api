@@ -1,10 +1,11 @@
 package utn.tacs.matches.domain;
 
 import utn.tacs.cards.domain.Card;
-import utn.tacs.model.responseModel.BattleModel;
+import utn.tacs.matches.application.battle.MatchBattleRequest;
 import utn.tacs.model.responseModel.MatchStatusEnum;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Match {
     private String id;
@@ -14,7 +15,7 @@ public class Match {
     private Date creationDate;
     private Date endDate;
     private String winnerID;
-    private List<BattleModel> battles;
+    private List<Battle> battles;
 
     public Match(Map<String, Queue<Card>> players, String deck, Date creationDate) {
         this.players = players;
@@ -55,11 +56,20 @@ public class Match {
         return winnerID;
     }
 
-    public List<BattleModel> getBattles() {
+    public List<Battle> getBattles() {
         return battles;
     }
 
     public Card getNextCard(String playerId) {
         return this.players.get(playerId).peek();
+    }
+
+    public Battle battle(MatchBattleRequest matchBattleRequest) throws Exception {
+        String playerId = matchBattleRequest.getPlayerId();
+        String turnId = this.players.keySet().stream().sorted().collect(Collectors.toList()).get(this.battles.size()%this.players.size());
+        if (!playerId.equals(turnId)) {
+            throw new Exception("No es el turno del jugador");
+        }
+        return new Battle(matchBattleRequest.getAttribute());
     }
 }

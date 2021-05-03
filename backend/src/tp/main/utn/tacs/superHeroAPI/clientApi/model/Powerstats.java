@@ -31,4 +31,5 @@ public class Powerstats {
     public Integer getStrength() {
         return strength;
     }
+
 }

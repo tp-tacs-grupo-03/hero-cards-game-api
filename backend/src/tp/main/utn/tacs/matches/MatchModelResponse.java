@@ -2,7 +2,7 @@ package utn.tacs.matches;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import utn.tacs.matches.domain.Match;
-import utn.tacs.model.responseModel.BattleModel;
+import utn.tacs.matches.domain.Battle;
 import utn.tacs.model.responseModel.MatchStatusEnum;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class MatchModelResponse {
     private Date creationDate;
     private Date endDate;
     private String winnerID;
-    private List<BattleModel> battles;
+    private List<Battle> battles;
 
     public MatchModelResponse(String id, List<String> players, String deck, MatchStatusEnum status, Date creationDate) {
         this.id = id;
@@ -92,11 +92,11 @@ public class MatchModelResponse {
         this.winnerID = winnerID;
     }
 
-    public List<BattleModel> getBattles() {
+    public List<Battle> getBattles() {
         return battles;
     }
 
-    public void setBattles(List<BattleModel> battles) {
+    public void setBattles(List<Battle> battles) {
         this.battles = battles;
     }
 }

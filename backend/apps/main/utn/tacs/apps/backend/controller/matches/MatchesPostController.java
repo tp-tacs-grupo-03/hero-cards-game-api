@@ -8,14 +8,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import utn.tacs.matches.MatchModelResponse;
 import utn.tacs.matches.application.create.MatchCreateRequest;
 import utn.tacs.matches.application.create.MatchesCreator;
 import utn.tacs.model.responseModel.MatchModel;
+import utn.tacs.model.responseModel.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +43,16 @@ public class MatchesPostController {
         players.add(matchRequest.getOpponentId());
 
         return creator.create(new MatchCreateRequest(players, matchRequest.getDeckId()));
+    }
+
+
+    @PostMapping("/{id}/battles")
+    @ApiOperation(value = "Modificar un match")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Object.class, message = "Match con la modificación")
+    })
+    public Object modifyMatch(@RequestBody Request request, @PathVariable("id") int id ){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return request;
     }
 }
