@@ -1,11 +1,13 @@
 package utn.tacs.matches;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import utn.tacs.model.responseModel.BattleModel;
 import utn.tacs.model.responseModel.MatchStatusEnum;
 
 import java.util.Date;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MatchModelResponse {
     private String id;
     private List<String> players;

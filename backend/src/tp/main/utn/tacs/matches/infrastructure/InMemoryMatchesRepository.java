@@ -5,6 +5,7 @@ import utn.tacs.matches.domain.Match;
 import utn.tacs.matches.domain.MatchesRepository;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,4 +19,11 @@ public class InMemoryMatchesRepository implements MatchesRepository {
         match.setId(id);
         matches.put(id, match);
     }
+
+    @Override
+    public Optional<Match> find(String id) {
+        return Optional.ofNullable(matches.get(id));
+    }
+
+
 }

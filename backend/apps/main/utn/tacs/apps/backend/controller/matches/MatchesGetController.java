@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
+import utn.tacs.matches.MatchModelResponse;
+import utn.tacs.matches.application.find.MatchFindRequest;
+import utn.tacs.matches.application.find.MatchesFinder;
 import utn.tacs.model.responseModel.CardDataModel;
 import utn.tacs.model.responseModel.MatchModel;
 
@@ -15,6 +18,14 @@ import java.util.List;
 @Api(tags = "Matches")
 @RestController
 public class MatchesGetController {
+
+    MatchesFinder finder;
+
+
+    public MatchesGetController(MatchesFinder finder) {
+        this.finder = finder;
+    }
+
     @GetMapping
     @ApiOperation(value = "Obtener todas las partidas")
     @ApiResponses({
@@ -32,8 +43,8 @@ public class MatchesGetController {
     @ApiResponses({
             @ApiResponse(code = 200, response = Object.class, message = "La partida")
     })
-    public MatchModel getMatch(@PathVariable("id") int id){
-        return null;
+    public MatchModelResponse getMatch(@PathVariable("id") String id) throws Exception {
+        return finder.find(new MatchFindRequest(id));
     }
 
 
