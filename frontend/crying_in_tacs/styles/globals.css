@@ -14,3 +14,8 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.modal-content {
+  background-color: rgba(0, 0, 0, 0) !important;
+  border: none !important;
+}
