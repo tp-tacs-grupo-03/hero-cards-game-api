@@ -8,7 +8,7 @@ export function useFetchTacsApi() {
 
     const { getAccessTokenSilently } = useAuth0()
 
-    return async function fetchTacsApi(path, method, body = {}) {
+    return async function fetchTacsApi(path, method = 'GET', body = {}) {
 
         const accessToken = prevAccessToken ?? await getAccessTokenSilently({
             audience: audience
@@ -18,8 +18,6 @@ export function useFetchTacsApi() {
 
         const httpbody = method != 'GET' ? { body: JSON.stringify(body) } : {}
         const httppath = `http://localhost:8080/api/${path}`
-
-        console.log(prevAccessToken);
         
         try {
             const options = {

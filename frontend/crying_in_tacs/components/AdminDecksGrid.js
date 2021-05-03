@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import FetchApi from '../../services/FetchApi'
-import superheroes from '../../superheroes'
-import ModalCardDetails from '../../components/modalCardDetails'
+import superheroes from '../superheroes'
+import ModalCardDetails from './modalCardDetails'
 
 import { Button, Modal, Container, Row, Col, Image, Form, Spinner } from 'react-bootstrap';
 
-import { useFetchTacsApi } from '../../hooks/useFetchTacsApi';
+import { useFetchTacsApi } from '../hooks/useFetchTacsApi';
 
 const cardColumns = [
   { field: "id", hide: true },
@@ -21,10 +20,10 @@ const cardColumns = [
   }
 ];
 
-export default function AdminDecksGrid() {
+export default function AdminDecksGrid({ deck }) {
   const fetchTacsApi = useFetchTacsApi();
   const [selectedRows, setSelectedRows] = useState([])
-  const [name, setName] = useState("")
+  const [name, setName] = useState(deck?.name)
   const [progressBar, setProgressBar] = useState(false)
   const [enableSave, setEnableSave] = useState(false)
 
@@ -40,20 +39,24 @@ export default function AdminDecksGrid() {
 
   const saveNewDeck = async () => {
 
+    setProgressBar(true);
+
     let requestBody = {
-      nombre: name,
+      name,
       cards: selectedRows
     }
-    console.log(requestBody);
-    setProgressBar(true);
+    
+    const data = await fetchTacsApi("decks", "POST", requestBody)
+    console.log(data)
+    setProgressBar(false);
   }
 
 
   return (
     <Container fluid>
-      <Row className="justify-content-md-left" style={{ padding: "10px" }}>
-        <Col md={{ span: 2 }}>
-          <Form.Control type="text" placeholder="Enter deck name..." onBlur={(event) => enterName(event.target.value)} />
+      <Row className="justify-content-md-left">
+        <Col md={{ span: 11 }}>
+          <Form.Control type="text" value={name} placeholder="Enter deck name..." onChange={(event) => enterName(event.target.value)} />
         </Col>
         <Col md={{ span: 1 }}>
           <Button variant="primary" block onClick={() => saveNewDeck()} disabled={!enableSave}>  Save </Button>
@@ -61,8 +64,8 @@ export default function AdminDecksGrid() {
       </Row>
 
       <Row className="justify-content-md-left" style={{ padding: "10px" }}>
-        <Col md={3}>
-          {progressBar && <Spinner animation="border" disable />}
+        <Col md={12}>
+          {progressBar && <Spinner animation="border" />}
           <DataGrid
             columns={cardColumns}
             rows={superheroes}
@@ -72,7 +75,7 @@ export default function AdminDecksGrid() {
               (newSelection) => { setSelectionModel(newSelection.selectionModel); }
             }
             pagination
-            pageSize={20}
+            pageSize={11}
             rowsPerPageOptions={[5, 10, 20]}
           />
         </Col>

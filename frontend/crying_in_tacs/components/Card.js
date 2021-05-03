@@ -2,7 +2,7 @@ import { StylesProvider } from '@material-ui/styles';
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/Card.module.css'
 
-import { Button, Modal, Container, Row, Col, Image } from 'react-bootstrap';
+import { Button, Modal, Container, Row, Col, Image, Spinner } from 'react-bootstrap';
 import { useFetchTacsApi } from '../hooks/useFetchTacsApi';
 
 export default function CardSelect({ cardSelected }) {
@@ -13,11 +13,8 @@ export default function CardSelect({ cardSelected }) {
     useEffect(() => {
 
         const fetchCardData = async () => {
-            const response = await fetch("http://localhost:8080/api/decks")
-            console.log(data)
-            const data = await response.json()
-            console.log(data)
-            setCardData(data)
+            const data = await fetchTacsApi(`cards/${cardSelected.id}`)
+            await setCardData(data)
         }
 
         fetchCardData()
@@ -57,19 +54,29 @@ export default function CardSelect({ cardSelected }) {
                 card.style.transform = `perspective(50rem) rotateX(5deg) rotateY(${rotateY}deg)`;
             }
         });
-
     }, [])
 
 
 
     return (
-        !cardData ? <div></div> : <div className={styles.card} id="card">
+        <div className={styles.card} id="card">
             <div className={styles.front}>
-                <div className={styles.image} style={{ backgroundImage: `url(${cardData.image.url})` }}>
-                    <div className={styles.level}>{cardData.id}</div>
-                </div>
-                <div className={styles.title}>{cardData.name}</div>
-                <div className={styles.description}>
+                {
+                    cardData ? 
+                        <div className={styles.image} style={{ backgroundImage: `url(${cardData.image.url})` }}>
+                            <div className={styles.level}>{cardData.id}</div>
+                        </div>
+                    :
+                        <div className={styles.image}>
+                            <Spinner animation="border"></Spinner>
+                        </div>
+                        
+                }
+                {
+                    cardData ?
+                    <>
+                        <div className={styles.title}>{cardData.name}</div>
+                    <div className={styles.description}>
                     <Container fluid>
                         <Row className="justify-content-md-center" style={{ paddingTop: "3px" }}>
                             <Col> Intelligence: {cardData.powerstats.intelligence} </Col>
@@ -84,9 +91,13 @@ export default function CardSelect({ cardSelected }) {
                             <Col> Combat: {cardData.powerstats.combat} </Col>
                         </Row>
                     </Container>
-
-                </div>
-
+                            </div>
+                    </>
+                    :
+                    <div className={styles.description}>
+                        <Spinner animation="border"></Spinner>
+                    </div>
+                }
             </div>
             <div className={styles.back}>
                

@@ -26,7 +26,6 @@
     height: 250px;
     position: relative;
     transform: translateX(9deg);
-    background-image: url("https://www.superherodb.com/pictures2/portraits/10/100/10060.jpg");
     background-size: cover;
 }
 .card .front .image img {

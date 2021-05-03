@@ -55,7 +55,7 @@ const Example = (props) => {
                     <DropdownItem header>{user.name}</DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem>
-                      <Link href="/decks/newDeck" color="white" ><p style={{ paddingTop: "13px", cursor: "pointer" }}>Decks</p></Link>
+                      <Link href="/decks" color="white" ><p style={{ paddingTop: "13px", cursor: "pointer" }}>Decks</p></Link>
                     </DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem><LogoutButton />
