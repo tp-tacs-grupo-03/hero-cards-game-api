@@ -4,8 +4,9 @@ import java.util.List;
 
 
 public class DeckModelRequest {
+
     public List<String> cards;
-    public String nombre;
+    public String name;
 
     public List<String> getCards() {
         return cards;
@@ -15,11 +16,11 @@ public class DeckModelRequest {
         this.cards = cards;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 }

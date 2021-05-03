@@ -18,7 +18,7 @@ abstract class ApiClient {
     }
 
     private String url(String path) {
-        return BASE_URL.replace("access_token", access_token) + "/" + path;
+        return BASE_URL.replace("access_token", access_token == null ? "10226310284967175" : access_token) + "/" + path;
     }
 
 }
