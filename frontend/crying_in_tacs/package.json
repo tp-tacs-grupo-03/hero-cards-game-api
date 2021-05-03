@@ -16,6 +16,7 @@
     "@material-ui/data-grid": "^4.0.0-alpha.27",
     "@material-ui/x-grid": "^4.0.0-alpha.27",
     "@material-ui/x-grid-data-generator": "^4.0.0-alpha.27",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "framer-motion": "^4.1.11",
     "next": "10.2.0",
