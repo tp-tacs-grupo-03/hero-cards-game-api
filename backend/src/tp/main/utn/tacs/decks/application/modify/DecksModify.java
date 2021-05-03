@@ -1,6 +1,5 @@
 package utn.tacs.decks.application.modify;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import utn.tacs.cards.domain.Card;
 import utn.tacs.decks.domain.Deck;
@@ -12,7 +11,6 @@ import java.util.stream.Collectors;
 @Service
 public class DecksModify {
 
-    @Autowired
     DecksRepository repository;
 
     public DecksModify(DecksRepository repository) {

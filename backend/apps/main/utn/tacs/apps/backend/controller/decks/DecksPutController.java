@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +17,6 @@ import utn.tacs.model.requestModel.DeckModelRequest;
 @RestController
 public class DecksPutController {
 
-    @Autowired
     DecksModify decksModify;
 
     public DecksPutController(DecksModify modify) {
