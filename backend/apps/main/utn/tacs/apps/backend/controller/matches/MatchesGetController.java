@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import utn.tacs.matches.MatchModelResponse;
 import utn.tacs.matches.application.find.MatchFindRequest;
 import utn.tacs.matches.application.find.MatchesFinder;
+import utn.tacs.matches.application.list.MatchLister;
+import utn.tacs.matches.application.list.MatchPagingRequest;
 import utn.tacs.model.responseModel.CardDataModel;
-import utn.tacs.model.responseModel.MatchModel;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class MatchesGetController {
 
     MatchesFinder finder;
+    MatchLister lister;
 
 
     public MatchesGetController(MatchesFinder finder) {
@@ -31,11 +33,11 @@ public class MatchesGetController {
     @ApiResponses({
             @ApiResponse(code = 200, response = Object.class, message = "Las partidas")
     })
-    public List<MatchModel> getAllMatches(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
+    public List<MatchModelResponse> getAllMatches(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
                                           @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
                                           @RequestParam(value = "sortBy",required = false) String sortField,
                                           @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
-        return null;
+        return lister.list(new MatchPagingRequest(sortField, page, pageSize,sortDirection));
     }
 
     @GetMapping("/{id}")
@@ -57,14 +59,4 @@ public class MatchesGetController {
         return null;
     }
 
-
-
-    @GetMapping("/{id}/turns")
-    @ApiOperation(value = "Recrear una partida")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "La partida recreada")
-    })
-    public MatchModel recreateMatch(@PathVariable("id") int id){
-        return null;
-    }
 }

@@ -1,9 +1,11 @@
 package utn.tacs.matches;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import utn.tacs.matches.domain.Match;
 import utn.tacs.model.responseModel.BattleModel;
 import utn.tacs.model.responseModel.MatchStatusEnum;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +26,14 @@ public class MatchModelResponse {
         this.deck = deck;
         this.status = status;
         this.creationDate = creationDate;
+    }
+
+    static public MatchModelResponse toMatchModel(Match match){
+        MatchModelResponse matchModelResponse = new MatchModelResponse(match.getId(), new ArrayList<>(match.getPlayers().keySet()), match.getDeck(), match.getStatus(), match.getCreationDate());
+        matchModelResponse.setBattles(match.getBattles());
+        matchModelResponse.setEndDate(match.getEndDate());
+        matchModelResponse.setWinnerID(match.getWinnerID());
+        return matchModelResponse;
     }
 
     public String getId() {

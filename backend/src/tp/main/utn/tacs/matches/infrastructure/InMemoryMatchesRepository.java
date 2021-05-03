@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import utn.tacs.matches.domain.Match;
 import utn.tacs.matches.domain.MatchesRepository;
 
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class InMemoryMatchesRepository implements MatchesRepository {
@@ -23,6 +21,11 @@ public class InMemoryMatchesRepository implements MatchesRepository {
     @Override
     public Optional<Match> find(String id) {
         return Optional.ofNullable(matches.get(id));
+    }
+
+    @Override
+    public List<Match> findAll() {
+        return new ArrayList<>(matches.values());
     }
 
 
