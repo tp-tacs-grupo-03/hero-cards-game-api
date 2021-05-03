@@ -12,7 +12,7 @@ final class DecksPostControllerTest extends RequestTestCase {
     void new_deck() throws Exception {
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>());
-        deckModelRequest.setNombre("Arena");
+        deckModelRequest.setName("Arena");
         assertRequestWithBody(
                 "POST",
                 "/api/decks",

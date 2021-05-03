@@ -36,7 +36,7 @@ public class DecksPostController {
         return creator.create(
                 new DeckCreateRequest(
                         deck.getCards().stream().map(Card::new).collect(Collectors.toList()),
-                        deck.getNombre()
+                        deck.getName()
                 )
         );
     }

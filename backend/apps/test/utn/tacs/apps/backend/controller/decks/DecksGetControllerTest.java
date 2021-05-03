@@ -20,7 +20,7 @@ final class DecksGetControllerTest extends RequestTestCase {
     void get_all_decks() throws Exception {
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>());
-        deckModelRequest.setNombre("Arena");
+        deckModelRequest.setName("Arena");
         doRequestWithBody(
                 "POST",
                 "/api/decks",
@@ -33,7 +33,7 @@ final class DecksGetControllerTest extends RequestTestCase {
     void get_specific_id() throws Exception{
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>());
-        deckModelRequest.setNombre("Arena");
+        deckModelRequest.setName("Arena");
         String result = doRequestWithBody(
                 "POST",
                 "/api/decks",

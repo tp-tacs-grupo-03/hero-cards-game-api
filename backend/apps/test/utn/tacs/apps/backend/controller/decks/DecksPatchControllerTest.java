@@ -15,7 +15,7 @@ final class DecksPatchControllerTest extends RequestTestCase {
     void modify_deck_specific_deck() throws Exception {
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>());
-        deckModelRequest.setNombre("Arena");
+        deckModelRequest.setName("Arena");
         String result = doRequestWithBody(
                 "POST",
                 "/api/decks",
