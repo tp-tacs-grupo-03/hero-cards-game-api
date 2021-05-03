@@ -43,7 +43,7 @@ class SuperHeroApiTest {
     @Test
     public void testGetPowerstatsById() {
         final SuperHeroApi client = new SuperHeroApi();
-        ResponseEntity<Powerstats> response = client.getPowerstats("1");
+        ResponseEntity<Powerstats> response = client.getPowerstats("1").orElseThrow();
         Assert.notNull(response.getBody(), "cannot get powerstats");
         assertEquals(response.getStatusCode(),HttpStatus.OK );
         Powerstats powerstats = response.getBody();
