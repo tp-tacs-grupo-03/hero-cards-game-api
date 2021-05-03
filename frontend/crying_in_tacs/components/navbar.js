@@ -33,18 +33,20 @@ const Example = (props) => {
         {
           isAuthenticated ?
             <>
-              <Link href="/decks/newDeck" color="white" ><Text color="white"><p style={{paddingTop: "13px"}}>Decks</p></Text></Link> 
+              
               <Dropdown isOpen={!collapsed} toggle={toggleNavbar}>
 
                 <>
-                  <DropdownToggle color="grey" borderRadius="25px">
+                  <DropdownToggle color="grey">
                     <Image
                       h="35px"
                       w="35px"
                       src={user.picture}
                       cursor="pointer"
                       onClick={toggleNavbar}
-                      borderRadius="15px"
+                      style={{
+                        borderRadius:"15px"
+                      }}
                     />
 
                   </DropdownToggle>
@@ -52,7 +54,12 @@ const Example = (props) => {
                   <DropdownMenu positionFixed>
                     <DropdownItem header>{user.name}</DropdownItem>
                     <DropdownItem divider />
-                    <DropdownItem><LogoutButton /></DropdownItem>
+                    <DropdownItem>
+                      <Link href="/decks/newDeck" color="white" ><p style={{ paddingTop: "13px", cursor: "pointer" }}>Decks</p></Link>
+                    </DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem><LogoutButton />
+                    </DropdownItem>
                   </DropdownMenu>
                 </>
               </Dropdown>

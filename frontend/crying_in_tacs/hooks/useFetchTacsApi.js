@@ -28,7 +28,6 @@ export function useFetchTacsApi() {
                     'Content-Type': "application/json",
                     'Authorization': `Bearer ${accessToken}`
                 },
-                mode: "cors",
                 ...httpbody
             }
 
