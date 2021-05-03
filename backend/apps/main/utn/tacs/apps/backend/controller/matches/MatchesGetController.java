@@ -3,13 +3,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import utn.tacs.cards.CardModelResponse;
 import utn.tacs.matches.MatchModelResponse;
+import utn.tacs.matches.application.draw.MatchCardDraw;
+import utn.tacs.matches.application.draw.MatchDrawRequest;
 import utn.tacs.matches.application.find.MatchFindRequest;
 import utn.tacs.matches.application.find.MatchesFinder;
 import utn.tacs.matches.application.list.MatchLister;
 import utn.tacs.matches.application.list.MatchPagingRequest;
-import utn.tacs.model.responseModel.CardDataModel;
 
 import java.util.List;
 
@@ -22,6 +26,7 @@ public class MatchesGetController {
 
     MatchesFinder finder;
     MatchLister lister;
+    MatchCardDraw cardDraw;
 
 
     public MatchesGetController(MatchesFinder finder) {
@@ -55,8 +60,10 @@ public class MatchesGetController {
     @ApiResponses({
             @ApiResponse(code = 200, response = Object.class, message = "La carta")
     })
-    public CardDataModel draw(@PathVariable("id") int id){
-        return null;
+    public CardModelResponse draw(@PathVariable("id") String id) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String playerId = auth.getName();
+        return cardDraw.draw(new MatchDrawRequest(id, playerId));
     }
 
 }

@@ -58,4 +58,8 @@ public class Match {
     public List<BattleModel> getBattles() {
         return battles;
     }
+
+    public Card getNextCard(String playerId) {
+        return this.players.get(playerId).peek();
+    }
 }
