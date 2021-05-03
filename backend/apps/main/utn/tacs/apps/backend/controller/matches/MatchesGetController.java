@@ -28,9 +28,10 @@ public class MatchesGetController {
     MatchLister lister;
     MatchCardDraw cardDraw;
 
-
-    public MatchesGetController(MatchesFinder finder) {
+    public MatchesGetController(MatchesFinder finder, MatchLister lister, MatchCardDraw cardDraw) {
         this.finder = finder;
+        this.lister = lister;
+        this.cardDraw = cardDraw;
     }
 
     @GetMapping

@@ -10,4 +10,6 @@ public interface MatchesRepository {
     Optional<Match> find(String id);
 
     List<Match> findAll();
+
+    void update(Match match);
 }

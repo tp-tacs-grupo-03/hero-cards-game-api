@@ -10,6 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.matches.MatchModelResponse;
+import utn.tacs.matches.application.battle.BattleModelResponse;
+import utn.tacs.matches.application.battle.MatchBattle;
+import utn.tacs.matches.application.battle.MatchBattleRequest;
 import utn.tacs.matches.application.create.MatchCreateRequest;
 import utn.tacs.matches.application.create.MatchesCreator;
 import utn.tacs.model.responseModel.MatchModel;
@@ -24,9 +27,11 @@ import java.util.List;
 public class MatchesPostController {
 
     MatchesCreator creator;
+    MatchBattle battle;
 
-    public MatchesPostController(MatchesCreator creator) {
+    public MatchesPostController(MatchesCreator creator, MatchBattle battle) {
         this.creator = creator;
+        this.battle = battle;
     }
 
     @PostMapping
@@ -47,12 +52,12 @@ public class MatchesPostController {
 
 
     @PostMapping("/{id}/battles")
-    @ApiOperation(value = "Modificar un match")
+    @ApiOperation(value = "Indicar en tu turno que atributo se usara")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Match con la modificación")
+            @ApiResponse(code = 200, response = Object.class, message = "Resultado del combate")
     })
-    public Object modifyMatch(@RequestBody Request request, @PathVariable("id") int id ){
+    public BattleModelResponse modifyMatch(@RequestBody Request request, @PathVariable("id") String id ) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return request;
+        return battle.battle(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
     }
 }

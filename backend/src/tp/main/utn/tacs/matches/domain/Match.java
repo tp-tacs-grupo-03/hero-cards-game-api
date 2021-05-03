@@ -1,6 +1,6 @@
 package utn.tacs.matches.domain;
 
-import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 import utn.tacs.matches.application.battle.MatchBattleRequest;
 import utn.tacs.model.responseModel.MatchStatusEnum;
 
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class Match {
     private String id;
-    private Map<String, Queue<Card>> players;
+    private Map<String, Queue<CardId>> players;
     private String deck;
     private MatchStatusEnum status;
     private Date creationDate;
@@ -17,11 +17,12 @@ public class Match {
     private String winnerID;
     private List<Battle> battles;
 
-    public Match(Map<String, Queue<Card>> players, String deck, Date creationDate) {
+    public Match(Map<String, Queue<CardId>> players, String deck, Date creationDate) {
         this.players = players;
         this.deck = deck;
         this.status = MatchStatusEnum.NEW;
         this.creationDate = creationDate;
+        battles = new ArrayList<>();
     }
 
     public String getId() {
@@ -32,7 +33,7 @@ public class Match {
         this.id = id;
     }
 
-    public Map<String, Queue<Card>> getPlayers() {
+    public Map<String, Queue<CardId>> getPlayers() {
         return players;
     }
 
@@ -60,7 +61,7 @@ public class Match {
         return battles;
     }
 
-    public Card getNextCard(String playerId) {
+    public CardId getNextCard(String playerId) {
         return this.players.get(playerId).peek();
     }
 
@@ -70,6 +71,9 @@ public class Match {
         if (!playerId.equals(turnId)) {
             throw new Exception("No es el turno del jugador");
         }
-        return new Battle(matchBattleRequest.getAttribute());
+        Battle battle = new Battle(matchBattleRequest.getAttribute());
+        battle.combat(players);
+        battles.add(battle);
+        return battle;
     }
 }

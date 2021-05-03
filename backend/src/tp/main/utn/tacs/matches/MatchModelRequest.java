@@ -1,12 +1,12 @@
-package utn.tacs.model.responseModel;
+package utn.tacs.matches;
 
-public class Request {
+import utn.tacs.model.responseModel.Attribute;
+
+public class MatchModelRequest {
 
     Attribute attribute;
 
-    public Request(){}
-
-    public Request(Attribute attribute) {
+    public MatchModelRequest(Attribute attribute) {
         this.attribute = attribute;
     }
 

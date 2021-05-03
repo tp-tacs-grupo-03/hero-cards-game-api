@@ -2,7 +2,7 @@ package utn.tacs.matches.application.create;
 
 
 import org.springframework.stereotype.Service;
-import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 import utn.tacs.decks.domain.Deck;
 import utn.tacs.decks.domain.DecksRepository;
 import utn.tacs.matches.MatchModelResponse;
@@ -25,9 +25,9 @@ public class MatchesCreator {
     public MatchModelResponse create(MatchCreateRequest matchCreateRequest) throws Exception {
         Deck deck = decks.find(matchCreateRequest.getDeck()).orElseThrow(() -> new Exception("No hay deck con ese id"));
         deck.shuffle();
-        List<Queue<Card>> split = deck.split(matchCreateRequest.getPlayers().size());
+        List<Queue<CardId>> split = deck.split(matchCreateRequest.getPlayers().size());
 
-        Map<String, Queue<Card>> players = new HashMap<>();
+        Map<String, Queue<CardId>> players = new HashMap<>();
         for (int i =0; i < matchCreateRequest.getPlayers().size(); i++){
             players.put(matchCreateRequest.getPlayers().get(i), split.get(i));
         }

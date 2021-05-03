@@ -12,8 +12,8 @@ public class DeckModelRequest {
         return cards;
     }
 
-    public void setCards(List<String> cards) {
-        this.cards = cards;
+    public void setCards(List<String> cardIds) {
+        this.cards = cardIds;
     }
 
     public String getName() {

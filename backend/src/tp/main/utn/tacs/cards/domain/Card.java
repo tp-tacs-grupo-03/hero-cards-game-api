@@ -1,35 +1,43 @@
 package utn.tacs.cards.domain;
 
-import java.util.Objects;
+import utn.tacs.model.responseModel.Attribute;
+import utn.tacs.superHeroAPI.clientApi.model.Powerstats;
 
 public class Card {
+    CardId cardId;
+    PowerStats powerstats;
 
-    private String id;
-
-    public Card(){}
-
-    public Card(String id) {
-        this.id = id;
+    public Card(CardId value, Powerstats powerstats) throws Exception {
+        if (powerstats == null)
+            throw new Exception("No se pudo conseguir las stats de la carta " +
+                    value.getId());
+        this.cardId = value;
+        this.powerstats = new PowerStats()
+        .addAttribute(Attribute.COMBAT, powerstats.getCombat())
+        .addAttribute(Attribute.SPEED, powerstats.getSpeed())
+        .addAttribute(Attribute.INTELLIGENCE, powerstats.getIntelligence())
+        .addAttribute(Attribute.POWER, powerstats.getPower())
+        .addAttribute(Attribute.DURABILITY, powerstats.getDurability())
+        .addAttribute(Attribute.STRENGTH, powerstats.getStrength());
     }
 
-    public String getId() {
-        return id;
+    public int getValueOf(Attribute attribute){
+        return powerstats.getAttribute(attribute);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public CardId getCardId() {
+        return cardId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Card card = (Card) o;
-        return Objects.equals(id, card.id);
+    public void setCardId(CardId cardId) {
+        this.cardId = cardId;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(Integer.valueOf(id));
+    public PowerStats getPowerstats() {
+        return powerstats;
+    }
+
+    public void setPowerstats(PowerStats powerstats) {
+        this.powerstats = powerstats;
     }
 }

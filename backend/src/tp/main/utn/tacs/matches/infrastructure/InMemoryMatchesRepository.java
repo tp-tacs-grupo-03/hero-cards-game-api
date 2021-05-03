@@ -28,5 +28,10 @@ public class InMemoryMatchesRepository implements MatchesRepository {
         return new ArrayList<>(matches.values());
     }
 
+    @Override
+    public void update(Match match) {
+        matches.replace(match.getId(), match);
+    }
+
 
 }

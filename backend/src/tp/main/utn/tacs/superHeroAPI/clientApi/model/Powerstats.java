@@ -32,4 +32,7 @@ public class Powerstats {
         return strength;
     }
 
+    public Integer getPower() {
+        return power;
+    }
 }

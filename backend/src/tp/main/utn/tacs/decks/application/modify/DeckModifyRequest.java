@@ -4,8 +4,8 @@ import java.util.List;
 
 public class DeckModifyRequest {
 
-    private String deckId;
-    private String newName;
+    private final String deckId;
+    private final String newName;
     private List<String> cards;
 
     public DeckModifyRequest(String deckId, String newName) {
@@ -13,9 +13,9 @@ public class DeckModifyRequest {
         this.newName = newName;
     }
 
-    public DeckModifyRequest(String deckId, String newName, List<String> cards) {
+    public DeckModifyRequest(String deckId, String newName, List<String> cardIds) {
         this.deckId = deckId;
-        this.cards = cards;
+        this.cards = cardIds;
         this.newName = newName;
     }
 

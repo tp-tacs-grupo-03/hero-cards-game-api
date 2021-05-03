@@ -2,6 +2,7 @@ package utn.tacs.decks.domain;
 
 import org.junit.jupiter.api.Test;
 import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +12,18 @@ class DeckTest {
 
     @Test
     void split() {
-        List<Card> cards = new ArrayList<>();
-        Card card;
+        List<CardId> cardIds = new ArrayList<>();
+        CardId cardId;
         for (int i = 0; i < 40; i++){
-            card = new Card();
-            card.setId("" + i);
-            cards.add(card);
+            cardId = new CardId();
+            cardId.setId("" + i);
+            cardIds.add(cardId);
         }
 
-        Deck deck = new Deck(cards, "deck");
-        List<Queue<Card>> cardsPart = deck.split(3);
+        Deck deck = new Deck(cardIds, "deck");
+        List<Queue<CardId>> cardsPart = deck.split(3);
         System.out.println(cardsPart);
-        for (Queue<Card> list: cardsPart
+        for (Queue<CardId> list: cardsPart
              ) {
             System.out.println(list.size());
         }
