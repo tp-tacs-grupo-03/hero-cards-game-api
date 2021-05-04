@@ -1,9 +1,11 @@
 package utn.tacs.decks.domain;
 
-import utn.tacs.cards.domain.Card;
 import utn.tacs.cards.domain.CardId;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class Deck {
 
@@ -26,6 +28,10 @@ public class Deck {
 
     public String getId() {
         return id;
+    }
+
+    public void setCardIds(List<CardId> cardIds) {
+        this.cardIds = cardIds;
     }
 
     public List<CardId> getCards() {
