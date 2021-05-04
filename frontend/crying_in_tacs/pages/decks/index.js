@@ -4,6 +4,7 @@ import FetchApi from '../../services/FetchApi'
 import { Button, Modal, Container, Row, Col, Image, Form, Spinner } from 'react-bootstrap';
 import Link from 'next/link'
 import AdminDecksGrid from '../../components/AdminDecksGrid';
+import ModalNewDeck from '../../components/modalNewDeck';
 
 const cardRows = [
   {
@@ -30,18 +31,15 @@ export default function decks() {
     }
   ];
 
-  const addNewDeck = () => {
-        window.location.href = "/decks/newDeck";
-  }
 
   return (
     <Container fluid>
       <Row style={{ padding: "10px" }}>
         <Col md={{ span: 2}}>
-          <h1 style={{fontSize:"40px"}}>Decks actuales</h1>
+          <h1 style={{fontSize:"40px"}}>Current Decks</h1>
         </Col>
         <Col md={{span: 2, offset: 8}}>
-          <Button block variant="primary" onClick={() => addNewDeck()}>Add new deck</Button>
+            <ModalNewDeck/>
         </Col>
       </Row>
 
@@ -52,7 +50,7 @@ export default function decks() {
               rows={cardRows}
               autoHeight={true}
               pagination
-              pageSize={20}
+              pageSize={10}
               rowsPerPageOptions={[5, 10, 20]}
             />
           </Col>

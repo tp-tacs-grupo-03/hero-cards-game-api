@@ -27,9 +27,6 @@ const Example = (props) => {
     <Navbar color="dark" light>
           <NavbarBrand href="/" className="mr-auto"><Text color="white">SUPER AMIGUES</Text></NavbarBrand>
       <Nav>
-      <button onClick={getToken}>GET TOKEN</button>
-                <p>{JSON.stringify(token)}</p>
-
         {
           isAuthenticated ?
             <>

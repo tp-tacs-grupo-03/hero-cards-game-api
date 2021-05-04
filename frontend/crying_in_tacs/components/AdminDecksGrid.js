@@ -23,7 +23,7 @@ const cardColumns = [
 export default function AdminDecksGrid({ deck }) {
   const fetchTacsApi = useFetchTacsApi();
   const [selectedRows, setSelectedRows] = useState([])
-  const [name, setName] = useState(deck?.name)
+  const [name, setName] = useState(deck ? deck.name : "")
   const [progressBar, setProgressBar] = useState(false)
   const [enableSave, setEnableSave] = useState(false)
 
@@ -46,8 +46,10 @@ export default function AdminDecksGrid({ deck }) {
       cards: selectedRows
     }
     
-    const data = await fetchTacsApi("decks", "POST", requestBody)
+    const data = await (deck ? fetchTacsApi(`decks/${deck.id}/cards`, "PUT", requestBody) : fetchTacsApi("decks", "POST", requestBody));
+
     console.log(data)
+
     setProgressBar(false);
   }
 
@@ -55,15 +57,15 @@ export default function AdminDecksGrid({ deck }) {
   return (
     <Container fluid>
       <Row className="justify-content-md-left">
-        <Col md={{ span: 11 }}>
+        <Col md={{ span: 10 }}>
           <Form.Control type="text" value={name} placeholder="Enter deck name..." onChange={(event) => enterName(event.target.value)} />
         </Col>
-        <Col md={{ span: 1 }}>
+        <Col md={{ span: 2 }}>
           <Button variant="primary" block onClick={() => saveNewDeck()} disabled={!enableSave}>  Save </Button>
         </Col>
       </Row>
 
-      <Row className="justify-content-md-left" style={{ padding: "10px" }}>
+      <Row className="justify-content-md-left" style={{ paddingTop: "10px" }}>
         <Col md={12}>
           {progressBar && <Spinner animation="border" />}
           <DataGrid
@@ -77,6 +79,7 @@ export default function AdminDecksGrid({ deck }) {
             pagination
             pageSize={11}
             rowsPerPageOptions={[5, 10, 20]}
+            selectionModel={deck?.cardsId}
           />
         </Col>
       </Row>
