@@ -6,27 +6,56 @@ import Link from 'next/link'
 import AdminDecksGrid from '../../components/AdminDecksGrid';
 import ModalNewDeck from '../../components/modalNewDeck';
 
+import { useFetchTacsApi } from '../../hooks/useFetchTacsApi';
+
+import DeleteForeverSharpIcon from '@material-ui/icons/DeleteForeverSharp';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+
+
 const cardRows = [
   {
     id: 1,
     name: "Mazo 1",
     cardsId: [1,5,6]
+  },
+  {
+    id: 2,
+    name: "Mazo 2",
+    cardsId: [2,3,6]
   }
 ]
 
 
 export default function decks() {
+  const fetchTacsApi = useFetchTacsApi();
   const [selectedDeck, setselectedDeck] = useState()
+  const [rows, setRows] = useState(cardRows)
+
+  useEffect(async () => {
+      // const responseRows = await fetchTacsApi("decks",'GET');
+      // setRows(responseRows);
+  }, [])
+
+  const deleteRow = async (row) => {
+      await fetchTacsApi(`decks/${row.id}`, "DELETE", null)
+      setRows(rows.filter(a=> a.id != row.id ))
+  }
 
   const deckColumns = [
     { field: "id", hide: true },
     { field: "name", headerName: "Name", width: 140 },
     {
       field: "",
-      headerName: "Actions",
+      headerName: "Action",
       disableClickEventBubbling: true,
+      width: 200, 
       renderCell: (params) => {
-        return <Button variant="primary" onClick={() => setselectedDeck(params.row)}> Edit </Button>;
+        return <>
+        <Button variant="primary" onClick={() => setselectedDeck(params.row)}> <BorderColorIcon /> </Button>
+        <Button variant="secondary" className="glyphicon glyphicon-trash" onClick={() => deleteRow(params.row)}> 
+            <DeleteForeverSharpIcon />
+        </Button>
+        </>
       }
     }
   ];
@@ -47,7 +76,7 @@ export default function decks() {
           <Col md={4}>
             <DataGrid
               columns={deckColumns}
-              rows={cardRows}
+              rows={rows}
               autoHeight={true}
               pagination
               pageSize={10}
