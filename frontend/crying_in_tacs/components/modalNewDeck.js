@@ -3,11 +3,14 @@ import { Button, Modal, Container, Row, Col, Image } from 'react-bootstrap';
 import AdminDecksGrid from './AdminDecksGrid'
 
 
-export default function ModalNewDeck() {
+export default function ModalNewDeck({submmitEvent}) {
   const [show, setShow] = useState(false);
 
   const handleOpen = () => setShow(true);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    submmitEvent();
+    setShow(false);
+  };
 
   return (
     <>
@@ -33,7 +36,7 @@ export default function ModalNewDeck() {
             </Modal.Header>
 
             <Modal.Body>
-              <AdminDecksGrid />
+              <AdminDecksGrid initialdeck={{}} closeNewDeckModal={handleClose} />
             </Modal.Body>
             </div>
           </Modal>

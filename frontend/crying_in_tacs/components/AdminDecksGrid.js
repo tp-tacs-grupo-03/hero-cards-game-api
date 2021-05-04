@@ -20,51 +20,50 @@ const cardColumns = [
   }
 ];
 
-export default function AdminDecksGrid({ deck }) {
+export default function AdminDecksGrid({ initialdeck, closeNewDeckModal }) {
   const fetchTacsApi = useFetchTacsApi();
-  const [selectedRows, setSelectedRows] = useState([])
-  const [name, setName] = useState(deck ? deck.name : "")
+
+  const [deck, setDeck] = useState(initialdeck ? initialdeck : null)
+
   const [progressBar, setProgressBar] = useState(false)
   const [enableSave, setEnableSave] = useState(false)
 
+  
+  if (deck && deck.id != initialdeck.id) setDeck(initialdeck)
+
+
   const setSelectionModel = (model) => {
-    setSelectedRows(model);
-    setEnableSave(model.length > 0 && name.length > 0);
+    setDeck({cardIds: model.map(a=>String(a)), name: deck.name, id: deck.id});
+    setEnableSave(model.length > 0 && deck.name.length > 0);
   }
 
   const enterName = (value) => {
-    setName(value);
-    setEnableSave(selectedRows.length > 0 && value.length > 0);
+    setDeck({cardIds: deck.cardIds, name: value, id: deck.id})
+    setEnableSave(deck.cardIds?.length > 0 && value.length > 0);
   }
 
   const saveNewDeck = async () => {
-
     setProgressBar(true);
-
-    let requestBody = {
-      name,
-      cards: selectedRows
-    }
-    
-    const data = await (deck ? fetchTacsApi(`decks/${deck.id}/cards`, "PUT", requestBody) : fetchTacsApi("decks", "POST", requestBody));
-
-    console.log(data)
-
+    const data = deck.id ? await fetchTacsApi(`decks/${deck.id}/cards`, "PUT", {cards: deck.cardIds, id: deck.id , name: deck.name}) : await fetchTacsApi("decks", "POST", {cards: deck.cardIds, name: deck.name});
+    console.log(data);
     setProgressBar(false);
+    closeNewDeckModal ? closeNewDeckModal() : undefined;
   }
 
 
+
   return (
+    
     <Container fluid>
       <Row className="justify-content-md-left">
         <Col md={{ span: 10 }}>
-          <Form.Control type="text" value={name} placeholder="Enter deck name..." onChange={(event) => enterName(event.target.value)} />
+          <Form.Control type="text" value={deck?.name} placeholder="Enter deck name..." onChange={(event) => enterName(event.target.value)} />
         </Col>
         <Col md={{ span: 2 }}>
           <Button variant="primary" block onClick={() => saveNewDeck()} disabled={!enableSave}>  Save </Button>
         </Col>
       </Row>
-
+      <p>{JSON.stringify(initialdeck)}</p>
       <Row className="justify-content-md-left" style={{ paddingTop: "10px" }}>
         <Col md={12}>
           {progressBar && <Spinner animation="border" />}
@@ -77,9 +76,9 @@ export default function AdminDecksGrid({ deck }) {
               (newSelection) => { setSelectionModel(newSelection.selectionModel); }
             }
             pagination
-            pageSize={11}
+            pageSize={10}
             rowsPerPageOptions={[5, 10, 20]}
-            selectionModel={deck?.cardsId}
+            selectionModel={deck?.cardIds}
           />
         </Col>
       </Row>

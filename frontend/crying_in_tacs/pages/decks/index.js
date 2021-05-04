@@ -12,49 +12,43 @@ import DeleteForeverSharpIcon from '@material-ui/icons/DeleteForeverSharp';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 
-const cardRows = [
-  {
-    id: 1,
-    name: "Mazo 1",
-    cardsId: [1,5,6]
-  },
-  {
-    id: 2,
-    name: "Mazo 2",
-    cardsId: [2,3,6]
-  }
-]
-
 
 export default function decks() {
   const fetchTacsApi = useFetchTacsApi();
   const [selectedDeck, setselectedDeck] = useState()
-  const [rows, setRows] = useState(cardRows)
+  const [rows, setRows] = useState([])
 
   useEffect(async () => {
-      // const responseRows = await fetchTacsApi("decks",'GET');
-      // setRows(responseRows);
+    const responseRows = await fetchTacsApi("decks", 'GET');
+    // console.log(responseRows);
+    setRows(responseRows);
   }, [])
 
   const deleteRow = async (row) => {
-      await fetchTacsApi(`decks/${row.id}`, "DELETE", null)
-      setRows(rows.filter(a=> a.id != row.id ))
+    await fetchTacsApi(`decks/${row.id}`, "DELETE", null)
+    setRows(rows.filter(a => a.id != row.id))
+  }
+
+  const refreshRows = async () => {
+    const responseRows = await fetchTacsApi("decks", 'GET');
+    // console.log(responseRows);
+    setRows(responseRows);
   }
 
   const deckColumns = [
-    { field: "id", hide: true },
+    { field: "cardIds", hide: true },
     { field: "name", headerName: "Name", width: 140 },
     {
       field: "",
       headerName: "Action",
       disableClickEventBubbling: true,
-      width: 200, 
+      width: 200,
       renderCell: (params) => {
         return <>
-        <Button variant="primary" onClick={() => setselectedDeck(params.row)}> <BorderColorIcon /> </Button>
-        <Button variant="secondary" className="glyphicon glyphicon-trash" onClick={() => deleteRow(params.row)}> 
+          <Button variant="primary" onClick={ () => setselectedDeck({cardIds: params.row.cardIds.map(a=>a.id), name: params.row.name, id: params.row.id})}  > <BorderColorIcon /> </Button>
+          <Button variant="secondary" className="glyphicon glyphicon-trash" onClick={() => deleteRow(params.row)}>
             <DeleteForeverSharpIcon />
-        </Button>
+          </Button>
         </>
       }
     }
@@ -64,32 +58,32 @@ export default function decks() {
   return (
     <Container fluid>
       <Row style={{ padding: "10px" }}>
-        <Col md={{ span: 2}}>
-          <h1 style={{fontSize:"40px"}}>Current Decks</h1>
+        <Col md={{ span: 2 }}>
+          <h1 style={{ fontSize: "40px" }}>Current Decks</h1>
         </Col>
-        <Col md={{span: 2, offset: 8}}>
-            <ModalNewDeck/>
+        <Col md={{ span: 2, offset: 8 }}>
+          <ModalNewDeck submmitEvent={refreshRows} />
         </Col>
       </Row>
 
-        <Row style={{ padding: "10px" }}>
-          <Col md={4}>
-            <DataGrid
-              columns={deckColumns}
-              rows={rows}
-              autoHeight={true}
-              pagination
-              pageSize={10}
-              rowsPerPageOptions={[5, 10, 20]}
-            />
-          </Col>
-          { selectedDeck &&
+      <Row style={{ padding: "10px" }}>
+        <Col md={4}>
+          <DataGrid
+            columns={deckColumns}
+            rows={rows}
+            autoHeight={true}
+            pagination
+            pageSize={10}
+            rowsPerPageOptions={[5, 10, 20]}
+          />
+        </Col>
+        {selectedDeck &&
           <Col>
-            <AdminDecksGrid deck={selectedDeck}></AdminDecksGrid>
+            <AdminDecksGrid initialdeck={selectedDeck}></AdminDecksGrid>
           </Col>
-          }
+        }
 
-        </Row>
+      </Row>
 
 
     </Container>
