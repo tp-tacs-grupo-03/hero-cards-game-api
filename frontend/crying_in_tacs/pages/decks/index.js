@@ -45,12 +45,28 @@ function decks() {
       disableClickEventBubbling: true,
       width: 200,
       renderCell: (params) => {
-        return <>
-          <Button variant="primary" onClick={ () => setselectedDeck({cardIds: params.row.cardIds.map(a=>a.id), name: params.row.name, id: params.row.id})}  > <BorderColorIcon /> </Button>
+        return <Container
+          style={{
+            display:"flex",
+            justifyContent:"space-between"
+          }}
+        >
+          <Button 
+            
+            variant="primary" 
+            onClick={ () => 
+              setselectedDeck({cardIds: params.row.cardIds.map(a=>a.id), 
+                name: params.row.name, 
+                id: params.row.id
+              })
+            }
+          >
+            <BorderColorIcon /> 
+          </Button>
           <Button variant="secondary" className="glyphicon glyphicon-trash" onClick={() => deleteRow(params.row)}>
             <DeleteForeverSharpIcon />
           </Button>
-        </>
+        </Container>
       }
     }
   ];

@@ -34,7 +34,7 @@ export default function AdminDecksGrid({ initialdeck, closeNewDeckModal }) {
 
   const setSelectionModel = (model) => {
     setDeck({cardIds: model.map(a=>String(a)), name: deck.name, id: deck.id});
-    setEnableSave(model.length > 0 && deck.name.length > 0);
+    setEnableSave(model.length > 0 && deck.name?.length > 0);
   }
 
   const enterName = (value) => {
@@ -63,7 +63,6 @@ export default function AdminDecksGrid({ initialdeck, closeNewDeckModal }) {
           <Button variant="primary" block onClick={() => saveNewDeck()} disabled={!enableSave}>  Save </Button>
         </Col>
       </Row>
-      <p>{JSON.stringify(initialdeck)}</p>
       <Row className="justify-content-md-left" style={{ paddingTop: "10px" }}>
         <Col md={12}>
           {progressBar && <Spinner animation="border" />}

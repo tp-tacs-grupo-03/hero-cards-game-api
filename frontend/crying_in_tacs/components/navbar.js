@@ -25,6 +25,13 @@ const Example = (props) => {
 
   return (
     <Navbar color="dark" light>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width:"100%"
+        }}
+      >
           <NavbarBrand href="/" className="mr-auto"><Text color="white">SUPER AMIGUES</Text></NavbarBrand>
       <Nav>
         {
@@ -62,11 +69,12 @@ const Example = (props) => {
               </Dropdown>
             </>
             :
-            <LoginButton />
+            <LoginButton/>
         }
 
 
       </Nav>
+    </div>
     </Navbar>
   );
 }

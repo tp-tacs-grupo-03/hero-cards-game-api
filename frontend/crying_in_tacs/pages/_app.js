@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
       >
         <Box bgColor="black" h="100vh" w="100vw">
         <Navbar />
-        <Container marginTop="15px" minH="90%" minW="98%" bgColor="white" borderRadius="3px" centerContent>
+        <Container marginTop="15px" minH="90%" minW="95%" bgColor="white" borderRadius="3px" centerContent>
             <Wrap {...pageProps} Component={Component} />
         </Container>
         </Box>

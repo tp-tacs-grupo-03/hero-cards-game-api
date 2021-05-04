@@ -64,7 +64,7 @@ export default function CardSelect({ cardSelected }) {
                 {
                     cardData ? 
                         <div className={styles.image} style={{ backgroundImage: `url(${cardData.image.url})` }}>
-                            <div className={styles.level}>{cardData.id}</div>
+                            <div className={styles.level}>{cardData.cardId}</div>
                         </div>
                     :
                         <div className={styles.image}>
@@ -79,16 +79,16 @@ export default function CardSelect({ cardSelected }) {
                     <div className={styles.description}>
                     <Container fluid>
                         <Row className="justify-content-md-center" style={{ paddingTop: "3px" }}>
-                            <Col> Intelligence: {cardData.powerstats.intelligence} </Col>
-                            <Col> Strength: {cardData.powerstats.strength} </Col>
+                            <Col> Intelligence: {cardData.powerStats.intelligence} </Col>
+                            <Col> Strength: {cardData.powerStats.strength} </Col>
                         </Row>
                         <Row className="justify-content-md-center" style={{ paddingTop: "3px" }}>
-                            <Col> Speed: {cardData.powerstats.speed} </Col>
-                            <Col> Durability: {cardData.powerstats.durability} </Col>
+                            <Col> Speed: {cardData.powerStats.speed} </Col>
+                            <Col> Durability: {cardData.powerStats.durability} </Col>
                         </Row>
                         <Row className="justify-content-md-center" style={{ paddingTop: "3px" }}>
-                            <Col> Power: {cardData.powerstats.power} </Col>
-                            <Col> Combat: {cardData.powerstats.combat} </Col>
+                            <Col> Power: {cardData.powerStats.power} </Col>
+                            <Col> Combat: {cardData.powerStats.combat} </Col>
                         </Row>
                     </Container>
                             </div>
