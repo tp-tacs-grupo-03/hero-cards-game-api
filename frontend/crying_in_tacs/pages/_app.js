@@ -3,8 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Auth0Provider } from "@auth0/auth0-react";
 import Navbar from '../components/navbar';
 import { Box, ChakraProvider, Container } from "@chakra-ui/react"
+import { DefaultWrap } from '../components/wrap/DefaultWrap';
 
 function MyApp({ Component, pageProps }) {
+
+  const Wrap = Component.Wrap || DefaultWrap
 
   return (
   <ChakraProvider>
@@ -17,7 +20,7 @@ function MyApp({ Component, pageProps }) {
         <Box bgColor="black" h="100vh" w="100vw">
         <Navbar />
         <Container marginTop="15px" minH="90%" minW="98%" bgColor="white" borderRadius="3px" centerContent>
-          <Component {...pageProps} />
+            <Wrap {...pageProps} Component={Component} />
         </Container>
         </Box>
       </Auth0Provider>

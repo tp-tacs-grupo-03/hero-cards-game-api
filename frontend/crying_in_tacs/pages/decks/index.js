@@ -10,10 +10,11 @@ import { useFetchTacsApi } from '../../hooks/useFetchTacsApi';
 
 import DeleteForeverSharpIcon from '@material-ui/icons/DeleteForeverSharp';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import { AuthtWrap } from '../../components/wrap/AuthWrap';
 
 
 
-export default function decks() {
+function decks() {
   const fetchTacsApi = useFetchTacsApi();
   const [selectedDeck, setselectedDeck] = useState()
   const [rows, setRows] = useState([])
@@ -90,5 +91,8 @@ export default function decks() {
   );
 }
 
+decks.Wrap = AuthtWrap;
+
+export default decks;
 
 
