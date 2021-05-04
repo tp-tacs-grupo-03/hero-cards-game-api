@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 import utn.tacs.decks.application.addCard.DeckAddRequest;
 import utn.tacs.decks.application.addCard.DecksCardAdder;
 import utn.tacs.decks.application.modify.DeckModifyRequest;
@@ -44,8 +44,8 @@ public class DecksPatchController {
     @ApiResponses({
             @ApiResponse(code = 200, response = Object.class, message = "Deck con la carta nueva")
     })
-    public void addCard(@PathVariable("id") String id, @Validated @NonNull @RequestBody List<String> cards) throws Exception {
-        decksCardAdder.add(new DeckAddRequest(id, cards.stream().map(Card::new).collect(Collectors.toList())));
+    public void addCard(@PathVariable("id") String id, @Validated @NonNull @RequestBody List<String> cardIds) throws Exception {
+        decksCardAdder.add(new DeckAddRequest(id, cardIds.stream().map(CardId::new).collect(Collectors.toList())));
     }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.decks.application.find.DecksFinder;
 import utn.tacs.decks.application.list.DecksLister;
-import utn.tacs.model.responseModel.DeckModelResponse;
+import utn.tacs.decks.application.DeckModelResponse;
 
 import java.util.HashMap;
 import java.util.List;

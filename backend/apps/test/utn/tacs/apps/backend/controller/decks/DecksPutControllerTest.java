@@ -7,6 +7,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import utn.tacs.apps.TacsApplication;
 import utn.tacs.apps.backend.controller.RequestTestCase;
 import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 import utn.tacs.decks.domain.Deck;
 import utn.tacs.decks.domain.DecksRepository;
 import utn.tacs.model.requestModel.DeckModelRequest;
@@ -24,9 +25,9 @@ final class DecksPutControllerTest extends RequestTestCase {
 
     @Test
     void modifyDecksUsingPUTMethod() throws Exception {
-        List<Card> cards = new ArrayList<>(Arrays.asList(new Card("1"), new Card("2")));
+        List<CardId> cardIds = new ArrayList<>(Arrays.asList(new CardId("1"), new CardId("2")));
         Mockito.when(repository.find("1"))
-                .thenReturn(Optional.of(new Deck(cards, "Arena")));
+                .thenReturn(Optional.of(new Deck(cardIds, "Arena")));
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>(Arrays.asList("1","2","3")));
         deckModelRequest.setName("Arena");

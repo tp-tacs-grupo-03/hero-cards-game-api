@@ -1,7 +1,7 @@
 package utn.tacs.decks.application.modify;
 
 import org.springframework.stereotype.Service;
-import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 import utn.tacs.decks.domain.Deck;
 import utn.tacs.decks.domain.DecksRepository;
 
@@ -21,8 +21,8 @@ public class DecksModify {
         final Deck deck = repository.find(deckModifyRequest.getDeckId()).orElseThrow(() -> new Exception("No hay deck con ese id"));
         deck.setName(deckModifyRequest.getNewName());
         if (deckModifyRequest.getCards() != null) {
-            final List<Card> cards = deckModifyRequest.getCards().stream().map(Card::new).collect(Collectors.toList());
-            deck.addCards(cards);
+            final List<CardId> cardIds = deckModifyRequest.getCards().stream().map(CardId::new).collect(Collectors.toList());
+            deck.addCards(cardIds);
         }
         repository.update(deck);
     }

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 import utn.tacs.decks.application.delete.DeckDeleteRequest;
 import utn.tacs.decks.application.delete.DecksDeleter;
 import utn.tacs.decks.application.deleteCard.DeckCardDeleteRequest;
@@ -39,7 +40,7 @@ public class DecksDeleteController {
     @ApiResponses({
             @ApiResponse(code = 200, response = Object.class, message = "Deck con la carta nueva")
     })
-    public void deleteCard(@PathVariable("id") String id, @RequestBody Card card) throws Exception {
-        decksCardDeleter.delete(new DeckCardDeleteRequest(id, card));
+    public void deleteCard(@PathVariable("id") String id, @RequestBody CardId cardId) throws Exception {
+        decksCardDeleter.delete(new DeckCardDeleteRequest(id, cardId));
     }
 }

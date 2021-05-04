@@ -1,6 +1,7 @@
-package utn.tacs.model.responseModel;
+package utn.tacs.decks.application;
 
 import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 
 import java.util.List;
 
@@ -8,14 +9,14 @@ import java.util.List;
 public class DeckModelResponse {
 
 
-    public List<Card> cards;
+    public List<CardId> cardIds;
     public String id;
     public String nombre;
 
     public DeckModelResponse(){}
 
-    public DeckModelResponse(List<Card> cards, String id, String nombre) {
-        this.cards = cards;
+    public DeckModelResponse(List<CardId> cardIds, String id, String nombre) {
+        this.cardIds = cardIds;
         this.id = id;
         this.nombre = nombre;
     }
@@ -24,8 +25,8 @@ public class DeckModelResponse {
         return id;
     }
 
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
+    public void setCards(List<CardId> cardIds) {
+        this.cardIds = cardIds;
     }
 
     public void setId(String id) {

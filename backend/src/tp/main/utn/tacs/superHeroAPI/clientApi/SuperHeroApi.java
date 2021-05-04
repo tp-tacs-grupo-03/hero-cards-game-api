@@ -5,6 +5,9 @@ import utn.tacs.superHeroAPI.clientApi.model.Character;
 import utn.tacs.superHeroAPI.clientApi.model.Image;
 import utn.tacs.superHeroAPI.clientApi.model.Powerstats;
 
+import java.util.Optional;
+
+
 public class SuperHeroApi extends ApiClient {
 
         public ResponseEntity<Character> getCharacter(String id) {
@@ -15,8 +18,8 @@ public class SuperHeroApi extends ApiClient {
             return run("/" + id + "/image", Image.class);
         }
 
-        public ResponseEntity<Powerstats> getPowerstats(String id) {
-            return run("/" + id + "/powerstats", Powerstats.class);
+        public Optional<ResponseEntity<Powerstats>> getPowerstats(String id) {
+            return Optional.ofNullable(run("/" + id + "/powerstats", Powerstats.class));
         }
 
 }

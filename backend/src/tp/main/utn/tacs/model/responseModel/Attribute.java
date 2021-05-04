@@ -7,5 +7,6 @@ public enum Attribute {
     SPEED,
     POWER,
     COMBAT,
-    STRENGTH
+    STRENGTH,
+    DURABILITY
 }
