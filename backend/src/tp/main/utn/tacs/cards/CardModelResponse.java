@@ -6,9 +6,19 @@ import utn.tacs.superHeroAPI.clientApi.model.Powerstats;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CardModelResponse {
+
+    String name;
     String cardId;
     Powerstats powerStats;
     Image image;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public CardModelResponse(String cardId) {
         this.cardId = cardId;

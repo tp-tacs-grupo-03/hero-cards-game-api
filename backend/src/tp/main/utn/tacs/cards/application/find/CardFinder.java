@@ -19,6 +19,7 @@ public class CardFinder {
         CardModelResponse cardModelResponse = new CardModelResponse(cardFindRequest.getCardId().getId());
         cardModelResponse.setImage(character.getImage());
         cardModelResponse.setPowerStats(character.getPowerstats());
+        cardModelResponse.setName(character.getName());
         return cardModelResponse;
     }
 }
