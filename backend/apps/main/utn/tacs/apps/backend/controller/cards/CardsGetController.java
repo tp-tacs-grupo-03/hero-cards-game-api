@@ -1,20 +1,23 @@
 package utn.tacs.apps.backend.controller.cards;
 
 import io.swagger.annotations.Api;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import utn.tacs.cards.application.list.CardsLister;
+import utn.tacs.model.requestModel.CardModel;
 import utn.tacs.model.responseModel.CardDataModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import utn.tacs.model.responseModel.DeckModelResponse;
+import utn.tacs.superHeroAPI.clientApi.SuperHeroApi;
+import utn.tacs.superHeroAPI.clientApi.model.Character;
 
 import java.util.List;
 
 @RequestMapping("api/cards")
 @Api(tags = "Cards")
+@CrossOrigin("*")
 @RestController
 public class CardsGetController {
     private CardsLister lister;
@@ -23,15 +26,15 @@ public class CardsGetController {
         this.lister = lister;
     }
 
-    @GetMapping
-    @ApiOperation(value = "Obtener todas las cartas")
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Obtener una carta por ID")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Listado de las cartas")
+            @ApiResponse(code = 200, response = Object.class, message = "Carta correspondiente a ese id")
     })
-    public List<CardDataModel> getAllCards(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                           @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-                                           @RequestParam(value = "sortBy", required = false) String sortField,
-                                           @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
-        return lister.list(page, pageSize, sortField, sortDirection);
+    public Character getCardById(@PathVariable("id") String id) throws Exception {
+        final SuperHeroApi client = new SuperHeroApi();
+        ResponseEntity<Character> response = client.getCharacter(id);
+        Character character = response.getBody();
+        return character;
     }
 }

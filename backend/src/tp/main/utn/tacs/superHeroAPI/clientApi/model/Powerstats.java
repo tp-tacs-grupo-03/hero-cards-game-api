@@ -24,6 +24,10 @@ public class Powerstats {
         return speed;
     }
 
+    public Integer getPower(){
+        return power;
+    }
+
     public Integer getCombat() {
         return combat;
     }
