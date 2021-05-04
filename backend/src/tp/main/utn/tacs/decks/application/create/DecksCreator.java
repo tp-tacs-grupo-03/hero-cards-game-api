@@ -3,7 +3,7 @@ package utn.tacs.decks.application.create;
 import org.springframework.stereotype.Service;
 import utn.tacs.decks.domain.Deck;
 import utn.tacs.decks.domain.DecksRepository;
-import utn.tacs.model.responseModel.DeckModelResponse;
+import utn.tacs.decks.application.DeckModelResponse;
 
 @Service
 public class DecksCreator {

@@ -2,19 +2,19 @@ package utn.tacs.model.responseModel;
 
 public class Request {
 
-    PlayerStatusEnum playerStatusEnum;
     Attribute attribute;
 
-    public Request(PlayerStatusEnum playerStatusEnum, Attribute attribute) {
-        this.playerStatusEnum = playerStatusEnum;
-        this.attribute = attribute;
-    }
+    public Request(){}
 
-    public PlayerStatusEnum getPlayerStatusEnum() {
-        return playerStatusEnum;
+    public Request(Attribute attribute) {
+        this.attribute = attribute;
     }
 
     public Attribute getAttribute() {
         return attribute;
+    }
+
+    public void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
     }
 }

@@ -1,16 +1,17 @@
 package utn.tacs.decks.application.addCard;
 
 import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 
 import java.util.List;
 
 public class DeckAddRequest {
     private String deckId;
-    private List<Card> cards;
+    private List<CardId> cardIds;
 
-    public DeckAddRequest(String deckId, List<Card> cards) {
+    public DeckAddRequest(String deckId, List<CardId> cardIds) {
         this.deckId = deckId;
-        this.cards = cards;
+        this.cardIds = cardIds;
     }
 
     public String getDeckId() {
@@ -21,11 +22,11 @@ public class DeckAddRequest {
         this.deckId = deckId;
     }
 
-    public List<Card> getCard() {
-        return cards;
+    public List<CardId> getCard() {
+        return cardIds;
     }
 
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
+    public void setCards(List<CardId> cardIds) {
+        this.cardIds = cardIds;
     }
 }

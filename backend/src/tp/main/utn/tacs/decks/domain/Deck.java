@@ -1,18 +1,18 @@
 package utn.tacs.decks.domain;
 
 import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Deck {
 
     String id;
-    List<Card> cards = new ArrayList<>();
+    List<CardId> cardIds;
     String name;
 
-    public Deck(List<Card> cards, String name) {
-        this.cards = cards;
+    public Deck(List<CardId> cardIds, String name) {
+        this.cardIds = cardIds;
         this.name = name;
     }
 
@@ -28,19 +28,34 @@ public class Deck {
         return id;
     }
 
-    public List<Card> getCards() {
-        return cards;
+    public List<CardId> getCards() {
+        return cardIds;
     }
 
     public String getName() {
         return name;
     }
 
-    public void addCards(List<Card> cards) {
-        this.cards.addAll(cards);
+    public void addCards(List<CardId> cardIds) {
+        this.cardIds.addAll(cardIds);
     }
 
-    public void deleteCard(Card card){
-        cards.remove(card);
+    public void deleteCard(CardId cardId){
+        cardIds.remove(cardId);
+    }
+
+    public void shuffle() {
+        Collections.shuffle(this.cardIds);
+    }
+
+    public List<Queue<CardId>> split(int users) {
+        int module = this.cardIds.size() % users;
+        int partitionSize = this.cardIds.size() / users;
+        List<Queue<CardId>> partitions = new LinkedList<>();
+        for (int i = 0; i < this.cardIds.size() - module; i += partitionSize) {
+            partitions.add(new LinkedList<>(this.cardIds.subList(i,
+                    Math.min(i + partitionSize, this.cardIds.size()))));
+        }
+        return partitions;
     }
 }

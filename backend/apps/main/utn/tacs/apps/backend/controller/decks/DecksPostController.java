@@ -7,11 +7,11 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import utn.tacs.cards.domain.Card;
+import utn.tacs.cards.domain.CardId;
+import utn.tacs.decks.application.DeckModelResponse;
 import utn.tacs.decks.application.create.DeckCreateRequest;
 import utn.tacs.decks.application.create.DecksCreator;
 import utn.tacs.model.requestModel.DeckModelRequest;
-import utn.tacs.model.responseModel.DeckModelResponse;
 
 import java.util.stream.Collectors;
 
@@ -35,7 +35,7 @@ public class DecksPostController {
     public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
         return creator.create(
                 new DeckCreateRequest(
-                        deck.getCards().stream().map(Card::new).collect(Collectors.toList()),
+                        deck.getCards().stream().map(CardId::new).collect(Collectors.toList()),
                         deck.getName()
                 )
         );
