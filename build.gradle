@@ -8,6 +8,8 @@ plugins {
 group = 'com.tacs'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+apply plugin: 'application'
+mainClassName = 'utn.tacs.TacsApplication'
 
 repositories {
 	mavenCentral()

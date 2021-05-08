@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.dto.deck.DeckModelResponse;
 import utn.tacs.services.DecksFinder;
-import utn.tacs.services.DecksLister;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,12 +19,10 @@ import java.util.List;
 @RestController
 public class DecksGetController {
 
-    DecksFinder decksFinder;
-    DecksLister decksLister;
+    private DecksFinder decksFinder;
 
-    public DecksGetController(DecksFinder decksFinder, DecksLister decksLister) {
+    public DecksGetController(DecksFinder decksFinder) {
         this.decksFinder = decksFinder;
-        this.decksLister = decksLister;
     }
 
     @GetMapping
@@ -37,7 +34,7 @@ public class DecksGetController {
                                                @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                                                @RequestParam(value = "sortBy", required = false) String sortField,
                                                @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
-        return decksLister.list();
+        return decksFinder.findAll();
     }
 
 

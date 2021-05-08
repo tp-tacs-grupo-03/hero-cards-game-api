@@ -15,7 +15,7 @@ import utn.tacs.dto.deck.response.MatchModel;
 import utn.tacs.dto.deck.response.Request;
 import utn.tacs.dto.match.MatchCreateRequest;
 import utn.tacs.dto.match.MatchModelResponse;
-import utn.tacs.services.MatchBattle;
+import utn.tacs.services.MatchBattleHandler;
 import utn.tacs.services.MatchesCreator;
 
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ import java.util.List;
 public class MatchesPostController {
 
     MatchesCreator creator;
-    MatchBattle battle;
+    MatchBattleHandler battle;
 
-    public MatchesPostController(MatchesCreator creator, MatchBattle battle) {
+    public MatchesPostController(MatchesCreator creator, MatchBattleHandler battle) {
         this.creator = creator;
         this.battle = battle;
     }
@@ -59,6 +59,6 @@ public class MatchesPostController {
     })
     public BattleModelResponse modifyMatch(@RequestBody Request request, @PathVariable("id") String id ) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return battle.battle(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
+        return battle.begin(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
     }
 }

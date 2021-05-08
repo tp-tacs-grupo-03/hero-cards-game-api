@@ -6,11 +6,11 @@ import utn.tacs.dto.deck.DeckAddRequest;
 import utn.tacs.repositories.DecksRepository;
 
 @Service
-public class DecksCardAdder {
+public class DecksCardCreator {
 
     private DecksRepository repository;
 
-    public DecksCardAdder(DecksRepository repository) {
+    public DecksCardCreator(DecksRepository repository) {
         this.repository = repository;
     }
 

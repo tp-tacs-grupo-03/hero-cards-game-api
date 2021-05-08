@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import utn.tacs.domain.CardId;
 import utn.tacs.dto.deck.DeckCardDeleteRequest;
 import utn.tacs.dto.deck.DeckDeleteRequest;
-import utn.tacs.services.DecksCardDeleter;
-import utn.tacs.services.DecksDeleter;
+import utn.tacs.services.DecksCardCleaner;
+import utn.tacs.services.DecksCleaner;
 
 @RequestMapping("api/decks")
 @Api(tags = "Decks")
@@ -17,10 +17,10 @@ import utn.tacs.services.DecksDeleter;
 @RestController
 public class DecksDeleteController {
 
-    DecksCardDeleter decksCardDeleter;
-    DecksDeleter decksDeleter;
+    DecksCardCleaner decksCardDeleter;
+    DecksCleaner decksDeleter;
 
-    public DecksDeleteController(DecksCardDeleter decksCardDeleter, DecksDeleter decksDeleter) {
+    public DecksDeleteController(DecksCardCleaner decksCardDeleter, DecksCleaner decksDeleter) {
         this.decksCardDeleter = decksCardDeleter;
         this.decksDeleter = decksDeleter;
     }

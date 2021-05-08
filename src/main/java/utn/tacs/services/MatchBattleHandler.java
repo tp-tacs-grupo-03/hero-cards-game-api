@@ -8,15 +8,15 @@ import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.repositories.MatchesRepository;
 
 @Service
-public class MatchBattle {
+public class MatchBattleHandler {
 
     private MatchesRepository repository;
 
-    public MatchBattle(MatchesRepository repository) {
+    public MatchBattleHandler(MatchesRepository repository) {
         this.repository = repository;
     }
 
-    public BattleModelResponse battle(MatchBattleRequest matchBattleRequest) throws Exception {
+    public BattleModelResponse begin(MatchBattleRequest matchBattleRequest) throws Exception {
         final Match match = repository.find(matchBattleRequest.getMatchId()).orElseThrow(()-> new Exception("No hay match con ese id"));
         final Battle battle = match.battle(matchBattleRequest);
         repository.update(match);

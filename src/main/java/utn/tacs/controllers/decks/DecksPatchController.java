@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import utn.tacs.domain.CardId;
 import utn.tacs.dto.deck.DeckAddRequest;
 import utn.tacs.dto.deck.DeckModifyRequest;
-import utn.tacs.services.DecksCardAdder;
+import utn.tacs.services.DecksCardCreator;
 import utn.tacs.services.DecksModify;
 
 import java.util.List;
@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 public class DecksPatchController {
 
     DecksModify decksModify;
-    DecksCardAdder decksCardAdder;
+    DecksCardCreator decksCardAdder;
 
-    public DecksPatchController(DecksModify decksModify, DecksCardAdder decksCardAdder) {
+    public DecksPatchController(DecksModify decksModify, DecksCardCreator decksCardAdder) {
         this.decksModify = decksModify;
         this.decksCardAdder = decksCardAdder;
     }
