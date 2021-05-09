@@ -36,7 +36,7 @@ public class MatchesGetController {
     @GetMapping
     @ApiOperation(value = "Obtener todas las partidas")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Las partidas")
+            @ApiResponse(code = 200, response = MatchModelResponse.class, responseContainer = "List", message = "Las partidas")
     })
     public List<MatchModelResponse> getAllMatches(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
                                                   @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
@@ -48,7 +48,7 @@ public class MatchesGetController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtener una partida por id")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "La partida")
+            @ApiResponse(code = 200, response = MatchModelResponse.class, message = "La partida")
     })
     public MatchModelResponse getMatch(@PathVariable("id") String id) throws Exception {
         return finder.find(new MatchFindRequest(id));
@@ -58,7 +58,7 @@ public class MatchesGetController {
     @GetMapping("/{id}/cards")
     @ApiOperation(value = "Obtener carta actual del mazo")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "La carta")
+            @ApiResponse(code = 200, response = CardModelResponse.class, message = "La carta")
     })
     public CardModelResponse draw(@PathVariable("id") String id) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

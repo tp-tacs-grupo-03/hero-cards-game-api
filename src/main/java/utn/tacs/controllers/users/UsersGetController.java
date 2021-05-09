@@ -19,7 +19,7 @@ public class UsersGetController {
     @GetMapping
     @ApiOperation(value = "Obtener todos los usuarios")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Listado de los jugadores")
+            @ApiResponse(code = 200, response = UserModelRespones.class, responseContainer = "List", message = "Listado de los jugadores")
     })
     public List<UserModelRespones> getAllPlayers(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                  @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,

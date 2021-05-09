@@ -38,7 +38,7 @@ public class MatchesPostController {
     @PostMapping
     @ApiOperation(value = "Crear partida, se divide y mezcla el mazo elegido")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "match")
+            @ApiResponse(code = 200, response = MatchModelResponse.class, message = "match")
     })
     public MatchModelResponse postMatch(@Validated @NonNull @RequestBody MatchModel matchRequest) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -55,7 +55,7 @@ public class MatchesPostController {
     @PostMapping("/{id}/battles")
     @ApiOperation(value = "Indicar en tu turno que atributo se usara")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Resultado del combate")
+            @ApiResponse(code = 200, response = BattleModelResponse.class, message = "Resultado del combate")
     })
     public BattleModelResponse modifyMatch(@RequestBody Request request, @PathVariable("id") String id ) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
