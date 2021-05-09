@@ -26,7 +26,7 @@ public class DecksPutController {
 
     @PutMapping("/{id}/cards")
     @ApiOperation(value = "Modify the deck (name, cards) ")
-    @ApiResponses({@ApiResponse(code = 202, response = Object.class, message = "Deck modified")})
+    @ApiResponses({@ApiResponse(code = 202, message = "Deck modified")})
     public ResponseEntity modifyDeck(@PathVariable("id") String id, @Validated @NonNull @RequestBody DeckModelRequest deckModelRequest) throws Exception {
         updater.update(new DeckUpdateRequest(id, deckModelRequest.getName(), deckModelRequest.getCards()));
         return ResponseEntity.accepted().build();
