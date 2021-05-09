@@ -17,7 +17,7 @@ public class StatsGetController {
     @GetMapping("/matches")
     @ApiOperation(value = "Obtener cantidad de partidas de determinado estado entre determinadas fechas")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de las partidas en el estado dado entre las fechas informadas")
+            @ApiResponse(code = 200, response = Integer.class, message = "Estadisticas de las partidas en el estado dado entre las fechas informadas")
     })
     public int getMatches(@RequestParam(value = "matchStatus",required = false) String matchStatus, @RequestParam(value = "initDate", required = false) String initDate, @RequestParam(value = "finishDate",required = false) String finishDate ){
         return 0;
@@ -26,7 +26,7 @@ public class StatsGetController {
     @GetMapping("/leadderboard")
     @ApiOperation(value = "Obtener listado de estadisticas de los mejores jugadores")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Tablero de posiciones")
+            @ApiResponse(code = 200, response = PlayerStatsModel.class, responseContainer = "List", message = "Tablero de posiciones")
     })
     public List<PlayerStatsModel> getLeadderboard(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
                                                   @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
@@ -38,7 +38,7 @@ public class StatsGetController {
     @GetMapping("/users/{userId}")
     @ApiOperation(value = "Obtener estadisticas personales de un usuario")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Estadisticas de un usuario")
+            @ApiResponse(code = 200, response = PlayerStatsModel.class, message = "Estadisticas de un usuario")
     })
     public PlayerStatsModel getRecord(@PathVariable("userId") String userId){
         return null;
