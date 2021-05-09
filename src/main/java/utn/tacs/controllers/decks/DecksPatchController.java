@@ -33,7 +33,7 @@ public class DecksPatchController {
     @PatchMapping("/{id}")
     @ApiOperation(value = "Modificar un deck")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Deck con la modificacion")
+            @ApiResponse(code = 200, message = "Deck con la modificacion")
     })
     public void modifyDeck(@Validated @NonNull @RequestBody String name, @PathVariable("id") String id) throws Exception {
         decksModify.modify(new DeckModifyRequest(id, name));
@@ -42,7 +42,7 @@ public class DecksPatchController {
     @PatchMapping("/{id}/cards")
     @ApiOperation(value = "Agregar cartas al deck del id")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Deck con la carta nueva")
+            @ApiResponse(code = 200, message = "Deck con la carta nueva")
     })
     public void addCard(@PathVariable("id") String id, @Validated @NonNull @RequestBody List<String> cardIds) throws Exception {
         decksCardAdder.add(new DeckAddRequest(id, cardIds.stream().map(CardId::new).collect(Collectors.toList())));

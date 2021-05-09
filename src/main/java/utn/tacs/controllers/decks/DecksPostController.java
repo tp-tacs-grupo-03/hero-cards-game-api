@@ -30,7 +30,7 @@ public class DecksPostController {
     @PostMapping
     @ApiOperation(value = "Crear deck")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "Deck creado")
+            @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck creado")
     })
     public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
         return creator.create(

@@ -25,7 +25,7 @@ public class CardsGetController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtener una carta por ID")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Carta correspondiente a ese id")
+            @ApiResponse(code = 200, response = CardModelResponse.class, message = "Carta correspondiente a ese id")
     })
     public CardModelResponse getCardById(@PathVariable("id") String id) {
         return finder.find(new CardFindRequest(new CardId(id)));

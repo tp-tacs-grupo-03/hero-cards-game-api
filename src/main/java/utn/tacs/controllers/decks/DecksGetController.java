@@ -28,7 +28,7 @@ public class DecksGetController {
     @GetMapping
     @ApiOperation(value = "Obtener todos los decks")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Listado de los decks")
+            @ApiResponse(code = 200, response = DeckModelResponse.class, responseContainer ="List", message = "Listado de los decks")
     })
     public List<DeckModelResponse> getAllDecks(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
@@ -41,7 +41,7 @@ public class DecksGetController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtener un deck por ID")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Object.class, message = "Deck asociado a ese id")
+            @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck asociado a ese id")
     })
     public DeckModelResponse getDeck(@PathVariable("id") String id) throws Exception {
         return decksFinder.findById(id);
