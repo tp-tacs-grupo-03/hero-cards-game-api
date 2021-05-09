@@ -2,6 +2,6 @@ version: "3.3"
 services:
     backend:
         build: .
-        image: springio/gs-spring-boot-docker
+        image: hero-cards-game-api:1.0
         ports:
             - 8080:8080

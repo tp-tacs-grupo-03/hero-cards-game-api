@@ -5,14 +5,21 @@ import utn.tacs.dto.card.CardFindRequest;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.common.client.superHeroAPI.clientApi.SuperHeroApi;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
+import utn.tacs.dto.deck.response.CardDataModel;
+import utn.tacs.repositories.CardsRepository;
+
+import java.util.List;
 
 @Service
 public class CardFinder {
 
     private SuperHeroApi apiClient;
 
-    public CardFinder(SuperHeroApi apiClient) {
+    private CardsRepository repository;
+
+    public CardFinder(SuperHeroApi apiClient, CardsRepository repository) {
         this.apiClient = apiClient;
+        this.repository = repository;
     }
 
     public CardModelResponse find(CardFindRequest cardFindRequest){
@@ -22,5 +29,9 @@ public class CardFinder {
         cardModelResponse.setPowerStats(character.getPowerstats());
         cardModelResponse.setName(character.getName());
         return cardModelResponse;
+    }
+
+    public List<CardDataModel> findAll(int page, int pageSize, String sortField, String sortDirection) {
+        return repository.findAll();
     }
 }

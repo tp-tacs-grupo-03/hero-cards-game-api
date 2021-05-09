@@ -5,11 +5,11 @@ import utn.tacs.dto.deck.DeckDeleteRequest;
 import utn.tacs.repositories.DecksRepository;
 
 @Service
-public class DecksDeleter {
+public class DecksCleaner {
 
     private DecksRepository repository;
 
-    public DecksDeleter(DecksRepository repository) {
+    public DecksCleaner(DecksRepository repository) {
         this.repository = repository;
     }
 

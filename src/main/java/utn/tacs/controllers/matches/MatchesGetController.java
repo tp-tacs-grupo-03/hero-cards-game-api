@@ -12,8 +12,7 @@ import utn.tacs.dto.match.MatchDrawRequest;
 import utn.tacs.dto.match.MatchFindRequest;
 import utn.tacs.dto.match.MatchModelResponse;
 import utn.tacs.dto.match.MatchPagingRequest;
-import utn.tacs.services.MatchCardDraw;
-import utn.tacs.services.MatchLister;
+import utn.tacs.services.MatchCardDrawer;
 import utn.tacs.services.MatchesFinder;
 
 import java.util.List;
@@ -27,12 +26,10 @@ import java.util.List;
 public class MatchesGetController {
 
     MatchesFinder finder;
-    MatchLister lister;
-    MatchCardDraw cardDraw;
+    MatchCardDrawer cardDraw;
 
-    public MatchesGetController(MatchesFinder finder, MatchLister lister, MatchCardDraw cardDraw) {
+    public MatchesGetController(MatchesFinder finder, MatchCardDrawer cardDraw) {
         this.finder = finder;
-        this.lister = lister;
         this.cardDraw = cardDraw;
     }
 
@@ -45,7 +42,7 @@ public class MatchesGetController {
                                                   @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
                                                   @RequestParam(value = "sortBy",required = false) String sortField,
                                                   @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
-        return lister.list(new MatchPagingRequest(sortField, page, pageSize,sortDirection));
+        return finder.findAll(new MatchPagingRequest(sortField, page, pageSize,sortDirection));
     }
 
     @GetMapping("/{id}")

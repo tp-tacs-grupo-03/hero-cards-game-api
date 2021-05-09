@@ -8,11 +8,11 @@ import utn.tacs.dto.match.MatchDrawRequest;
 import utn.tacs.repositories.MatchesRepository;
 
 @Service
-public class MatchCardDraw {
+public class MatchCardDrawer {
 
     private MatchesRepository matches;
 
-    public MatchCardDraw(MatchesRepository matches) {
+    public MatchCardDrawer(MatchesRepository matches) {
         this.matches = matches;
     }
 
