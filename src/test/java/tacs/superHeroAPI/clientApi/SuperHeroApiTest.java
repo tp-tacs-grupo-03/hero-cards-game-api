@@ -19,6 +19,12 @@ class SuperHeroApiTest {
         ResponseEntity<Character> response = client.getCharacter("1");
         Assert.notNull(response.getBody(), "cannot get character");
         assertEquals(response.getStatusCode(),HttpStatus.OK );
+        checkResponse(response);
+        ResponseEntity<Character> response2 = client.getCharacter("1");
+        checkResponse(response2);
+    }
+
+    private void checkResponse(ResponseEntity<Character> response) {
         Character character = response.getBody();
         assertEquals(character.getId(), "1");
         assertEquals(character.getName(),"A-Bomb" );
@@ -27,7 +33,6 @@ class SuperHeroApiTest {
         assertEquals(character.getPowerstats().getIntelligence(),38);
         assertEquals(character.getPowerstats().getSpeed(),17);
         assertEquals(character.getPowerstats().getStrength(),100);
-
     }
 
     @Test
