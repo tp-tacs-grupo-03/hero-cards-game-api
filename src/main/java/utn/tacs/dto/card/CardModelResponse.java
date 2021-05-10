@@ -14,11 +14,11 @@ import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
 public class CardModelResponse {
 
     private String name;
-    private String cardId;
-    private Powerstats powerStats;
+    private String id;
+    private Powerstats powerstats;
     private Image image;
 
     public CardModelResponse(String cardId) {
-        this.cardId = cardId;
+        this.id = cardId;
     }
 }

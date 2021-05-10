@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utn.tacs.common.client.superHeroAPI.clientApi.SuperHeroApi;
-import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
+import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
+import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.deck.response.Attribute;
 
 import java.util.HashMap;
@@ -17,7 +18,8 @@ import java.util.Queue;
 public class Battle {
 
     private Attribute attribute;
-    private Map<String, Card> players;
+
+    private Map<String, CardModelResponse> players;
     private String winner;
 
 
@@ -33,13 +35,13 @@ public class Battle {
         for (Map.Entry<String, Queue<CardId>> element : players.entrySet()
              ) {
             CardId cardId = element.getValue().remove();
-            Powerstats powerstats = superHeroApi.getPowerstats(cardId.getId()).orElseThrow(()-> new Exception("No responde la base datos")).getBody();
-            Card card = new Card(cardId, powerstats);
+            Character character = superHeroApi.getCharacter(cardId.getId()).getBody();
+            Card card = new Card(cardId, character.getPowerstats());
             if (card.getValueOf(this.attribute) > max){
                 max = card.getValueOf(this.attribute);
                 this.winner = element.getKey();
             }
-            this.players.put(element.getKey(), card);
+            this.players.put(element.getKey(), CardModelResponse.toCardModelResponse(character));
         }
     }
 
