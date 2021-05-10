@@ -1,16 +1,30 @@
 package utn.tacs.dto.card;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Image;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
+import utn.tacs.domain.Card;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CardModelResponse {
 
     String name;
     String id;
-    Powerstats powerStats;
+    Powerstats powerstats;
     Image image;
+
+    public CardModelResponse(String id) {
+        this.id = id;
+    }
+
+    public static CardModelResponse toCardModelResponse(Character character){
+        CardModelResponse cardModelResponse = new CardModelResponse(character.getId());
+        cardModelResponse.setPowerstats(character.getPowerstats());
+        cardModelResponse.setImage(character.getImage());
+        cardModelResponse.setName(character.getName());
+        return cardModelResponse;
+    }
 
     public String getName() {
         return name;
@@ -18,10 +32,6 @@ public class CardModelResponse {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public CardModelResponse(String id) {
-        this.id = id;
     }
 
     public String getId() {
@@ -32,12 +42,12 @@ public class CardModelResponse {
         this.id = id;
     }
 
-    public Powerstats getPowerStats() {
-        return powerStats;
+    public Powerstats getPowerstats() {
+        return powerstats;
     }
 
-    public void setPowerStats(Powerstats powerStats) {
-        this.powerStats = powerStats;
+    public void setPowerstats(Powerstats powerstats) {
+        this.powerstats = powerstats;
     }
 
     public Image getImage() {

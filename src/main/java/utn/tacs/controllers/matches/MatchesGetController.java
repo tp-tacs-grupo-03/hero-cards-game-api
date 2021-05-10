@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import utn.tacs.domain.Battle;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.match.MatchDrawRequest;
 import utn.tacs.dto.match.MatchFindRequest;
@@ -54,16 +55,13 @@ public class MatchesGetController {
         return finder.find(new MatchFindRequest(id));
     }
 
-
-    @GetMapping("/{id}/cards")
-    @ApiOperation(value = "Obtener carta actual del mazo")
+    @GetMapping("/{id}/battles")
+    @ApiOperation(value = "Obtener las batallas de un match")
     @ApiResponses({
-            @ApiResponse(code = 200, response = CardModelResponse.class, message = "La carta")
+            @ApiResponse(code = 200, response = Battle.class, responseContainer = "List", message = "Lista de batallas")
     })
-    public CardModelResponse draw(@PathVariable("id") String id) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String playerId = auth.getName();
-        return cardDraw.draw(new MatchDrawRequest(id, playerId));
+    public List<Battle> getBattles(@PathVariable("id") String id) throws Exception {
+        return finder.find(new MatchFindRequest(id)).getBattles();
     }
 
 }

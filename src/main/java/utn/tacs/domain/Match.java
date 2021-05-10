@@ -64,15 +64,22 @@ public class Match {
         return this.players.get(playerId).peek();
     }
 
+    public boolean turn(String playerId){
+        return this.players.keySet().stream().sorted().collect(Collectors.toList()).get(this.battles.size() % this.players.size()).equals(playerId);
+    }
+
     public Battle battle(MatchBattleRequest matchBattleRequest) throws Exception {
         String playerId = matchBattleRequest.getPlayerId();
-        String turnId = this.players.keySet().stream().sorted().collect(Collectors.toList()).get(this.battles.size()%this.players.size());
-        if (!playerId.equals(turnId)) {
+        if (turn(playerId)) {
             throw new Exception("No es el turno del jugador");
         }
         Battle battle = new Battle(matchBattleRequest.getAttribute());
         battle.combat(players);
         battles.add(battle);
         return battle;
+    }
+
+    public int cardLeft(String playerId) {
+        return players.get(playerId).size();
     }
 }

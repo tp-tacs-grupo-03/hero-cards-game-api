@@ -1,16 +1,17 @@
 package utn.tacs.dto.battle;
 
 import utn.tacs.domain.Card;
+import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.deck.response.Attribute;
 
 import java.util.Map;
 
 public class BattleModelResponse {
     Attribute attribute;
-    Map<String, Card> players;
+    Map<String, CardModelResponse> players;
     String winner;
 
-    public BattleModelResponse(Attribute attribute, Map<String, Card> players, String winner) {
+    public BattleModelResponse(Attribute attribute, Map<String, CardModelResponse> players, String winner) {
         this.attribute = attribute;
         this.players = players;
         this.winner = winner;
@@ -24,11 +25,11 @@ public class BattleModelResponse {
         this.attribute = attribute;
     }
 
-    public Map<String, Card> getPlayers() {
+    public Map<String, CardModelResponse> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Map<String, Card> players) {
+    public void setPlayers(Map<String, CardModelResponse> players) {
         this.players = players;
     }
 

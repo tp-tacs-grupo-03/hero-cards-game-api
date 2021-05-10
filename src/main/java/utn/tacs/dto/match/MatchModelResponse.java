@@ -1,6 +1,9 @@
 package utn.tacs.dto.match;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
+import lombok.Setter;
 import utn.tacs.domain.Battle;
 import utn.tacs.domain.Match;
 import utn.tacs.dto.deck.response.MatchStatusEnum;
@@ -20,6 +23,8 @@ public class MatchModelResponse {
     private Date endDate;
     private String winnerID;
     private List<Battle> battles;
+    @Getter @Setter
+    private PlayerStatus playerStatus;
 
     public MatchModelResponse(String id, List<String> players, String deck, MatchStatusEnum status, Date creationDate) {
         this.id = id;
