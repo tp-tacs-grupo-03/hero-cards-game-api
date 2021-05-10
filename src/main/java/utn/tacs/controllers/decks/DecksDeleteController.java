@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
-import utn.tacs.domain.CardId;
-import utn.tacs.dto.deck.DeckCardDeleteRequest;
 import utn.tacs.dto.deck.DeckDeleteRequest;
-import utn.tacs.services.DecksCardCleaner;
 import utn.tacs.services.DecksCleaner;
 
 @RequestMapping("api/decks")
@@ -17,7 +14,7 @@ import utn.tacs.services.DecksCleaner;
 @RestController
 public class DecksDeleteController {
 
-    DecksCleaner decksDeleter;
+    private final DecksCleaner decksDeleter;
 
     public DecksDeleteController(DecksCleaner decksDeleter) {
         this.decksDeleter = decksDeleter;
