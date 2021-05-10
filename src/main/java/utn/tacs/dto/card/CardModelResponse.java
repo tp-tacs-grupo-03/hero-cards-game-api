@@ -8,7 +8,7 @@ import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
 public class CardModelResponse {
 
     String name;
-    String cardId;
+    String id;
     Powerstats powerStats;
     Image image;
 
@@ -20,16 +20,16 @@ public class CardModelResponse {
         this.name = name;
     }
 
-    public CardModelResponse(String cardId) {
-        this.cardId = cardId;
+    public CardModelResponse(String id) {
+        this.id = id;
     }
 
-    public String getCardId() {
-        return cardId;
+    public String getId() {
+        return id;
     }
 
-    public void setCardId(String cardId) {
-        this.cardId = cardId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Powerstats getPowerStats() {

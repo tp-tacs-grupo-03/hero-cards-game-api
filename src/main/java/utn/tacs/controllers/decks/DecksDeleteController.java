@@ -28,18 +28,10 @@ public class DecksDeleteController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Borrar un deck por ID")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Deck eliminado")
+            @ApiResponse(code = 200, message = "El deck se elimino")
     })
     public void deleteDeck(@PathVariable("id") String id){
         decksDeleter.delete(new DeckDeleteRequest(id));
     }
 
-    @DeleteMapping("/{id}/cards")
-    @ApiOperation(value = "Quita una carta al deck del id")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Deck con la carta nueva")
-    })
-    public void deleteCard(@PathVariable("id") String id, @RequestBody CardId cardId) throws Exception {
-        decksCardDeleter.delete(new DeckCardDeleteRequest(id, cardId));
-    }
 }
