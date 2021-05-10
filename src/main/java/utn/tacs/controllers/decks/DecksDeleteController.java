@@ -17,11 +17,9 @@ import utn.tacs.services.DecksCleaner;
 @RestController
 public class DecksDeleteController {
 
-    DecksCardCleaner decksCardDeleter;
     DecksCleaner decksDeleter;
 
-    public DecksDeleteController(DecksCardCleaner decksCardDeleter, DecksCleaner decksDeleter) {
-        this.decksCardDeleter = decksCardDeleter;
+    public DecksDeleteController(DecksCleaner decksDeleter) {
         this.decksDeleter = decksDeleter;
     }
 
