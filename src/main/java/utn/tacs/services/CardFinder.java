@@ -26,7 +26,7 @@ public class CardFinder {
         final Character character = apiClient.getCharacter(cardFindRequest.getCardId().getId()).getBody();
         CardModelResponse cardModelResponse = new CardModelResponse(cardFindRequest.getCardId().getId());
         cardModelResponse.setImage(character.getImage());
-        cardModelResponse.setPowerStats(character.getPowerstats());
+        cardModelResponse.setPowerstats(character.getPowerstats());
         cardModelResponse.setName(character.getName());
         return cardModelResponse;
     }
