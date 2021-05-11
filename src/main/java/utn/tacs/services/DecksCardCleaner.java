@@ -16,7 +16,7 @@ public class DecksCardCleaner {
 
     public void delete(DeckCardDeleteRequest deckCardDeleteRequest) throws Exception {
         final Deck deck = repository.find(deckCardDeleteRequest.getDeckId()).orElseThrow(()->new Exception("No hay deck con ese id"));
-        deck.deleteCard(deckCardDeleteRequest.getCardToDelete());
+        deck.deleteCard(deckCardDeleteRequest.getCardIdToDelete());
         repository.update(deck);
     }
 }

@@ -12,12 +12,12 @@ import java.util.ArrayList;
 @SpringBootTest(classes = {TacsApplication.class})
 final class DecksGetControllerTest extends RequestTestCase {
     @Test
-    void get_all_decks_with_no_decks() throws Exception{
+    void getAllDecksWithNoDecks() throws Exception{
         assertRequest("GET","/api/decks", 200);
     }
 
     @Test
-    void get_all_decks() throws Exception {
+    void getAllDecks() throws Exception {
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>());
         deckModelRequest.setName("Arena");
@@ -30,7 +30,7 @@ final class DecksGetControllerTest extends RequestTestCase {
     }
 
     @Test
-    void get_specific_id() throws Exception{
+    void getSpecificId() throws Exception{
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>());
         deckModelRequest.setName("Arena");

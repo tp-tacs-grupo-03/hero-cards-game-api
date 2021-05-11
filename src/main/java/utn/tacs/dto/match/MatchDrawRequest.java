@@ -1,6 +1,12 @@
 package utn.tacs.dto.match;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class MatchDrawRequest {
 
     private String matchId;
@@ -9,17 +15,5 @@ public class MatchDrawRequest {
     public MatchDrawRequest(String matchId, String playerId) {
         this.matchId = matchId;
         this.playerId = playerId;
-    }
-
-    public String getMatchId() {
-        return matchId;
-    }
-
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
-    }
-
-    public String getPlayerId() {
-        return playerId;
     }
 }

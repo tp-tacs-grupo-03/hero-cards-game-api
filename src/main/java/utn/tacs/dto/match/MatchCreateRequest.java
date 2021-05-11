@@ -1,7 +1,14 @@
 package utn.tacs.dto.match;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class MatchCreateRequest {
 
     private List<String> players;
@@ -11,21 +18,4 @@ public class MatchCreateRequest {
         this.players = players;
         this.deck = deck;
     }
-
-    public List<String> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(List<String> players) {
-        this.players = players;
-    }
-
-    public String getDeck() {
-        return deck;
-    }
-
-    public void setDeck(String deck) {
-        this.deck = deck;
-    }
-
 }

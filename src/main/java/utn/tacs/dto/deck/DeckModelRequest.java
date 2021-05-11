@@ -1,26 +1,17 @@
 package utn.tacs.dto.deck;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class DeckModelRequest {
 
     private List<String> cards;
     private String name;
-
-    public List<String> getCards() {
-        return cards;
-    }
-
-    public void setCards(List<String> cardIds) {
-        this.cards = cardIds;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

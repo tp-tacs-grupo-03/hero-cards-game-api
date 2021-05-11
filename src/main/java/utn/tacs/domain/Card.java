@@ -1,16 +1,24 @@
 package utn.tacs.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
 import utn.tacs.dto.deck.response.Attribute;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Card {
-    CardId cardId;
-    PowerStats powerstats;
+
+    private CardId cardId;
+    private PowerStats powerstats;
 
     public Card(CardId value, Powerstats powerstats) throws Exception {
-        if (powerstats == null)
+        if (powerstats == null) {
             throw new Exception("No se pudo conseguir las stats de la carta " +
                     value.getId());
+        }
         this.cardId = value;
         this.powerstats = new PowerStats()
         .addAttribute(Attribute.COMBAT, powerstats.getCombat())
@@ -25,19 +33,4 @@ public class Card {
         return powerstats.getAttribute(attribute);
     }
 
-    public CardId getCardId() {
-        return cardId;
-    }
-
-    public void setCardId(CardId cardId) {
-        this.cardId = cardId;
-    }
-
-    public PowerStats getPowerstats() {
-        return powerstats;
-    }
-
-    public void setPowerstats(PowerStats powerstats) {
-        this.powerstats = powerstats;
-    }
 }

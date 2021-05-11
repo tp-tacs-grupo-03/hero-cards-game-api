@@ -9,7 +9,7 @@ import utn.tacs.TacsApplication;
 final class HealthCheckGetControllerTest extends RequestTestCase {
 
     @Test
-    void test_health_check_working() throws Exception{
-        assertRequestWithContent("GET","/health-check",200, "{'status':'ok'}");
+    void testHealthCheckWorking() throws Exception{
+        assertRequestWithContent("GET","/actuator/health",200, "{'status':'UP'}");
     }
 }
