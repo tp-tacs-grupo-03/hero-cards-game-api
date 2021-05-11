@@ -1,43 +1,26 @@
 package utn.tacs.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Deck {
 
-    String id;
-    List<CardId> cardIds;
-    String name;
+    private String id;
+    private List<CardId> cardIds;
+    private String name;
 
     public Deck(List<CardId> cardIds, String name) {
         this.cardIds = cardIds;
         this.name = name;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setCardIds(List<CardId> cardIds) {
-        this.cardIds = cardIds;
-    }
-
-    public List<CardId> getCards() {
-        return cardIds;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void addCards(List<CardId> cardIds) {

@@ -1,11 +1,17 @@
 package utn.tacs.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.deck.response.MatchStatusEnum;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Match {
     private String id;
     private Map<String, Queue<CardId>> players;
@@ -22,42 +28,6 @@ public class Match {
         this.status = MatchStatusEnum.NEW;
         this.creationDate = creationDate;
         battles = new ArrayList<>();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Map<String, Queue<CardId>> getPlayers() {
-        return players;
-    }
-
-    public String getDeck() {
-        return deck;
-    }
-
-    public MatchStatusEnum getStatus() {
-        return status;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public String getWinnerID() {
-        return winnerID;
-    }
-
-    public List<Battle> getBattles() {
-        return battles;
     }
 
     public CardId getNextCard(String playerId) {

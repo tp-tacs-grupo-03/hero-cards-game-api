@@ -19,12 +19,12 @@ public class DecksFinder {
 
     public DeckModelResponse findById(String id) throws Exception {
         return repository.find(id)
-                .map(deck -> new DeckModelResponse(deck.getCards(), deck.getId(), deck.getName()))
+                .map(deck -> new DeckModelResponse(deck.getCardIds(), deck.getId(), deck.getName()))
                 .orElseThrow(() -> new Exception("Deck no encontrado"));
     }
 
     public List<DeckModelResponse> findAll(){
         final List<Deck> decks = repository.findAll();
-        return decks.stream().map(deck -> new DeckModelResponse(deck.getCards(), deck.getId(), deck.getName())).collect(Collectors.toList());
+        return decks.stream().map(deck -> new DeckModelResponse(deck.getCardIds(), deck.getId(), deck.getName())).collect(Collectors.toList());
     }
 }

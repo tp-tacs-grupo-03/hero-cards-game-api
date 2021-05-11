@@ -1,9 +1,15 @@
 package utn.tacs.dto.deck;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utn.tacs.domain.CardId;
 
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class DeckAddRequest {
 
     private String deckId;
@@ -11,22 +17,6 @@ public class DeckAddRequest {
 
     public DeckAddRequest(String deckId, List<CardId> cardIds) {
         this.deckId = deckId;
-        this.cardIds = cardIds;
-    }
-
-    public String getDeckId() {
-        return deckId;
-    }
-
-    public void setDeckId(String deckId) {
-        this.deckId = deckId;
-    }
-
-    public List<CardId> getCard() {
-        return cardIds;
-    }
-
-    public void setCards(List<CardId> cardIds) {
         this.cardIds = cardIds;
     }
 }

@@ -8,7 +8,7 @@ import utn.tacs.TacsApplication;
 @SpringBootTest(classes = {TacsApplication.class})
 final class DecksDeleteControllerTest extends RequestTestCase {
     @Test
-    void delete_deck() throws Exception{
+    void deleteDeck() throws Exception{
         assertRequest("DELETE", "/api/decks/1", 200);
     }
 

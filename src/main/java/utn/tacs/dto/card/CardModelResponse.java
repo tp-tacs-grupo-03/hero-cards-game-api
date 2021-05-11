@@ -1,50 +1,24 @@
 package utn.tacs.dto.card;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Image;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
+@Setter
+@NoArgsConstructor
 public class CardModelResponse {
 
-    String name;
-    String cardId;
-    Powerstats powerStats;
-    Image image;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String name;
+    private String cardId;
+    private Powerstats powerStats;
+    private Image image;
 
     public CardModelResponse(String cardId) {
         this.cardId = cardId;
-    }
-
-    public String getCardId() {
-        return cardId;
-    }
-
-    public void setCardId(String cardId) {
-        this.cardId = cardId;
-    }
-
-    public Powerstats getPowerStats() {
-        return powerStats;
-    }
-
-    public void setPowerStats(Powerstats powerStats) {
-        this.powerStats = powerStats;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 }

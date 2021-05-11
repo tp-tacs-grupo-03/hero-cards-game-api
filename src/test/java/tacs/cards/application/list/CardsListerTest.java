@@ -9,7 +9,7 @@ import static org.mockito.Mockito.*;
 class CardsListerTest {
 
     @Test
-    void get_all_cards() {
+    void getAllCards() {
         CardsRepository repository = mock(CardsRepository.class);
         CardFinder cardsLister = new CardFinder(null, repository);
 

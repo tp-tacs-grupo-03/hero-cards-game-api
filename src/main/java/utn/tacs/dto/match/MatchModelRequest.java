@@ -1,20 +1,14 @@
 package utn.tacs.dto.match;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utn.tacs.dto.deck.response.Attribute;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class MatchModelRequest {
 
     private Attribute attribute;
-
-    public MatchModelRequest(Attribute attribute) {
-        this.attribute = attribute;
-    }
-
-    public Attribute getAttribute() {
-        return attribute;
-    }
-
-    public void setAttribute(Attribute attribute) {
-        this.attribute = attribute;
-    }
 }

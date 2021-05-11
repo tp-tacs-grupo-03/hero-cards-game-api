@@ -16,6 +16,6 @@ public class DecksCardCreator {
 
     public void add(DeckAddRequest deckAddRequest) throws Exception {
         final Deck deck = repository.find(deckAddRequest.getDeckId()).orElseThrow(() -> new Exception("No hay deck con ese id"));
-        deck.addCards(deckAddRequest.getCard());
+        deck.addCards(deckAddRequest.getCardIds());
     }
 }

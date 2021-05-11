@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @SpringBootTest(classes = {TacsApplication.class})
 final class DecksPatchControllerTest extends RequestTestCase {
     @Test
-    void modify_deck_specific_deck() throws Exception {
+    void modifyDeckSpecificDeck() throws Exception {
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>());
         deckModelRequest.setName("Arena");
