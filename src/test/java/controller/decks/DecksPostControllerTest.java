@@ -11,7 +11,7 @@ import java.util.ArrayList;
 final class DecksPostControllerTest extends RequestTestCase {
 
     @Test
-    void new_deck() throws Exception {
+    void newDeck() throws Exception {
         DeckModelRequest deckModelRequest = new DeckModelRequest();
         deckModelRequest.setCards(new ArrayList<>());
         deckModelRequest.setName("Arena");

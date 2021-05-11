@@ -1,8 +1,14 @@
 package utn.tacs.common.client.superHeroAPI.clientApi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
+@NoArgsConstructor
 public class Powerstats {
 
     private Integer durability;
@@ -11,29 +17,5 @@ public class Powerstats {
     private Integer power;
     private Integer combat;
     private Integer strength;
-
-    public Integer getDurability() {
-        return durability;
-    }
-
-    public Integer getIntelligence() {
-        return intelligence;
-    }
-
-    public Integer getSpeed() {
-        return speed;
-    }
-
-    public Integer getPower(){
-        return power;
-    }
-
-    public Integer getCombat() {
-        return combat;
-    }
-
-    public Integer getStrength() {
-        return strength;
-    }
 
 }

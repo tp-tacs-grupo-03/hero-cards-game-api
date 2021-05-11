@@ -1,4 +1,4 @@
-package utn.tacs.controllers.stats;
+package utn.tacs.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

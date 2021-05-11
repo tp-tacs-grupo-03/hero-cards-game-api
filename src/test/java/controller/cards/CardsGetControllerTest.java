@@ -8,7 +8,7 @@ import utn.tacs.TacsApplication;
 @SpringBootTest(classes = {TacsApplication.class})
 final class CardsGetControllerTest extends RequestTestCase {
     @Test
-    void find_card_by_id() throws Exception{
+    void findCardById() throws Exception{
         assertRequest("GET","/api/cards/1", 200);
     }
 }

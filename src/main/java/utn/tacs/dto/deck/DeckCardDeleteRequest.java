@@ -1,7 +1,13 @@
 package utn.tacs.dto.deck;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import utn.tacs.domain.CardId;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class DeckCardDeleteRequest {
 
     private String deckId;
@@ -11,21 +17,5 @@ public class DeckCardDeleteRequest {
     public DeckCardDeleteRequest(String deckId, CardId cardId) {
         this.deckId = deckId;
         this.cardIdToDelete = cardId;
-    }
-
-    public void setDeckId(String deckId) {
-        this.deckId = deckId;
-    }
-
-    public CardId getCardToDelete() {
-        return cardIdToDelete;
-    }
-
-    public void setCardToDelete(CardId cardIdToDelete) {
-        this.cardIdToDelete = cardIdToDelete;
-    }
-
-    public String getDeckId() {
-        return deckId;
     }
 }

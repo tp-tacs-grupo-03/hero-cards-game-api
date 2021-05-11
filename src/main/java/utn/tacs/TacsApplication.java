@@ -20,7 +20,7 @@ public class TacsApplication {
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.basePackage("utn.tacs.apps.backend")).build();
+                .apis(RequestHandlerSelectors.basePackage("utn.tacs")).build();
     }
 
 }

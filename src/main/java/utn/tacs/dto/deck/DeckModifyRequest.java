@@ -1,20 +1,19 @@
 package utn.tacs.dto.deck;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class DeckModifyRequest {
 
-    private final String deckId;
-    private final String newName;
+    private String deckId;
+    private String newName;
 
     public DeckModifyRequest(String deckId, String newName) {
         this.deckId = deckId;
         this.newName = newName;
-    }
-
-    public String getDeckId() {
-        return deckId;
-    }
-
-    public String getNewName() {
-        return newName;
     }
 }
