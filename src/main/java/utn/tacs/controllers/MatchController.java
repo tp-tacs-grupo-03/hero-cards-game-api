@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import utn.tacs.domain.Battle;
 import utn.tacs.dto.battle.BattleModelResponse;
 import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.card.CardModelResponse;
@@ -76,6 +77,15 @@ public class MatchController {
         return cardDraw.draw(new MatchDrawRequest(id, playerId));
     }
 
+    @GetMapping("/{id}/battles")
+    @ApiOperation(value = "Obtener las batallas de un match")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = Battle.class, responseContainer = "List", message = "Lista de batallas")
+    })
+    public List<Battle> getBattles(@PathVariable("id") String id) throws Exception {
+        return finder.find(new MatchFindRequest(id)).getBattles();
+    }
+
     @PostMapping
     @ApiOperation(value = "Crear partida, se divide y mezcla el mazo elegido")
     @ApiResponses({
@@ -101,6 +111,14 @@ public class MatchController {
     public BattleModelResponse modifyMatch(@RequestBody Request request, @PathVariable("id") String id ) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return battle.begin(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
+    }
+
+    @PatchMapping("/{id}")
+    @ApiOperation(value = "Surrendear partida")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Surrender")
+    })
+    public void surrender(@PathVariable("id") String id ) {
     }
 
 }
