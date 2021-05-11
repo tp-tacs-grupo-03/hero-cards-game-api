@@ -25,14 +25,12 @@ public class DeckController {
 
     private DecksCleaner decksDeleter;
     private DecksFinder decksFinder;
-    private DecksModify decksModify;
     private DecksCreator creator;
     private DecksUpdater updater;
 
-    public DeckController(DecksCleaner decksDeleter, DecksFinder decksFinder, DecksModify decksModify, DecksCreator creator, DecksUpdater updater) {
+    public DeckController(DecksCleaner decksDeleter, DecksFinder decksFinder, DecksCreator creator, DecksUpdater updater) {
         this.decksFinder = decksFinder;
         this.decksDeleter = decksDeleter;
-        this.decksModify = decksModify;
         this.creator = creator;
         this.updater = updater;
     }
@@ -40,7 +38,7 @@ public class DeckController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Borrar un deck por ID")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Deck eliminado")
+            @ApiResponse(code = 200, message = "El deck se elimino")
     })
     public void deleteDeck(@PathVariable("id") String id){
         decksDeleter.delete(new DeckDeleteRequest(id));
@@ -58,7 +56,6 @@ public class DeckController {
         return decksFinder.findAll();
     }
 
-
     @GetMapping("/{id}")
     @ApiOperation(value = "Obtener un deck por ID")
     @ApiResponses({
@@ -66,15 +63,6 @@ public class DeckController {
     })
     public DeckModelResponse getDeck(@PathVariable("id") String id) throws Exception {
         return decksFinder.findById(id);
-    }
-
-    @PatchMapping("/{id}")
-    @ApiOperation(value = "Modificar un deck")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Deck con la modificacion")
-    })
-    public void modifyDeck(@Validated @NonNull @RequestBody String name, @PathVariable("id") String id) throws Exception {
-        decksModify.modify(new DeckModifyRequest(id, name));
     }
 
     @PostMapping
@@ -99,8 +87,8 @@ public class DeckController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/{id}/cards")
-    @ApiOperation(value = "Modify the deck (name, cards) ")
+    @PutMapping("/{id}")
+    @ApiOperation(value = "Modify the deck")
     @ApiResponses({@ApiResponse(code = 202, message = "Deck modified")})
     public ResponseEntity modifyDeck(@PathVariable("id") String id, @Validated @NonNull @RequestBody DeckModelRequest deckModelRequest) throws Exception {
         updater.update(new DeckUpdateRequest(id, deckModelRequest.getName(), deckModelRequest.getCards()));
