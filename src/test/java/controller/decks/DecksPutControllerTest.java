@@ -32,10 +32,10 @@ final class DecksPutControllerTest extends RequestTestCase {
         deckModelRequest.setName("Arena");
         doRequestWithBody(
                 "PUT",
-                "/api/decks/1/cards",
+                "/api/decks/1",
                 mapper.writeValueAsString(deckModelRequest),
                 202);
         String json = mapper.writeValueAsString(deckModelRequest);
-        assertRequestWithBody("PUT", "/api/decks/1/cards", json, 202);
+        assertRequestWithBody("PUT", "/api/decks/1", json, 202);
     }
 }

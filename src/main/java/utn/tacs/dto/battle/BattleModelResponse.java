@@ -3,7 +3,6 @@ package utn.tacs.dto.battle;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import utn.tacs.domain.Card;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.deck.response.Attribute;
 

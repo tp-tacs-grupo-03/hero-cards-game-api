@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Image;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
+import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
@@ -20,5 +22,13 @@ public class CardModelResponse {
 
     public CardModelResponse(String cardId) {
         this.id = cardId;
+    }
+
+    public static CardModelResponse toCardModelResponse(Character character){
+        CardModelResponse cardModelResponse = new CardModelResponse(character.getId());
+        cardModelResponse.setPowerstats(character.getPowerstats());
+        cardModelResponse.setImage(character.getImage());
+        cardModelResponse.setName(character.getName());
+        return cardModelResponse;
     }
 }
