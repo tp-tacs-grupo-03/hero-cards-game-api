@@ -16,16 +16,12 @@ class SuperHeroApiTest {
     @Test
     public void testGetSuperHeroApiById() {
         final SuperHeroApi client = new SuperHeroApi();
-        ResponseEntity<Character> response = client.getCharacter("1");
-        Assert.notNull(response.getBody(), "cannot get character");
-        assertEquals(response.getStatusCode(),HttpStatus.OK );
+        Character response = client.getCharacter("1");
+        Assert.notNull(response, "cannot get character");
         checkResponse(response);
-        ResponseEntity<Character> response2 = client.getCharacter("1");
-        checkResponse(response2);
     }
 
-    private void checkResponse(ResponseEntity<Character> response) {
-        Character character = response.getBody();
+    private void checkResponse(Character character) {
         assertEquals(character.getId(), "1");
         assertEquals(character.getName(),"A-Bomb" );
         assertEquals(character.getPowerstats().getCombat(),64);

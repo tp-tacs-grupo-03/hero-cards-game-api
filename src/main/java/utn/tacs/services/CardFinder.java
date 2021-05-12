@@ -23,7 +23,7 @@ public class CardFinder {
     }
 
     public CardModelResponse find(CardFindRequest cardFindRequest){
-        final Character character = apiClient.getCharacter(cardFindRequest.getCardId().getId()).getBody();
+        final Character character = apiClient.getCharacter(cardFindRequest.getCardId().getId());
         CardModelResponse cardModelResponse = new CardModelResponse(cardFindRequest.getCardId().getId());
         cardModelResponse.setImage(character.getImage());
         cardModelResponse.setPowerstats(character.getPowerstats());
