@@ -16,10 +16,7 @@ import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.deck.response.MatchModel;
 import utn.tacs.dto.deck.response.Request;
 import utn.tacs.dto.match.*;
-import utn.tacs.services.MatchBattleHandler;
-import utn.tacs.services.MatchCardDrawer;
-import utn.tacs.services.MatchesCreator;
-import utn.tacs.services.MatchesFinder;
+import utn.tacs.services.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +33,14 @@ public class MatchController {
     private MatchCardDrawer cardDraw;
     private MatchesCreator creator;
     private MatchBattleHandler battle;
+    private final MatchUpdater updater;
 
-    public MatchController(MatchesFinder finder, MatchCardDrawer cardDraw, MatchesCreator creator, MatchBattleHandler battle) {
+    public MatchController(MatchesFinder finder, MatchCardDrawer cardDraw, MatchesCreator creator, MatchBattleHandler battle, MatchUpdater updater) {
         this.finder = finder;
         this.cardDraw = cardDraw;
         this.creator = creator;
         this.battle = battle;
+        this.updater = updater;
     }
 
     @GetMapping
@@ -80,7 +79,7 @@ public class MatchController {
             @ApiResponse(code = 200, response = MatchModelResponse.class, message = "match")
     })
     public MatchModelResponse postMatch(@Validated @NonNull @RequestBody MatchModel matchRequest) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String hostId = auth.getName();
 
         List<String> players = new ArrayList<>();
@@ -106,7 +105,11 @@ public class MatchController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Surrender")
     })
-    public void surrender(@PathVariable("id") String id ) {
+    public void surrender(@RequestBody MatchUpdateRequest request, @PathVariable("id") String id ) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        request.setId(id);
+        request.setPlayer(auth.getName());
+        updater.update(request);
     }
 
 }
