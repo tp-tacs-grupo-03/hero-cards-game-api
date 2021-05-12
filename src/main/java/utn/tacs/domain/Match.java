@@ -49,6 +49,12 @@ public class Match {
         return battle;
     }
 
+    public Match surrender(String player){
+        setStatus(MatchStatusEnum.CANCELED);
+        //setWinnerID(); #TODO
+        return this;
+    }
+
     public int cardLeft(String playerId) {
         return players.get(playerId).size();
     }
