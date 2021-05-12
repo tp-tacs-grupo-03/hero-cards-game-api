@@ -79,7 +79,7 @@ public class MatchController {
             @ApiResponse(code = 200, response = MatchModelResponse.class, message = "match")
     })
     public MatchModelResponse postMatch(@Validated @NonNull @RequestBody MatchModel matchRequest) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String hostId = auth.getName();
 
         List<String> players = new ArrayList<>();

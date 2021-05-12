@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MatchUpdateRequest {
-    String id;
-    String player;
-    String status;
+    private String player;
+    private String id;
+    private String status;
 }
