@@ -65,18 +65,6 @@ public class MatchController {
         return finder.find(new MatchFindRequest(id));
     }
 
-
-    @GetMapping("/{id}/cards")
-    @ApiOperation(value = "Obtener carta actual del mazo")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = CardModelResponse.class, message = "La carta")
-    })
-    public CardModelResponse draw(@PathVariable("id") String id) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String playerId = auth.getName();
-        return cardDraw.draw(new MatchDrawRequest(id, playerId));
-    }
-
     @GetMapping("/{id}/battles")
     @ApiOperation(value = "Obtener las batallas de un match")
     @ApiResponses({
