@@ -96,20 +96,22 @@ public class MatchController {
             @ApiResponse(code = 200, response = BattleModelResponse.class, message = "Resultado del combate")
     })
     public BattleModelResponse modifyMatch(@RequestBody Request request, @PathVariable("id") String id ) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return battle.begin(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
     }
 
     @PatchMapping("/{id}")
-    @ApiOperation(value = "Surrendear partida")
+    @ApiOperation(value = "Actualizar partida")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Surrender")
     })
-    public void surrender(@RequestBody MatchUpdateRequest request, @PathVariable("id") String id ) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        request.setId(id);
-        request.setPlayer(auth.getName());
-        updater.update(request);
+    public void surrender(@RequestBody MatchRequest request, @PathVariable("id") String id ) throws Exception {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final MatchUpdateRequest matchUpdateRequest = new MatchUpdateRequest();
+        matchUpdateRequest.setStatus(request.getStatus());
+        matchUpdateRequest.setId(id);
+        matchUpdateRequest.setPlayer(auth.getName());
+        updater.update(matchUpdateRequest);
     }
 
 }
