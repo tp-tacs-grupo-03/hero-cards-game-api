@@ -8,8 +8,6 @@ import utn.tacs.dto.deck.response.PlayerStatusEnum;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MatchUpdateRequest {
-    private String player;
-    private String id;
+public class MatchRequest {
     private PlayerStatusEnum status;
 }
