@@ -4,13 +4,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.card.CardFindRequest;
 import utn.tacs.services.CardFinder;
 import utn.tacs.domain.CardId;
 
-
+@Slf4j
 @RequestMapping("api/cards")
 @Api(tags = "Cards")
 @CrossOrigin("*")

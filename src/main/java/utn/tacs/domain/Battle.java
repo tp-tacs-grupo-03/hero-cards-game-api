@@ -35,7 +35,7 @@ public class Battle {
         for (Map.Entry<String, Queue<CardId>> element : players.entrySet()
              ) {
             CardId cardId = element.getValue().remove();
-            Character character = superHeroApi.getCharacter(cardId.getId()).getBody();
+            Character character = superHeroApi.getCharacter(cardId.getId());
             Card card = new Card(cardId, character.getPowerstats());
             if (card.getValueOf(this.attribute) > max){
                 max = card.getValueOf(this.attribute);
