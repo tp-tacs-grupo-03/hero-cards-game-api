@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.domain.Battle;
 import utn.tacs.dto.battle.BattleModelResponse;
+import utn.tacs.dto.battle.ListBattles;
 import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.deck.response.MatchModel;
@@ -46,9 +47,9 @@ public class MatchController {
     @GetMapping
     @ApiOperation(value = "Obtener todas las partidas")
     @ApiResponses({
-            @ApiResponse(code = 200, response = MatchModelResponse.class, responseContainer = "List", message = "Las partidas")
+            @ApiResponse(code = 200, response = ListMatchModelResponse.class, message = "Las partidas")
     })
-    public List<MatchModelResponse> getAllMatches(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
+    public ListMatchModelResponse getAllMatches(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
                                                   @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
                                                   @RequestParam(value = "sortBy",required = false) String sortField,
                                                   @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
@@ -67,10 +68,12 @@ public class MatchController {
     @GetMapping("/{id}/battles")
     @ApiOperation(value = "Obtener las batallas de un match")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Battle.class, responseContainer = "List", message = "Lista de batallas")
+            @ApiResponse(code = 200, response = ListBattles.class, message = "Lista de batallas")
     })
-    public List<Battle> getBattles(@PathVariable("id") String id) throws Exception {
-        return finder.find(new MatchFindRequest(id)).getBattles();
+    public ListBattles getBattles(@PathVariable("id") String id) throws Exception {
+        final ListBattles listBattles = new ListBattles();
+        listBattles.setBattles(finder.find(new MatchFindRequest(id)).getBattles());
+        return listBattles;
     }
 
     @PostMapping

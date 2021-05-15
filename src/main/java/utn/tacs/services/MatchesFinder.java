@@ -4,10 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.Match;
-import utn.tacs.dto.match.MatchFindRequest;
-import utn.tacs.dto.match.MatchModelResponse;
-import utn.tacs.dto.match.MatchPagingRequest;
-import utn.tacs.dto.match.PlayerStatus;
+import utn.tacs.dto.match.*;
 import utn.tacs.repositories.MatchesRepository;
 
 import java.util.List;
@@ -31,8 +28,11 @@ public class MatchesFinder {
         return matchModelResponse;
     }
 
-    public List<MatchModelResponse> findAll(MatchPagingRequest matchPagingRequest){
+    public ListMatchModelResponse findAll(MatchPagingRequest matchPagingRequest){
         final List<Match> matches = repository.findAll();
-        return matches.stream().map(MatchModelResponse::toMatchModel).collect(Collectors.toList());
+        final ListMatchModelResponse listMatchModelResponse = new ListMatchModelResponse();
+        listMatchModelResponse.setMatchModelResponses(matches.stream().map(MatchModelResponse::toMatchModel).collect(Collectors.toList()));
+
+        return listMatchModelResponse;
     }
 }
