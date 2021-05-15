@@ -47,9 +47,9 @@ public class DeckController {
     @GetMapping
     @ApiOperation(value = "Obtener todos los decks")
     @ApiResponses({
-            @ApiResponse(code = 200, response = DeckModelResponse.class, responseContainer ="List", message = "Listado de los decks")
+            @ApiResponse(code = 200, response = ListDeckModelResponse.class, message = "Listado de los decks")
     })
-    public List<DeckModelResponse> getAllDecks(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+    public ListDeckModelResponse getAllDecks(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                                                @RequestParam(value = "sortBy", required = false) String sortField,
                                                @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
