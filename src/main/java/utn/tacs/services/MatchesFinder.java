@@ -3,7 +3,9 @@ package utn.tacs.services;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import utn.tacs.domain.Battle;
 import utn.tacs.domain.Match;
+import utn.tacs.dto.battle.ListBattles;
 import utn.tacs.dto.match.*;
 import utn.tacs.repositories.MatchesRepository;
 
@@ -24,8 +26,13 @@ public class MatchesFinder {
         final MatchModelResponse matchModelResponse = MatchModelResponse.toMatchModel(match);
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String player = auth.getName();
+
         matchModelResponse.setPlayerStatus(new PlayerStatus(match, player));
         return matchModelResponse;
+    }
+
+    public List<Battle> findBattles(MatchFindRequest matchFindRequest) throws Exception {
+        return repository.find(matchFindRequest.getMatchId()).orElseThrow(()->new Exception("No hay match con ese id")).getBattles();
     }
 
     public ListMatchModelResponse findAll(MatchPagingRequest matchPagingRequest){

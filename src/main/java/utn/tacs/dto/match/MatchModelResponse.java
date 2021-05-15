@@ -25,7 +25,6 @@ public class MatchModelResponse {
     private Date creationDate;
     private Date endDate;
     private String winnerID;
-    private List<Battle> battles;
     private PlayerStatus playerStatus;
 
     public MatchModelResponse(String id, List<String> players, String deck, MatchStatusEnum status, Date creationDate) {
@@ -38,7 +37,6 @@ public class MatchModelResponse {
 
     static public MatchModelResponse toMatchModel(Match match){
         MatchModelResponse matchModelResponse = new MatchModelResponse(match.getId(), new ArrayList<>(match.getPlayers().keySet()), match.getDeck(), match.getStatus(), match.getCreationDate());
-        matchModelResponse.setBattles(match.getBattles());
         matchModelResponse.setEndDate(match.getEndDate());
         matchModelResponse.setWinnerID(match.getWinnerID());
         return matchModelResponse;
