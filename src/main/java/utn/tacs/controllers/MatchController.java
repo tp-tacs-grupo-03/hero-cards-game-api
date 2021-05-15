@@ -72,7 +72,7 @@ public class MatchController {
     })
     public ListBattles getBattles(@PathVariable("id") String id) throws Exception {
         final ListBattles listBattles = new ListBattles();
-        listBattles.setBattles(finder.find(new MatchFindRequest(id)).getBattles());
+        listBattles.setBattles(finder.findBattles(new MatchFindRequest(id)));
         return listBattles;
     }
 
