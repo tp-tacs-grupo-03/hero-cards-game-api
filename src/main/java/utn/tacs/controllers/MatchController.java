@@ -80,9 +80,9 @@ public class MatchController {
     })
     public MatchModelResponse postMatch(@Validated @NonNull @RequestBody MatchModel matchRequest) throws Exception {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String hostId = auth.getName();
+        final String hostId = auth.getName();
 
-        List<String> players = new ArrayList<>();
+        final List<String> players = new ArrayList<>();
         players.add(hostId);
         players.add(matchRequest.getOpponentId());
 

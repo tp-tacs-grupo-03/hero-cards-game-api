@@ -24,9 +24,9 @@ public class MatchesFinder {
 
     public MatchModelResponse find(MatchFindRequest matchFindRequest) throws Exception {
         final Match match = repository.find(matchFindRequest.getMatchId()).orElseThrow(()->new Exception("No hay match con ese id"));
-        MatchModelResponse matchModelResponse = MatchModelResponse.toMatchModel(match);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String player = auth.getName();
+        final MatchModelResponse matchModelResponse = MatchModelResponse.toMatchModel(match);
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final String player = auth.getName();
         matchModelResponse.setPlayerStatus(new PlayerStatus(match, player));
         return matchModelResponse;
     }

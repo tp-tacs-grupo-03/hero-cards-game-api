@@ -30,7 +30,7 @@ public class RestHeaderInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {
-            String value = request.getHeader(key);
+            final String value = request.getHeader(key);
             response.setHeader(key,value == null ? UUID.randomUUID().toString() : value);
         }
         return true;
@@ -40,7 +40,7 @@ public class RestHeaderInterceptor implements HandlerInterceptor {
     private void logRequest(HttpServletRequest request) throws IOException {
 
         if (log.isDebugEnabled()) {
-            String xRequestId = request.getHeader(key);
+            final String xRequestId = request.getHeader(key);
             log.debug("===========================request begin================================================");
             log.debug("URI              : {}", request.getRequestURI());
             log.debug("Method           : {}", request.getMethod());

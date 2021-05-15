@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import utn.tacs.controllers.exceptions.CardIdCannotFoundException;
+import utn.tacs.controllers.exceptions.SomePowerStatsWithoutValueException;
 import utn.tacs.domain.CardId;
 import utn.tacs.dto.deck.*;
 import utn.tacs.services.*;
@@ -27,12 +30,14 @@ public class DeckController {
     private DecksFinder decksFinder;
     private DecksCreator creator;
     private DecksUpdater updater;
+    private CardAttributesValidator cardValidator;
 
-    public DeckController(DecksCleaner decksDeleter, DecksFinder decksFinder, DecksCreator creator, DecksUpdater updater) {
+    public DeckController(DecksCleaner decksDeleter, DecksFinder decksFinder, DecksCreator creator, DecksUpdater updater, CardAttributesValidator cardValidator) {
         this.decksFinder = decksFinder;
         this.decksDeleter = decksDeleter;
         this.creator = creator;
         this.updater = updater;
+        this.cardValidator = cardValidator;
     }
 
     @DeleteMapping("/{id}")
@@ -71,6 +76,11 @@ public class DeckController {
             @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck creado")
     })
     public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
+        try {
+            cardValidator.validate(deck.getCards());
+        } catch (CardIdCannotFoundException | SomePowerStatsWithoutValueException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
         return creator.create(
                 new DeckCreateRequest(
                         deck.getCards().stream().map(CardId::new).collect(Collectors.toList()),
