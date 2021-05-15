@@ -20,4 +20,12 @@ public class Powerstats implements Serializable {
     private Integer combat;
     private Integer strength;
 
+    public boolean hasAllPowerStats() {
+        return durability != null &&
+                intelligence != null &&
+                speed != null &&
+                power != null &&
+                combat != null &&
+                strength != null;
+    }
 }

@@ -16,7 +16,7 @@ public class DecksCreator {
     }
 
     public DeckModelResponse create(DeckCreateRequest deckCreateRequest){
-        Deck deck = new Deck(deckCreateRequest.getCardIds(), deckCreateRequest.getName());
+        final Deck deck = new Deck(deckCreateRequest.getCardIds(), deckCreateRequest.getName());
         repository.save(deck);
         return new DeckModelResponse(deck.getCardIds(), deck.getId(), deck.getName());
     }
