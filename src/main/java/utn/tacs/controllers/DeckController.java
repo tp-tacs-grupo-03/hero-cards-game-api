@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 @RequestMapping("api/decks")
 @Api(tags = "Decks")
-@CrossOrigin("*")
 @RestController
 public class DeckController {
 
