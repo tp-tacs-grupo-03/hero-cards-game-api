@@ -25,6 +25,8 @@ public class MatchModelResponse {
     private Date creationDate;
     private Date endDate;
     private String winnerID;
+    private int cardsLeft;
+    private String turn;
     private PlayerStatus playerStatus;
 
     public MatchModelResponse(String id, List<String> players, String deck, MatchStatusEnum status, Date creationDate) {
