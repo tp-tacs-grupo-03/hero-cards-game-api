@@ -35,7 +35,7 @@ public class MatchesCreator {
 
         final Match match = new Match(players, matchCreateRequest.getDeck(), new Date());
         repository.save(match);
-        return new MatchModelResponse(match.getId(), matchCreateRequest.getPlayers(), match.getDeck(), match.getStatus(), match.getCreationDate());
+        return MatchModelResponse.toMatchModel(match);
     }
 
 }

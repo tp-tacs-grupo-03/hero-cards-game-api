@@ -27,8 +27,8 @@ public class MatchesFinder {
         final String player = auth.getName();
         if (!match.isTerminated() && match.isPlayer(player)){
             matchModelResponse.setPlayerStatus(new PlayerStatus(match, player));
-            matchModelResponse.setTurn(match.turn());
         }
+        matchModelResponse.setTurn(match.turn());
         matchModelResponse.setCardsLeft(match.cardLeft());
         return matchModelResponse;
     }
