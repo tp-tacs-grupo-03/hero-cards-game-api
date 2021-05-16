@@ -41,6 +41,7 @@ public class MatchModelResponse {
         MatchModelResponse matchModelResponse = new MatchModelResponse(match.getId(), new ArrayList<>(match.getPlayers().keySet()), match.getDeck(), match.getStatus(), match.getCreationDate());
         matchModelResponse.setEndDate(match.getEndDate());
         matchModelResponse.setWinnerID(match.getWinnerID());
+        matchModelResponse.setCardsLeft(match.cardLeft());
         return matchModelResponse;
     }
 }
