@@ -25,7 +25,7 @@ public class Match {
     public Match(Map<String, Queue<CardId>> players, String deck, Date creationDate) {
         this.players = players;
         this.deck = deck;
-        this.status = MatchStatusEnum.NEW;
+        this.status = MatchStatusEnum.IN_PROGRESS;
         this.creationDate = creationDate;
         battles = new ArrayList<>();
     }
@@ -34,28 +34,49 @@ public class Match {
         return this.players.get(playerId).peek();
     }
 
-    public boolean turn(String playerId){
-        return this.players.keySet().stream().sorted().collect(Collectors.toList()).get(this.battles.size() % this.players.size()).equals(playerId);
+    public String turn(){
+        return this.players.keySet().stream().sorted().collect(Collectors.toList()).get(this.battles.size() % this.players.size());
     }
 
     public Battle battle(MatchBattleRequest matchBattleRequest) throws Exception {
-        String playerId = matchBattleRequest.getPlayerId();
-        if (turn(playerId)) {
+        final String playerId = matchBattleRequest.getPlayerId();
+        if (!turn().equals(playerId)) {
             throw new Exception("No es el turno del jugador");
         }
         Battle battle = new Battle(matchBattleRequest.getAttribute());
         battle.combat(players);
         battles.add(battle);
+        calculateWinner();
         return battle;
     }
 
-    public Match surrender(String player){
-        setStatus(MatchStatusEnum.CANCELED);
-        //setWinnerID(); #TODO
-        return this;
+    private void calculateWinner(){
+        if (cardLeft() == 0){
+            this.winnerID = Collections.max(wins().entrySet(), Comparator.comparingLong(Map.Entry::getValue)).getKey();
+            this.status = MatchStatusEnum.FINISHED;
+        }
     }
 
-    public int cardLeft(String playerId) {
-        return players.get(playerId).size();
+    private Map<String, Long> wins(){
+        return this.battles.stream()
+                .collect(Collectors.groupingBy(Battle::getWinner,
+                        Collectors.counting()));
+    }
+
+    public void surrender(String player){
+        setStatus(MatchStatusEnum.CANCELED);
+        calculateWinner();
+    }
+
+    public int cardLeft() {
+        return players.entrySet().iterator().next().getValue().size();
+    }
+
+    public boolean isTerminated() {
+        return this.status.equals(MatchStatusEnum.FINISHED) || this.status.equals(MatchStatusEnum.CANCELED);
+    }
+
+    public boolean isPlayer(String player) {
+        return this.players.containsKey(player);
     }
 }

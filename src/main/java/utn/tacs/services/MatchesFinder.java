@@ -5,7 +5,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.Battle;
 import utn.tacs.domain.Match;
-import utn.tacs.dto.battle.ListBattles;
 import utn.tacs.dto.match.*;
 import utn.tacs.repositories.MatchesRepository;
 
@@ -26,8 +25,11 @@ public class MatchesFinder {
         final MatchModelResponse matchModelResponse = MatchModelResponse.toMatchModel(match);
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String player = auth.getName();
-
-        matchModelResponse.setPlayerStatus(new PlayerStatus(match, player));
+        if (!match.isTerminated() && match.isPlayer(player)){
+            matchModelResponse.setPlayerStatus(new PlayerStatus(match, player));
+            matchModelResponse.setTurn(match.turn());
+        }
+        matchModelResponse.setCardsLeft(match.cardLeft());
         return matchModelResponse;
     }
 
