@@ -40,7 +40,9 @@ public class MatchesFinder {
     public ListMatchModelResponse findAll(MatchPagingRequest matchPagingRequest){
         final List<Match> matches = repository.findAll();
         final ListMatchModelResponse listMatchModelResponse = new ListMatchModelResponse();
-        listMatchModelResponse.setMatchModelResponses(matches.stream().map(MatchModelResponse::toMatchModel).collect(Collectors.toList()));
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final String player = auth.getName();
+        listMatchModelResponse.setMatchModelResponses(matches.stream().map(MatchModelResponse::toMatchModel).filter(match -> match.getPlayers().contains(player)).collect(Collectors.toList()));
 
         return listMatchModelResponse;
     }
