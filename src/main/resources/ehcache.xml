@@ -4,13 +4,16 @@
         xsi:schemaLocation="
             http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
             http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+    <thread-pools>
+        <thread-pool alias="cache2Pool" min-size="2" max-size="20"/>
+    </thread-pools>
     <cache alias="characterCache">
         <key-type>java.lang.String</key-type>
         <value-type>utn.tacs.common.client.superHeroAPI.clientApi.model.Character</value-type>
         <expiry>
-            <ttl unit="seconds">3600</ttl>
+            <ttl unit="hours">48</ttl>
         </expiry>
-        <listeners>
+        <listeners dispatcher-thread-pool="cache2Pool">
             <listener>
                 <class>utn.tacs.common.cache.CacheEventLogger</class>
                 <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
@@ -21,7 +24,27 @@
         </listeners>
         <resources>
             <heap unit="entries">300</heap>
-            <offheap unit="MB">2</offheap>
+            <offheap unit="MB">10</offheap>
         </resources>
+    </cache>
+    <cache alias="powerStatsCache">
+        <key-type>java.lang.String</key-type>
+        <value-type>utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats</value-type>
+        <expiry>
+            <ttl unit="hours">48</ttl>
+        </expiry>
+            <listeners dispatcher-thread-pool="cache2Pool">
+                <listener>
+                    <class>utn.tacs.common.cache.CacheEventLogger</class>
+                    <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
+                    <event-ordering-mode>UNORDERED</event-ordering-mode>
+                    <events-to-fire-on>CREATED</events-to-fire-on>
+                    <events-to-fire-on>EXPIRED</events-to-fire-on>
+                </listener>
+            </listeners>
+            <resources>
+                <heap unit="MB">100</heap>
+                <offheap unit="MB">512</offheap>
+            </resources>
     </cache>
 </config>

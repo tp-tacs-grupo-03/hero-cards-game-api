@@ -10,14 +10,15 @@ import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import utn.tacs.controllers.exceptions.CardIdCannotFoundException;
 import utn.tacs.controllers.exceptions.SomePowerStatsWithoutValueException;
 import utn.tacs.domain.CardId;
 import utn.tacs.dto.deck.*;
-import utn.tacs.services.*;
+import utn.tacs.services.DecksCleaner;
+import utn.tacs.services.DecksCreator;
+import utn.tacs.services.DecksFinder;
+import utn.tacs.services.DecksUpdater;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("api/decks")
@@ -78,7 +79,7 @@ public class DeckController {
     public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
         try {
             cardValidator.validate(deck.getCards());
-        } catch (CardIdCannotFoundException | SomePowerStatsWithoutValueException e) {
+        } catch (SomePowerStatsWithoutValueException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
         return creator.create(

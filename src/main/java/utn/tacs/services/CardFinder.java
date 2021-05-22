@@ -2,6 +2,7 @@ package utn.tacs.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import utn.tacs.domain.exceptions.NotFoundCharacter;
 import utn.tacs.dto.card.CardFindRequest;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.common.client.superHeroAPI.clientApi.SuperHeroApi;
@@ -25,12 +26,13 @@ public class CardFinder {
     }
 
     public CardModelResponse find(CardFindRequest cardFindRequest){
-        final Character character = apiClient.getCharacter(cardFindRequest.getCardId().getId());
-        CardModelResponse cardModelResponse = new CardModelResponse(cardFindRequest.getCardId().getId());
-        cardModelResponse.setImage(character.getImage());
-        cardModelResponse.setPowerstats(character.getPowerstats());
-        cardModelResponse.setName(character.getName());
-        return cardModelResponse;
+        final String id = cardFindRequest.getCardId().getId();
+        final Character character = apiClient.getCharacter(id).orElseThrow(()-> new NotFoundCharacter(id));
+        final CardModelResponse response = new CardModelResponse(cardFindRequest.getCardId().getId());
+        response.setImage(character.getImage());
+        response.setPowerstats(character.getPowerstats());
+        response.setName(character.getName());
+        return response;
     }
 
     public List<CardDataModel> findAll(int page, int pageSize, String sortField, String sortDirection) {

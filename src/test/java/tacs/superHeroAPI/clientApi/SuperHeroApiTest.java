@@ -8,6 +8,8 @@ import utn.tacs.common.client.superHeroAPI.clientApi.SuperHeroApi;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Image;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
+import utn.tacs.controllers.exceptions.CannotFoundPowerStats;
+import utn.tacs.domain.exceptions.NotFoundCharacter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +18,7 @@ class SuperHeroApiTest {
     @Test
     public void testGetSuperHeroApiById() {
         final SuperHeroApi client = new SuperHeroApi();
-        Character response = client.getCharacter("1");
+        Character response = client.getCharacter("1").orElseThrow(()-> new NotFoundCharacter("1"));
         Assert.notNull(response, "cannot get character");
         checkResponse(response);
     }
@@ -45,10 +47,7 @@ class SuperHeroApiTest {
     @Test
     public void testGetPowerstatsById() {
         final SuperHeroApi client = new SuperHeroApi();
-        ResponseEntity<Powerstats> response = client.getPowerstats("1").orElseThrow();
-        Assert.notNull(response.getBody(), "cannot get powerstats");
-        assertEquals(response.getStatusCode(),HttpStatus.OK );
-        Powerstats powerstats = response.getBody();
+        Powerstats powerstats = client.getPowerstats("1").orElseThrow(()-> new CannotFoundPowerStats("1"));
         assertEquals(powerstats.getCombat(),64);
         assertEquals(powerstats.getDurability(),80);
         assertEquals(powerstats.getIntelligence(),38);
