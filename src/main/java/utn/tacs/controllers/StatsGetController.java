@@ -1,5 +1,6 @@
 package utn.tacs.controllers;
 
+import com.google.common.collect.Range;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -8,7 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import utn.tacs.dto.deck.response.ListPlayerStatsModel;
 import utn.tacs.dto.deck.response.PlayerStatsModel;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequestMapping("api/stats")
 @Api(tags = "Stats")
@@ -33,7 +42,14 @@ public class StatsGetController {
                                                 @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
                                                 @RequestParam(value = "sortBy",required = false) String sortField,
                                                 @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
-        return null;
+        //TODO implementar la llamada a servicios para obtener los leadderboards
+        ListPlayerStatsModel stats = new ListPlayerStatsModel();
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
+        List<Integer> collect = IntStream.range(0, 10000).boxed().collect(Collectors.toList());
+        collect.forEach(i -> {
+            stats.addPlayersStatsModel(new PlayerStatsModel("" + randomNum, randomNum * 13, randomNum * 23, randomNum * 17));
+        });
+        return stats;
     }
 
     @GetMapping("/users/{userId}")

@@ -19,7 +19,7 @@ public class WebMvcConfig  implements WebMvcConfigurer {
     public FilterRegistrationBean<ShallowEtagHeaderFilter> shallowEtagHeaderFilter() {
         FilterRegistrationBean<ShallowEtagHeaderFilter> filterRegistrationBean
                 = new FilterRegistrationBean<>( new ShallowEtagHeaderFilter());
-        filterRegistrationBean.addUrlPatterns("/api/*");
+        filterRegistrationBean.addUrlPatterns("/api/cards/*","/api/decks/*", "/api/matches/*");
         filterRegistrationBean.setName("etagFilter");
         return filterRegistrationBean;
     }
