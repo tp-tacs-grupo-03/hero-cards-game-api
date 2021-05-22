@@ -14,13 +14,13 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class CardFinder {
+public class CardService {
 
     private SuperHeroApi apiClient;
 
     private CardsRepository repository;
 
-    public CardFinder(SuperHeroApi apiClient, CardsRepository repository) {
+    public CardService(SuperHeroApi apiClient, CardsRepository repository) {
         this.apiClient = apiClient;
         this.repository = repository;
     }

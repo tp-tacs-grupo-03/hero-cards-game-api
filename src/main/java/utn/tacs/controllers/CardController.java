@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.card.CardFindRequest;
-import utn.tacs.services.CardFinder;
+import utn.tacs.services.CardService;
 import utn.tacs.domain.CardId;
 
 @Slf4j
@@ -18,9 +18,9 @@ import utn.tacs.domain.CardId;
 @RestController
 public class CardController {
 
-    private final CardFinder finder;
+    private final CardService finder;
 
-    public CardController(CardFinder finder){
+    public CardController(CardService finder){
         this.finder = finder;
     }
 

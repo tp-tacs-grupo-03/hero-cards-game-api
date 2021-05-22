@@ -13,10 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import utn.tacs.controllers.exceptions.SomePowerStatsWithoutValueException;
 import utn.tacs.domain.CardId;
 import utn.tacs.dto.deck.*;
-import utn.tacs.services.DecksCleaner;
-import utn.tacs.services.DecksCreator;
-import utn.tacs.services.DecksFinder;
-import utn.tacs.services.DecksUpdater;
+import utn.tacs.services.DeckService;
 
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -27,17 +24,11 @@ import java.util.stream.Collectors;
 @RestController
 public class DeckController {
 
-    private DecksCleaner decksDeleter;
-    private DecksFinder decksFinder;
-    private DecksCreator creator;
-    private DecksUpdater updater;
+    private DeckService deckService;
     private CardAttributesValidator cardValidator;
 
-    public DeckController(DecksCleaner decksDeleter, DecksFinder decksFinder, DecksCreator creator, DecksUpdater updater, CardAttributesValidator cardValidator) {
-        this.decksFinder = decksFinder;
-        this.decksDeleter = decksDeleter;
-        this.creator = creator;
-        this.updater = updater;
+    public DeckController(DeckService deckService, CardAttributesValidator cardValidator) {
+        this.deckService = deckService;
         this.cardValidator = cardValidator;
     }
 
@@ -47,7 +38,7 @@ public class DeckController {
             @ApiResponse(code = 200, message = "El deck se elimino")
     })
     public void deleteDeck(@PathVariable("id") String id){
-        decksDeleter.delete(new DeckDeleteRequest(id));
+        deckService.delete(new DeckDeleteRequest(id));
     }
 
     @GetMapping
@@ -59,7 +50,7 @@ public class DeckController {
                                                @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                                                @RequestParam(value = "sortBy", required = false) String sortField,
                                                @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
-        return decksFinder.findAll();
+        return deckService.findAll();
     }
 
     @GetMapping("/{id}")
@@ -68,7 +59,7 @@ public class DeckController {
             @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck asociado a ese id")
     })
     public DeckModelResponse getDeck(@PathVariable("id") String id) throws Exception {
-        return decksFinder.findById(id);
+        return deckService.findById(id);
     }
 
     @PostMapping
@@ -82,7 +73,7 @@ public class DeckController {
         } catch (SomePowerStatsWithoutValueException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
-        return creator.create(
+        return deckService.create(
                 new DeckCreateRequest(
                         deck.getCards().stream().map(CardId::new).collect(Collectors.toList()),
                         deck.getName()
@@ -102,7 +93,7 @@ public class DeckController {
     @ApiOperation(value = "Modify the deck")
     @ApiResponses({@ApiResponse(code = 202, message = "Deck modified")})
     public ResponseEntity modifyDeck(@PathVariable("id") String id, @Validated @NonNull @RequestBody DeckModelRequest deckModelRequest) throws Exception {
-        updater.update(new DeckUpdateRequest(id, deckModelRequest.getName(), deckModelRequest.getCards()));
+        deckService.update(new DeckUpdateRequest(id, deckModelRequest.getName(), deckModelRequest.getCards()));
         return ResponseEntity.accepted().build();
     }
 }
