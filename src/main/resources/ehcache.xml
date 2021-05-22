@@ -43,8 +43,8 @@
                 </listener>
             </listeners>
             <resources>
-                <heap unit="MB">100</heap>
-                <offheap unit="MB">512</offheap>
+                <heap unit="MB">10</heap>
+                <offheap unit="MB">12</offheap>
             </resources>
     </cache>
 </config>
