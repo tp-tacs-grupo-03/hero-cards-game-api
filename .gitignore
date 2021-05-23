@@ -39,3 +39,5 @@ out/
 ### DOCKER ####
 database.env
 database-data/
+prod.env
+

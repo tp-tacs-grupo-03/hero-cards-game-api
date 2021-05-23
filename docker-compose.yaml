@@ -3,6 +3,8 @@ services:
     backend:
         build: .
         image: hero-cards-game-api:1.0
+        env_file:
+            - prod.env
         ports:
             - 8080:8080
         networks:

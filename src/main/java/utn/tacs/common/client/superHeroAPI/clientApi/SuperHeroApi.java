@@ -17,6 +17,12 @@ import java.util.Optional;
 @Scope("singleton")
 public class SuperHeroApi extends ApiClient implements Serializable {
 
+        public SuperHeroApi() {}
+
+        public SuperHeroApi(String token) {
+            super(token);
+        }
+
         private final static Logger log = LoggerFactory.getLogger(SuperHeroApi.class);
 
         @Cacheable(value = "characterCache",key = "#id")

@@ -13,7 +13,8 @@
 * Move to folder `cd hero-cards-game-api` 
 * Build the image `docker-compose build`
 * Run the image `docker-compose up`
-
+* Super Hero API token. Create locally `prod.env` file and add your token 
+in the property `super_hero_api_key`. Example `super_hero_api_key=1231231`
 ### Check the Backend using the following URL
 * [SWAGGER LINK](http://localhost:8080/swagger-ui.html) 
 
