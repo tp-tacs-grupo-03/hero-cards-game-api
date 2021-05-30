@@ -11,6 +11,12 @@ abstract class ApiClient {
     private static final String BASE_URL = "https://superheroapi.com/api/access_token";
     private String access_token = System.getenv("super_hero_api_key");
 
+    public ApiClient() {}
+
+    public ApiClient(String token) {
+        this.access_token = token;
+    }
+
     public <T> ResponseEntity<T> run(String path, Class<T> classReturn) {
         log.debug("ApiClient.run path: " + path);
         final RestTemplate restTemplate = new RestTemplate();
@@ -18,7 +24,12 @@ abstract class ApiClient {
     }
 
     private String url(String path) {
-        return BASE_URL.replace("access_token", access_token == null ? "10226310284967175" : access_token) + "/" + path;
+        if (access_token == null ){
+            final String msg = "SUPER HERO API HAS NO TOKEN in super_hero_api_key variable environment. Please check README file.";
+            log.error(msg);
+            throw new RuntimeException(msg);
+        }
+        return BASE_URL.replace("access_token", access_token) + "/" + path;
     }
 
 }

@@ -5,18 +5,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import utn.tacs.common.client.superHeroAPI.clientApi.SuperHeroApi;
+import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Image;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
-import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
+import utn.tacs.controllers.exceptions.CannotFoundPowerStats;
+import utn.tacs.domain.exceptions.NotFoundCharacter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SuperHeroApiTest {
 
+
     @Test
     public void testGetSuperHeroApiById() {
-        final SuperHeroApi client = new SuperHeroApi();
-        Character response = client.getCharacter("1");
+        final SuperHeroApi client = new SuperHeroApi("10226310284967175");
+        Character response = client.getCharacter("1").orElseThrow(()-> new NotFoundCharacter("1"));
         Assert.notNull(response, "cannot get character");
         checkResponse(response);
     }
@@ -33,7 +36,7 @@ class SuperHeroApiTest {
 
     @Test
     public void testGetImageById() {
-        final SuperHeroApi client = new SuperHeroApi();
+        final SuperHeroApi client = new SuperHeroApi("10226310284967175");
         ResponseEntity<Image> response = client.getImage("1");
         Assert.notNull(response.getBody(), "cannot get image");
         assertEquals(response.getStatusCode(),HttpStatus.OK );
@@ -44,11 +47,8 @@ class SuperHeroApiTest {
 
     @Test
     public void testGetPowerstatsById() {
-        final SuperHeroApi client = new SuperHeroApi();
-        ResponseEntity<Powerstats> response = client.getPowerstats("1").orElseThrow();
-        Assert.notNull(response.getBody(), "cannot get powerstats");
-        assertEquals(response.getStatusCode(),HttpStatus.OK );
-        Powerstats powerstats = response.getBody();
+        final SuperHeroApi client = new SuperHeroApi("10226310284967175");
+        Powerstats powerstats = client.getPowerstats("1").orElseThrow(()-> new CannotFoundPowerStats("1"));
         assertEquals(powerstats.getCombat(),64);
         assertEquals(powerstats.getDurability(),80);
         assertEquals(powerstats.getIntelligence(),38);
@@ -56,6 +56,4 @@ class SuperHeroApiTest {
         assertEquals(powerstats.getStrength(),100);
 
     }
-
-
 }

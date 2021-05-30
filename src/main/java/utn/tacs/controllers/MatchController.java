@@ -9,11 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import utn.tacs.domain.Battle;
 import utn.tacs.dto.battle.BattleModelResponse;
 import utn.tacs.dto.battle.ListBattles;
 import utn.tacs.dto.battle.MatchBattleRequest;
-import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.deck.response.MatchModel;
 import utn.tacs.dto.deck.response.Request;
 import utn.tacs.dto.match.*;
@@ -30,18 +28,10 @@ import java.util.List;
 @RestController
 public class MatchController {
 
-    private MatchesFinder finder;
-    private MatchCardDrawer cardDraw;
-    private MatchesCreator creator;
-    private MatchBattleHandler battle;
-    private final MatchUpdater updater;
+    private MatchService matchService;
 
-    public MatchController(MatchesFinder finder, MatchCardDrawer cardDraw, MatchesCreator creator, MatchBattleHandler battle, MatchUpdater updater) {
-        this.finder = finder;
-        this.cardDraw = cardDraw;
-        this.creator = creator;
-        this.battle = battle;
-        this.updater = updater;
+    public MatchController(MatchService matchService) {
+        this.matchService = matchService;
     }
 
     @GetMapping
@@ -53,7 +43,7 @@ public class MatchController {
                                                   @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
                                                   @RequestParam(value = "sortBy",required = false) String sortField,
                                                   @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
-        return finder.findAll(new MatchPagingRequest(sortField, page, pageSize,sortDirection));
+        return matchService.findAll(new MatchPagingRequest(sortField, page, pageSize,sortDirection));
     }
 
     @GetMapping("/{id}")
@@ -62,7 +52,7 @@ public class MatchController {
             @ApiResponse(code = 200, response = MatchModelResponse.class, message = "La partida")
     })
     public MatchModelResponse getMatch(@PathVariable("id") String id) throws Exception {
-        return finder.find(new MatchFindRequest(id));
+        return matchService.find(new MatchFindRequest(id));
     }
 
     @GetMapping("/{id}/battles")
@@ -72,7 +62,7 @@ public class MatchController {
     })
     public ListBattles getBattles(@PathVariable("id") String id) throws Exception {
         final ListBattles listBattles = new ListBattles();
-        listBattles.setBattles(finder.findBattles(new MatchFindRequest(id)));
+        listBattles.setBattles(matchService.findBattles(new MatchFindRequest(id)));
         return listBattles;
     }
 
@@ -89,7 +79,7 @@ public class MatchController {
         players.add(hostId);
         players.add(matchRequest.getOpponentId());
 
-        return creator.create(new MatchCreateRequest(players, matchRequest.getDeckId()));
+        return matchService.create(new MatchCreateRequest(players, matchRequest.getDeckId()));
     }
 
 
@@ -100,7 +90,7 @@ public class MatchController {
     })
     public BattleModelResponse modifyMatch(@RequestBody Request request, @PathVariable("id") String id ) throws Exception {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return battle.begin(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
+        return matchService.begin(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
     }
 
     @PatchMapping("/{id}")
@@ -114,7 +104,7 @@ public class MatchController {
         matchUpdateRequest.setStatus(request.getStatus());
         matchUpdateRequest.setId(id);
         matchUpdateRequest.setPlayer(auth.getName());
-        updater.update(matchUpdateRequest);
+        matchService.update(matchUpdateRequest);
     }
 
 }

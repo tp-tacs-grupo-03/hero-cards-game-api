@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+    backend:
+        build: .
+        image: hero-cards-game-api:1.0
+        env_file:
+            - prod.env
+        ports:
+            - 8080:8080
+        networks:
+            - backend
+            - backend-database
+    database:
+        container_name: database
+        image: postgres # use latest official postgres version
+        env_file:
+            - database.env # configure postgres
+        volumes:
+            - database-data:/var/lib/postgresql/data/ # persist data even
+        networks:
+            - backend-database
+networks:
+    backend:
+    backend-database:
+volumes:
+    database-data:

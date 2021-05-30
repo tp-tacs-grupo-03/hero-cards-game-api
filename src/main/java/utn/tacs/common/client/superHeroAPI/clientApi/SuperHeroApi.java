@@ -17,21 +17,29 @@ import java.util.Optional;
 @Scope("singleton")
 public class SuperHeroApi extends ApiClient implements Serializable {
 
+        public SuperHeroApi() {}
+
+        public SuperHeroApi(String token) {
+            super(token);
+        }
+
         private final static Logger log = LoggerFactory.getLogger(SuperHeroApi.class);
 
         @Cacheable(value = "characterCache",key = "#id")
-        public Character getCharacter(String id) {
-            ResponseEntity<Character> result = run("/" + id, Character.class);
+        public Optional<Character> getCharacter(String id) {
+            final ResponseEntity<Character> result = run("/" + id, Character.class);
             log.info("character of {} is {}", id, result);
-            return result.getBody();
+            return Optional.ofNullable(result.getBody());
         }
 
         public ResponseEntity<Image> getImage(String id) {
             return run("/" + id + "/image", Image.class);
         }
 
-        public Optional<ResponseEntity<Powerstats>> getPowerstats(String id) {
-            return Optional.ofNullable(run("/" + id + "/powerstats", Powerstats.class));
+        @Cacheable(value = "powerStatsCache",key = "#id")
+        public Optional<Powerstats> getPowerstats(String id) {
+            final ResponseEntity<Powerstats> result = run("/" + id + "/powerstats", Powerstats.class);
+            return Optional.ofNullable(result.getBody());
         }
 
 }
