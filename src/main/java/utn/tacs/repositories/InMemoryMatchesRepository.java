@@ -4,11 +4,13 @@ import org.springframework.stereotype.Service;
 import utn.tacs.domain.Match;
 import utn.tacs.pagination.Page;
 import utn.tacs.pagination.Pageable;
+import utn.tacs.sorting.Sort;
+import utn.tacs.sorting.Sortable;
 
 import java.util.*;
 
 @Service
-public class InMemoryMatchesRepository implements MatchesRepository , Pageable<Match> {
+public class InMemoryMatchesRepository implements MatchesRepository , Pageable<Match>, Sortable {
 
     private HashMap<String, Match> matches = new HashMap<>();
 
@@ -25,8 +27,19 @@ public class InMemoryMatchesRepository implements MatchesRepository , Pageable<M
     }
 
     @Override
-    public List<Match> findAll(Page page) {
-        return getPage(page, new ArrayList<>(matches.values()));
+    public List<Match> findAll(Page page, Sort sort) {
+        final List<Match> sorted=  new ArrayList<>(matches.values());
+        switch (sort.getSortField()) {
+            case ID: sorted.sort(sort.isAsc() ? getComparatorById(): getComparatorById().reversed());
+                break;
+            case DATE: sorted.sort(sort.isAsc() ? getComparatorByDate(): getComparatorByDate().reversed());
+                break;
+            case STATUS: sorted.sort(sort.isAsc() ? getComparatorByStatus(): getComparatorByStatus().reversed());
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + sort.getSortField());
+        }
+        return getPage(page, sorted);
     }
 
     @Override

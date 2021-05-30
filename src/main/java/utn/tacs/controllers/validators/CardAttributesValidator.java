@@ -1,4 +1,4 @@
-package utn.tacs.controllers;
+package utn.tacs.controllers.validators;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

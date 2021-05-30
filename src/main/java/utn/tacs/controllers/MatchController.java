@@ -19,6 +19,7 @@ import utn.tacs.dto.deck.response.Request;
 import utn.tacs.dto.match.*;
 import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.services.*;
+import utn.tacs.sorting.exceptions.SortingException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,11 @@ public class MatchController {
     })
     public ListMatchModelResponse getAllMatches(@RequestParam(value = "offSet",required = false, defaultValue = "0") int offSet,
                                                   @RequestParam(value = "limit",required = false, defaultValue = "100") int limit,
-                                                  @RequestParam(value = "sortBy",required = false) String sortField,
+                                                  @RequestParam(value = "sortBy",required = false, defaultValue = "id") String sortField ,
                                                   @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
         try {
             return matchService.findAll(new MatchPagingRequest(sortField, offSet, limit,sortDirection));
-        } catch (PaginationException e) {
+        } catch (PaginationException | SortingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }

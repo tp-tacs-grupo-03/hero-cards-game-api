@@ -11,11 +11,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import utn.tacs.controllers.exceptions.SomePowerStatsWithoutValueException;
+import utn.tacs.controllers.validators.CardAttributesValidator;
 import utn.tacs.domain.CardId;
 import utn.tacs.dto.deck.*;
 import utn.tacs.pagination.Page;
 import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.services.DeckService;
+import utn.tacs.sorting.Sort;
+import utn.tacs.sorting.exceptions.SortingException;
 
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -50,11 +53,11 @@ public class DeckController {
     })
     public ListDeckModelResponse getAllDecks(@RequestParam(value = "limit", required = false, defaultValue = "100") int limit,
                                                @RequestParam(value = "offSet", required = false, defaultValue = "0") int offSet,
-                                               @RequestParam(value = "sortBy", required = false) String sortField,
+                                               @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortField,
                                                @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
         try {
-            return deckService.findAll(new Page(offSet, limit));
-        } catch (PaginationException e) {
+            return deckService.findAll(new Page(offSet, limit), new Sort(sortField, sortDirection));
+        } catch (SortingException |PaginationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }
