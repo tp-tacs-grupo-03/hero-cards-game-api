@@ -16,8 +16,6 @@ import java.util.stream.Stream;
 @Service
 public class CardAttributesValidator {
 
-    private static final Logger log = LoggerFactory.getLogger(CacheEventLogger.class);
-
     private SuperHeroApi apiClient;
 
     public CardAttributesValidator(SuperHeroApi apiClient) {
