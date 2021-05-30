@@ -9,13 +9,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public abstract class Paging {
 
-    private int page;
-    private int pageSize;
+    private int limit;
+    private int offSet;
     private String sortDirection;
 
-    public Paging(int page, int pageSize, String sortDirection) {
-        this.page = page;
-        this.pageSize = pageSize;
+    public Paging(int offSet, int limit, String sortDirection) {
+        this.offSet = offSet;
+        this.limit = limit;
         this.sortDirection = sortDirection;
     }
 }

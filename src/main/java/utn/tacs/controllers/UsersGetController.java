@@ -20,8 +20,8 @@ public class UsersGetController {
     @ApiResponses({
             @ApiResponse(code = 200, response = UserModelResponse.class, responseContainer = "List", message = "Listado de los jugadores")
     })
-    public ListUserModelResponse getAllPlayers(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                               @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+    public ListUserModelResponse getAllPlayers(@RequestParam(value = "offSet", required = false, defaultValue = "0") int offSet,
+                                               @RequestParam(value = "limit", required = false, defaultValue = "100") int limit,
                                                @RequestParam(value = "sortBy", required = false) String sortField,
                                                @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
         return null;

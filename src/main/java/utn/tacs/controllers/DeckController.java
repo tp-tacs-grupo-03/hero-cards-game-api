@@ -13,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 import utn.tacs.controllers.exceptions.SomePowerStatsWithoutValueException;
 import utn.tacs.domain.CardId;
 import utn.tacs.dto.deck.*;
+import utn.tacs.pagination.Page;
+import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.services.DeckService;
 
 import java.util.HashMap;
@@ -46,11 +48,15 @@ public class DeckController {
     @ApiResponses({
             @ApiResponse(code = 200, response = ListDeckModelResponse.class, message = "Listado de los decks")
     })
-    public ListDeckModelResponse getAllDecks(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                               @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+    public ListDeckModelResponse getAllDecks(@RequestParam(value = "limit", required = false, defaultValue = "100") int limit,
+                                               @RequestParam(value = "offSet", required = false, defaultValue = "0") int offSet,
                                                @RequestParam(value = "sortBy", required = false) String sortField,
                                                @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
-        return deckService.findAll();
+        try {
+            return deckService.findAll(new Page(offSet, limit));
+        } catch (PaginationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
     }
 
     @GetMapping("/{id}")

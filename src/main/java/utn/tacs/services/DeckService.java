@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Deck;
 import utn.tacs.dto.deck.*;
+import utn.tacs.pagination.Page;
 import utn.tacs.repositories.DecksRepository;
 
 import java.util.List;
@@ -28,8 +29,8 @@ public class DeckService {
                 .orElseThrow(() -> new Exception("Deck no encontrado"));
     }
 
-    public ListDeckModelResponse findAll() {
-        final List<Deck> decks = repository.findAll();
+    public ListDeckModelResponse findAll(Page page) {
+        final List<Deck> decks = repository.findAll(page);
         final ListDeckModelResponse listDeckModelResponse = new ListDeckModelResponse();
         listDeckModelResponse.setDeckModelResponses(decks.stream()
                 .map(deck -> new DeckModelResponse(deck.getCardIds(), deck.getId(), deck.getName()))

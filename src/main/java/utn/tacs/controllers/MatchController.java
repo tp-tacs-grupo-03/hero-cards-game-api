@@ -4,17 +4,20 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import utn.tacs.dto.battle.BattleModelResponse;
 import utn.tacs.dto.battle.ListBattles;
 import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.deck.response.MatchModel;
 import utn.tacs.dto.deck.response.Request;
 import utn.tacs.dto.match.*;
+import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.services.*;
 
 import java.util.ArrayList;
@@ -39,11 +42,15 @@ public class MatchController {
     @ApiResponses({
             @ApiResponse(code = 200, response = ListMatchModelResponse.class, message = "Las partidas")
     })
-    public ListMatchModelResponse getAllMatches(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
-                                                  @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
+    public ListMatchModelResponse getAllMatches(@RequestParam(value = "offSet",required = false, defaultValue = "0") int offSet,
+                                                  @RequestParam(value = "limit",required = false, defaultValue = "100") int limit,
                                                   @RequestParam(value = "sortBy",required = false) String sortField,
                                                   @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
-        return matchService.findAll(new MatchPagingRequest(sortField, page, pageSize,sortDirection));
+        try {
+            return matchService.findAll(new MatchPagingRequest(sortField, offSet, limit,sortDirection));
+        } catch (PaginationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
     }
 
     @GetMapping("/{id}")
