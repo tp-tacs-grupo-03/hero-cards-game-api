@@ -14,7 +14,6 @@ import utn.tacs.domain.CardId;
 @Slf4j
 @RequestMapping("api/cards")
 @Api(tags = "Cards")
-@CrossOrigin("*")
 @RestController
 public class CardController {
 
