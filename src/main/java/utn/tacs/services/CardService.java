@@ -10,6 +10,7 @@ import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
 import utn.tacs.dto.deck.response.CardDataModel;
 import utn.tacs.repositories.CardsRepository;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Slf4j
@@ -25,7 +26,7 @@ public class CardService {
         this.repository = repository;
     }
 
-    public CardModelResponse find(CardFindRequest cardFindRequest){
+    public CardModelResponse find(CardFindRequest cardFindRequest) throws URISyntaxException {
         final String id = cardFindRequest.getCardId().getId();
         final Character character = apiClient.getCharacter(id).orElseThrow(()-> new NotFoundCharacter(id));
         final CardModelResponse response = new CardModelResponse(cardFindRequest.getCardId().getId());

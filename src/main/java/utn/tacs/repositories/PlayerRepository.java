@@ -10,6 +10,4 @@ public interface PlayerRepository {
 
     List<Player> findAll(Page page, Sort sort);
 
-    void save(Player player);
-
 }

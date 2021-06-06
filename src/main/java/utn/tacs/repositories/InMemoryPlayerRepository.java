@@ -31,9 +31,4 @@ public class InMemoryPlayerRepository implements PlayerRepository , Pageable<Pla
         return getPage(page,sorted);
     }
 
-    @Override
-    public void save(Player player) {
-        players.put(player.getId(), player);
-    }
-
 }

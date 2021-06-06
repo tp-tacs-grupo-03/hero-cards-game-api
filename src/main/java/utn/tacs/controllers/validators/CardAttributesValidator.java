@@ -9,6 +9,7 @@ import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
 import utn.tacs.controllers.exceptions.CannotFoundPowerStats;
 import utn.tacs.controllers.exceptions.SomePowerStatsWithoutValueException;
 
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -26,7 +27,7 @@ public class CardAttributesValidator {
         Supplier<Stream<Powerstats>> streamSupplier  = () ->  cards.parallelStream().map(cardId -> {
             try {
                 return apiClient.getPowerstats(cardId).orElseThrow(() -> new CannotFoundPowerStats(cardId));
-            } catch(CannotFoundPowerStats e){
+            } catch(CannotFoundPowerStats | URISyntaxException e){
                 return new Powerstats();
             }
         });
