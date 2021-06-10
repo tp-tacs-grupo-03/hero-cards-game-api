@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.deck.response.MatchStatusEnum;
+import utn.tacs.sorting.DateComparable;
+import utn.tacs.sorting.IdComparable;
+import utn.tacs.sorting.StatusComparable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,7 +15,8 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Match {
+public class Match implements IdComparable, DateComparable, StatusComparable {
+
     private String id;
     private Map<String, Queue<CardId>> players;
     private String deck;
@@ -78,5 +82,10 @@ public class Match {
 
     public boolean isPlayer(String player) {
         return this.players.containsKey(player);
+    }
+
+    @Override
+    public long getDate() {
+        return this.creationDate.getTime();
     }
 }

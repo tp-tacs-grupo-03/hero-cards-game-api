@@ -3,6 +3,8 @@ package utn.tacs.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import utn.tacs.sorting.IdComparable;
+import utn.tacs.sorting.NameComparable;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -12,7 +14,7 @@ import java.util.Queue;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Deck {
+public class Deck implements IdComparable, NameComparable {
 
     private String id;
     private List<CardId> cardIds;

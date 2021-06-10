@@ -11,8 +11,12 @@ import utn.tacs.dto.battle.BattleModelResponse;
 import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.match.*;
+import utn.tacs.pagination.Page;
+import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.repositories.DecksRepository;
 import utn.tacs.repositories.MatchesRepository;
+import utn.tacs.sorting.Sort;
+import utn.tacs.sorting.exceptions.SortingException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -75,8 +79,8 @@ public class MatchService {
         return matchesRepository.find(matchFindRequest.getMatchId()).orElseThrow(()->new Exception("No hay match con ese id")).getBattles();
     }
 
-    public ListMatchModelResponse findAll(MatchPagingRequest matchPagingRequest){
-        final List<Match> matches = matchesRepository.findAll();
+    public ListMatchModelResponse findAll(MatchPagingRequest req) throws PaginationException, SortingException {
+        final List<Match> matches = matchesRepository.findAll(new Page(req.getOffSet(), req.getLimit()),  new Sort(req.getField(), req.getSortDirection()));
         final ListMatchModelResponse listMatchModelResponse = new ListMatchModelResponse();
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String player = auth.getName();

@@ -1,6 +1,5 @@
 package utn.tacs.controllers;
 
-import com.google.common.collect.Range;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -9,12 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import utn.tacs.dto.deck.response.ListPlayerStatsModel;
 import utn.tacs.dto.deck.response.PlayerStatsModel;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -38,12 +32,12 @@ public class StatsGetController {
     @ApiResponses({
             @ApiResponse(code = 200, response = ListPlayerStatsModel.class, message = "Tablero de posiciones")
     })
-    public ListPlayerStatsModel getLeadderboard(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
-                                                @RequestParam(value = "pageSize",required = false, defaultValue = "10") int pageSize,
+    public ListPlayerStatsModel getLeadderboard(@RequestParam(value = "offSet",required = false, defaultValue = "0") int offSet,
+                                                @RequestParam(value = "limit",required = false, defaultValue = "100") int limit,
                                                 @RequestParam(value = "sortBy",required = false) String sortField,
                                                 @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
         //TODO implementar la llamada a servicios para obtener los leadderboards
-        ListPlayerStatsModel stats = new ListPlayerStatsModel();
+        final ListPlayerStatsModel stats = new ListPlayerStatsModel();
         int randomNum = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
         List<Integer> collect = IntStream.range(0, 10000).boxed().collect(Collectors.toList());
         collect.forEach(i -> {

@@ -11,6 +11,8 @@ import utn.tacs.dto.card.CardFindRequest;
 import utn.tacs.services.CardService;
 import utn.tacs.domain.CardId;
 
+import java.net.URISyntaxException;
+
 @Slf4j
 @RequestMapping("api/cards")
 @Api(tags = "Cards")
@@ -28,7 +30,7 @@ public class CardController {
     @ApiResponses({
             @ApiResponse(code = 200, response = CardModelResponse.class, message = "Carta correspondiente a ese id")
     })
-    public CardModelResponse getCard(@PathVariable("id") String id) {
+    public CardModelResponse getCard(@PathVariable("id") String id) throws URISyntaxException {
         return finder.find(new CardFindRequest(new CardId(id)));
     }
 
