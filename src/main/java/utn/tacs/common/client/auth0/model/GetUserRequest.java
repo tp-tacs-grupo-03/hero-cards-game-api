@@ -16,12 +16,14 @@ public class GetUserRequest {
     private String field;
     private String sortDirection;
     private String key;
+    private String filterName;
 
-    public GetUserRequest(int page, String asc,String field) {
+    public GetUserRequest(int page, String asc, String field, String filterName) {
         this.page = "" + page;
         this.sortDirection = asc.toUpperCase().equals("ASC") ? ":1" : ":-1";
         this.field = field.toUpperCase().equals(SortField.NAME.name()) ? "nickname" :  "user_id";
         this.key = this.page + "-" + this.field + "-" + this.sortDirection;
+        this.filterName = filterName;
     }
 
     public String getSortQueryParam() {

@@ -29,15 +29,16 @@ public class PlayerController {
     }
 
     @GetMapping
-    @ApiOperation(value = "Get all players")
+    @ApiOperation(value = "Get players")
     @ApiResponses({
             @ApiResponse(code = 200, response = ListDeckModelResponse.class, message = "Player lists")
     })
     public ListPlayerModelResponse getAllPlayers(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                  @RequestParam(value = "sortBy", required = false, defaultValue = "name") String sortField,
+                                                 @RequestParam(value = "name", required = false, defaultValue = "") String filterName,
                                                  @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
         try {
-            return playerService.findAll(page, new Sort(sortField, sortDirection));
+            return playerService.findAll(page, new Sort(sortField, sortDirection), filterName);
         } catch (SortingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         } catch (CannotGetPlayers pe) {

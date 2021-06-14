@@ -26,7 +26,7 @@ class Auth0ApiTest {
         final Auth0Api client = new Auth0Api().setClientId("hmiOl6U2PyonXcjGX0VVr3qCTAe1TCmh")
                 .setClientSecret("JF0ZF571Jyau0-qrZlSdDqTjbCRPzjQl0QRcW3Pr8syvuWJEyYnRY5ZighMK2RCP")
                 .setAudience("https://dev-jx8fysvq.us.auth0.com/api/v2/");
-        final User[] response = client.getUsers(new GetUserRequest(1, "name", "asc")).orElseThrow(() -> new CannotFoundUsers("1"));
+        final User[] response = client.getUsers(new GetUserRequest(1, "name", "asc", "")).orElseThrow(() -> new CannotFoundUsers("1"));
         Assert.notNull(response, "cannot get users");
     }
 }
