@@ -15,7 +15,7 @@ public interface DecksRepository {
 
     void delete(String id);
 
-    void save(Deck deck);
+    Deck save(Deck deck);
 
     void update(Deck deck);
 

@@ -31,7 +31,7 @@ public class SuperHeroApi extends ApiClient implements Serializable {
     }
 
     public String getAccessToken() {
-        return token != null ? token: System.getenv("super_hero_api_key");
+        return token != null ? token: "3848385738531679";
     }
 
     public String getBaseURL() {

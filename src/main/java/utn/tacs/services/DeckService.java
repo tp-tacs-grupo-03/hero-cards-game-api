@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class DeckService {
 
-    private DecksRepository repository;
+    private final DecksRepository repository;
 
     public DeckService(DecksRepository repository) {
         this.repository = repository;

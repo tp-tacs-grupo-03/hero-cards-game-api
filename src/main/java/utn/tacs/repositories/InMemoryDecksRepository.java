@@ -10,7 +10,7 @@ import utn.tacs.sorting.Sortable;
 import java.util.*;
 
 
-@Service
+
 public class InMemoryDecksRepository implements DecksRepository , Pageable<Deck> , Sortable {
 
     private HashMap<String, Deck> decks = new HashMap<>();
@@ -40,9 +40,10 @@ public class InMemoryDecksRepository implements DecksRepository , Pageable<Deck>
     }
 
     @Override
-    public void save(Deck deck) {
+    public Deck save(Deck deck) {
         deck.setId(UUID.randomUUID().toString());
         decks.put(deck.getId(), deck);
+        return deck;
     }
 
     @Override
