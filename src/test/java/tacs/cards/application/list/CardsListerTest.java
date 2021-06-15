@@ -1,7 +1,7 @@
 package tacs.cards.application.list;
 
 import org.junit.jupiter.api.Test;
-import utn.tacs.repositories.CardsRepository;
+import utn.tacs.domain.repositories.CardsRepository;
 import utn.tacs.services.CardService;
 
 import static org.mockito.Mockito.*;

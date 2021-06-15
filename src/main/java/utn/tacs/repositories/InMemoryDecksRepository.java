@@ -1,7 +1,7 @@
 package utn.tacs.repositories;
 
-import org.springframework.stereotype.Service;
 import utn.tacs.domain.Deck;
+import utn.tacs.domain.repositories.DecksRepository;
 import utn.tacs.pagination.Page;
 import utn.tacs.pagination.Pageable;
 import utn.tacs.sorting.Sort;
@@ -11,7 +11,7 @@ import java.util.*;
 
 
 
-public class InMemoryDecksRepository implements DecksRepository , Pageable<Deck> , Sortable {
+public class InMemoryDecksRepository implements DecksRepository, Pageable<Deck> , Sortable {
 
     private HashMap<String, Deck> decks = new HashMap<>();
 

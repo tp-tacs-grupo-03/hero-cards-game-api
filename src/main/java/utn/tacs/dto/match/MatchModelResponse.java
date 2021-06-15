@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import utn.tacs.domain.Battle;
 import utn.tacs.domain.Match;
-import utn.tacs.dto.deck.response.MatchStatusEnum;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,6 +1,6 @@
 package utn.tacs.sorting;
 
-import utn.tacs.dto.deck.response.MatchStatusEnum;
+import utn.tacs.dto.match.MatchStatusEnum;
 
 public interface StatusComparable {
 

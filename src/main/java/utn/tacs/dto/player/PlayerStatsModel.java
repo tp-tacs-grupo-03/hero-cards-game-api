@@ -1,4 +1,4 @@
-package utn.tacs.dto.deck.response;
+package utn.tacs.dto.player;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +16,10 @@ public class PlayerStatsModel {
     private int wonMatches;
     private int lostMatches;
 
-    public PlayerStatsModel(String s, int i, int i1, int i2) {
-        this.playerID = s;
-        this.playedMatches = i;
-        this.wonMatches = i1;
-        this.lostMatches = i2;
+    public PlayerStatsModel(String playerID, int playedMatches, int wonMatches, int lostMatches) {
+        this.playerID = playerID;
+        this.playedMatches = playedMatches;
+        this.wonMatches = wonMatches;
+        this.lostMatches = lostMatches;
     }
 }

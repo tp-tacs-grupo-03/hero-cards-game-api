@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.dto.deck.response.ListPlayerStatsModel;
-import utn.tacs.dto.deck.response.PlayerStatsModel;
+import utn.tacs.dto.player.PlayerStatsModel;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

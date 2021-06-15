@@ -1,4 +1,4 @@
-package utn.tacs.repositories;
+package utn.tacs.domain.repositories;
 
 import utn.tacs.domain.Match;
 import utn.tacs.pagination.Page;

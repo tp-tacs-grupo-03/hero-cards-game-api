@@ -2,6 +2,7 @@ package utn.tacs.repositories;
 
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.Player;
+import utn.tacs.domain.repositories.PlayerRepository;
 import utn.tacs.pagination.Page;
 import utn.tacs.pagination.Pageable;
 import utn.tacs.sorting.Sort;
@@ -13,7 +14,7 @@ import java.util.List;
 
 
 @Service
-public class InMemoryPlayerRepository implements PlayerRepository , Pageable<Player> , Sortable {
+public class InMemoryPlayerRepository implements PlayerRepository, Pageable<Player> , Sortable {
 
     private HashMap<String, Player> players = new HashMap<>();
 

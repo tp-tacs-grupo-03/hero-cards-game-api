@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.Deck;
+import utn.tacs.domain.repositories.DecksRepository;
 import utn.tacs.pagination.Page;
 import utn.tacs.sorting.Sort;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Service
 public class MongoDecksRepository implements DecksRepository {
     private final MongoOperations mongoOperations;
+    private final String collectionName = "Decks";
 
     public MongoDecksRepository(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
@@ -22,32 +24,31 @@ public class MongoDecksRepository implements DecksRepository {
 
     @Override
     public List<Deck> findAll(Page page, Sort sort) {
-        return mongoOperations.findAll(Deck.class, "test");
+        return mongoOperations.findAll(Deck.class, collectionName);
     }
 
     @Override
     public Optional<Deck> find(String id) {
-        return Optional.ofNullable(mongoOperations.findOne(new Query(Criteria.where("id").is(id)), Deck.class, "test"));
+        return Optional.ofNullable(mongoOperations.findOne(new Query(Criteria.where("id").is(id)), Deck.class, collectionName));
     }
 
     @Override
     public void delete(String id) {
-        mongoOperations.remove(new Query(Criteria.where("id").is(id)), Deck.class, "test");
+        mongoOperations.remove(new Query(Criteria.where("id").is(id)), Deck.class, collectionName);
     }
 
     @Override
     public Deck save(Deck deck) {
-        System.out.println("Hola");
-        return mongoOperations.save(deck, "test");
+        return mongoOperations.save(deck, collectionName);
     }
 
     @Override
     public void update(Deck deck) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").is("Alex"));
+        query.addCriteria(Criteria.where("id").is(deck.getId()));
         Update update = new Update();
         update.set("cardIds", deck.getCardIds());
         update.set("name", deck.getName());
-        mongoOperations.updateFirst(query, update, Deck.class);
+        mongoOperations.updateFirst(query, update, Deck.class, collectionName);
     }
 }

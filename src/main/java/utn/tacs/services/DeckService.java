@@ -5,7 +5,7 @@ import utn.tacs.domain.CardId;
 import utn.tacs.domain.Deck;
 import utn.tacs.dto.deck.*;
 import utn.tacs.pagination.Page;
-import utn.tacs.repositories.DecksRepository;
+import utn.tacs.domain.repositories.DecksRepository;
 import utn.tacs.sorting.Sort;
 
 import java.util.List;

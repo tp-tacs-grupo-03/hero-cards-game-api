@@ -1,6 +1,7 @@
 package utn.tacs.repositories;
 
 import org.springframework.stereotype.Service;
+import utn.tacs.domain.repositories.CardsRepository;
 import utn.tacs.dto.deck.response.CardDataModel;
 
 import java.util.ArrayList;
