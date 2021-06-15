@@ -29,6 +29,7 @@ import java.util.List;
 @RequestMapping("api/matches")
 @Api(tags = "Matches")
 @RestController
+@CrossOrigin("*")
 public class MatchController {
 
     private MatchService matchService;
