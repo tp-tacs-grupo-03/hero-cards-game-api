@@ -15,5 +15,5 @@ public class User implements Serializable {
 
     private String nickname;
     private String user_id;
-
+    private String picture;
 }

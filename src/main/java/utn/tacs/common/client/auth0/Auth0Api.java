@@ -86,6 +86,28 @@ public class Auth0Api extends ApiClient implements Serializable {
         return Optional.ofNullable(result.getBody());
     }
 
+
+    public Optional<User> getUserInfo(String id) throws CannotGetUser {
+        final String url = url("/api/v2/users/" + id);
+        System.out.println(url);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        Optional<Token> token = getToken();
+        if(token.isEmpty()) {
+            throw new CannotGetUser("Cannot get token to get users");
+        }
+        headers.setBearerAuth(token.get().getAccess_token());
+        final ResponseEntity<User> result;
+        try {
+            result = run(url, User.class, headers);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            throw new CannotGetUser("Cannot get users");
+        }
+        return Optional.ofNullable(result.getBody());
+    }
+
     private String url(String path) {
         return getBaseURL() + path;
     }
