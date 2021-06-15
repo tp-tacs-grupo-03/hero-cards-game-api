@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import utn.tacs.common.client.auth0.model.User;
 import utn.tacs.dto.deck.ListDeckModelResponse;
 import utn.tacs.dto.deck.ListPlayerModelResponse;
 import utn.tacs.pagination.Page;
@@ -46,4 +47,17 @@ public class PlayerController {
         }
     }
 
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Get username by id")
+    @ApiResponses({
+            @ApiResponse(code = 200, response = ListDeckModelResponse.class, message = "Username by id")
+    })
+    public User getUsernameByID(@PathVariable("id") String id) {
+        try {
+            return playerService.findUserById(id);
+        }
+        catch (CannotGetPlayers pe) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, pe.getMessage(), pe);
+        }
+    }
 }

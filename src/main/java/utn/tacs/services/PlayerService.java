@@ -46,4 +46,17 @@ public class PlayerService {
         return list;
     }
 
+    public User findUserById(String id) throws CannotGetPlayers {
+        User user;
+        try{
+            user = auth0Api.getUserInfo(id).orElseThrow(() -> new CannotGetUser("Cannot get users"));
+        }
+        catch (CannotGetUser e) {
+            log.debug(e.getMessage());
+            throw new CannotGetPlayers("Cannot get players");
+        }
+        System.out.println(user);
+        return user;
+    }
+
 }
