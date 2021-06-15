@@ -66,7 +66,7 @@ public class Auth0Api extends ApiClient implements Serializable {
     public Optional<User[]> getUsers(GetUserRequest req) throws CannotGetUser {
         final String sortQueryParam = req.getSortQueryParam();
         final String filterName = "*" + req.getFilterName() + "*";
-        final String url = url("/api/v2/users?page=" + req.getPage() + "&" + sortQueryParam + "&q=name:" + filterName);
+        final String url = url("/api/v2/users?page=" + req.getPage() + "&" + sortQueryParam + "&q=nickname:" + filterName);
         System.out.println(url);        
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

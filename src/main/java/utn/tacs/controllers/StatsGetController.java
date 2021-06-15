@@ -16,6 +16,7 @@ import java.util.stream.IntStream;
 @RequestMapping("api/stats")
 @Api(tags = "Stats")
 @RestController
+@CrossOrigin("*")
 public class StatsGetController {
 
     @GetMapping("/matches")

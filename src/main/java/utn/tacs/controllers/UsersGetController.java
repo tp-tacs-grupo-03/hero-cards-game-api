@@ -4,16 +4,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import utn.tacs.dto.deck.response.ListUserModelResponse;
 import utn.tacs.dto.deck.response.UserModelResponse;
 
 @RequestMapping("api/users")
 @Api(tags = "Users")
 @RestController
+@CrossOrigin("*")
 public class UsersGetController {
     @GetMapping
     @ApiOperation(value = "Obtener todos los usuarios")
