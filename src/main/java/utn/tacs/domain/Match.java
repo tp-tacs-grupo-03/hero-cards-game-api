@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class Match implements IdComparable, DateComparable, StatusComparable {
 
-    @Id
     private String id;
     private Map<String, Queue<CardId>> players;
     private String deck;

@@ -55,7 +55,8 @@ public class StatsGetController {
     @ApiResponses({
             @ApiResponse(code = 200, response = PlayerStatsModel.class, message = "Estadisticas de un usuario")
     })
-    public PlayerStatsModel getRecord(@PathVariable("userId") String userId) throws Exception {
-        return statsService.find(userId);
+    public PlayerStatsModel getRecord(@PathVariable("userId") String userId) {
+        System.out.println(userId.replace("%7C", "|"));
+        return statsService.find(userId.replace("%7C", "|"));
     }
 }

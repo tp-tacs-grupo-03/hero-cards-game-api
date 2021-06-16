@@ -30,8 +30,8 @@ public class StatsService {
         this.matchesRepository = matchesRepository;
     }
 
-    public PlayerStatsModel find(String userId) throws Exception {
-        return PlayerStatsModel.toPlayerStatsModel(usersStatsRepository.find(userId).orElseThrow(()-> new Exception("Usuario no encontrado")));
+    public PlayerStatsModel find(String userId) {
+        return PlayerStatsModel.toPlayerStatsModel(usersStatsRepository.find(userId).orElse(new PlayerStats(userId)));
     }
 
     public List<PlayerStatsModel> findAll() {
@@ -40,8 +40,8 @@ public class StatsService {
 
     public MatchStatsModel findMatches(String initDate, String finishDate) throws Exception {
         List<Match> matches = matchesRepository.findAll();
-        Date init = new SimpleDateFormat("dd/MM/yyyy").parse(initDate);
-        Date finish = new SimpleDateFormat("dd/MM/yyyy").parse(finishDate);
+        Date init = new SimpleDateFormat("yyyy/MM/dd").parse(initDate);
+        Date finish = new SimpleDateFormat("yyyy/MM/dd").parse(finishDate);
         MatchStatsModel matchStatsModel = new MatchStatsModel();
         List<Match> matchesInDate = matches.stream().filter(match -> match.getCreationDate().after(init) && match.getCreationDate().before(finish)).collect(Collectors.toList());
         matchStatsModel.setCreatedMatches(matchesInDate.size());
@@ -69,7 +69,7 @@ public class StatsService {
                 .keySet()
                 .stream()
                 .filter(player -> !player.equals(matchUpdateRequest.getPlayer()))
-                .map(PlayerStats::new)
+                .map(player -> usersStatsRepository.find(player).orElseThrow())
                 .map(PlayerStats::incrementWin)
                 .forEach(usersStatsRepository::update);
     }

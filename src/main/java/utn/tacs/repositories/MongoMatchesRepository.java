@@ -4,14 +4,18 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Service;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.MatchesRepository;
+import utn.tacs.dto.match.MatchPersistModel;
 import utn.tacs.pagination.Page;
 import utn.tacs.sorting.Sort;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Service
 public class MongoMatchesRepository implements MatchesRepository {
 
     private final MongoOperations mongoOperations;
@@ -23,17 +27,17 @@ public class MongoMatchesRepository implements MatchesRepository {
 
     @Override
     public void save(Match match) {
-        mongoOperations.save(match, collectionName);
+        mongoOperations.save(MatchPersistModel.toMatchPersistModel(match), collectionName);
     }
 
     @Override
     public Optional<Match> find(String id) {
-        return Optional.ofNullable(mongoOperations.findOne(new Query(Criteria.where("id").is(id)), Match.class, collectionName));
+        return Optional.ofNullable(MatchPersistModel.toMatch(mongoOperations.findOne(new Query(Criteria.where("id").is(id)), MatchPersistModel.class, collectionName)));
     }
 
     @Override
     public List<Match> findAll(Page page, Sort sort) {
-        return mongoOperations.findAll(Match.class, collectionName);
+        return mongoOperations.findAll(MatchPersistModel.class, collectionName).stream().map(MatchPersistModel::toMatch).collect(Collectors.toList());
     }
 
     @Override
@@ -47,11 +51,11 @@ public class MongoMatchesRepository implements MatchesRepository {
         update.set("endDate", match.getEndDate());
         update.set("winnerID", match.getWinnerID());
         update.set("battles", match.getBattles());
-        mongoOperations.updateFirst(query, update, Match.class, collectionName);
+        mongoOperations.updateFirst(query, update, MatchPersistModel.class, collectionName);
     }
 
     @Override
     public List<Match> findAll() {
-        return mongoOperations.findAll(Match.class, collectionName);
+        return mongoOperations.findAll(MatchPersistModel.class, collectionName).stream().map(MatchPersistModel::toMatch).collect(Collectors.toList());
     }
 }
