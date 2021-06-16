@@ -86,8 +86,7 @@ public class MatchController {
         final List<String> players = new ArrayList<>();
         players.add(hostId);
         players.add(matchRequest.getOpponentId());
-        MatchCreateRequest matchCreateRequest = new MatchCreateRequest(players, matchRequest.getDeckId(), hostId);
-        return matchService.create(matchCreateRequest);
+        return matchService.create(new MatchCreateRequest(players, matchRequest.getDeckId(), hostId));
     }
 
 
