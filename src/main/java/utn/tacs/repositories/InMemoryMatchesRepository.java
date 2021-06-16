@@ -10,7 +10,7 @@ import utn.tacs.sorting.Sortable;
 
 import java.util.*;
 
-@Service
+
 public class InMemoryMatchesRepository implements MatchesRepository, Pageable<Match>, Sortable {
 
     private HashMap<String, Match> matches = new HashMap<>();

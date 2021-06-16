@@ -86,6 +86,8 @@ public class MatchService {
 
     public void update(MatchUpdateRequest matchUpdateRequest) throws Exception {
         final Match match = matchesRepository.find(matchUpdateRequest.getId()).orElseThrow(()-> new Exception("No hay match con ese id"));
+        if (match.getStatus().equals(MatchStatusEnum.CANCELED))
+            throw new Exception("Match ya surrendeado");
         match.surrender(matchUpdateRequest.getPlayer());
         matchesRepository.update(match);
         statsService.process_surrender(matchUpdateRequest, match);
