@@ -17,6 +17,7 @@ public abstract class ApiClient {
 
     public <T> ResponseEntity<T> run(String path, Class<T> classReturn, HttpHeaders headers) throws URISyntaxException {
         log.debug("ApiClient.run path: " + path);
+        path = path.replaceFirst("\\|","%7C");
         final URI uri = new URI(path);
         final RestTemplate restTemplate = new RestTemplate();
         final HttpEntity<T> requestEntity = new HttpEntity<>(null, headers);

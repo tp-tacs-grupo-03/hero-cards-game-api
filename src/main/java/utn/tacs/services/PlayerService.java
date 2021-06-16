@@ -28,10 +28,10 @@ public class PlayerService {
         this.auth0Api = auth0Api;
     }
 
-    public ListPlayerModelResponse findAll(int page, Sort sort) throws CannotGetPlayers {
+    public ListPlayerModelResponse findAll(int page, Sort sort, String filterName) throws CannotGetPlayers {
         User[] users;
         try {
-            final GetUserRequest getUserRequest = new GetUserRequest(page, sort.isAsc() ? "asc": "desc", sort.getSortField().name());
+            final GetUserRequest getUserRequest = new GetUserRequest(page, sort.isAsc() ? "asc": "desc", sort.getSortField().name(), filterName);
             users = auth0Api.getUsers(getUserRequest).orElseThrow(() -> new CannotGetUser("Cannot get users"));
         } catch (CannotGetUser e) {
             log.debug(e.getMessage());
@@ -44,6 +44,19 @@ public class PlayerService {
                 .map(deck -> new PlayerModelResponse(deck.getId(), deck.getName()))
                 .collect(Collectors.toList()));
         return list;
+    }
+
+    public User findUserById(String id) throws CannotGetPlayers {
+        User user;
+        try{
+            user = auth0Api.getUserInfo(id).orElseThrow(() -> new CannotGetUser("Cannot get users"));
+        }
+        catch (CannotGetUser e) {
+            log.debug(e.getMessage());
+            throw new CannotGetPlayers("Cannot get players");
+        }
+        System.out.println(user);
+        return user;
     }
 
 }
