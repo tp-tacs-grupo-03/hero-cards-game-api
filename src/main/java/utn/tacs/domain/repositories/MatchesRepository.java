@@ -16,4 +16,6 @@ public interface MatchesRepository {
     List<Match> findAll(Page page, Sort sort);
 
     void update(Match match);
+
+    List<Match> findAll();
 }

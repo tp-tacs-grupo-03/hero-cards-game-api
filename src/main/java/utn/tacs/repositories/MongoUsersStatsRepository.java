@@ -40,4 +40,9 @@ public class MongoUsersStatsRepository implements UsersStatsRepository {
     public void update(PlayerStats player) {
 
     }
+
+    @Override
+    public List<PlayerStats> findAll() {
+        return mongoOperations.findAll(PlayerStats.class, collectionName);
+    }
 }

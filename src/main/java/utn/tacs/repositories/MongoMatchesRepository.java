@@ -49,4 +49,9 @@ public class MongoMatchesRepository implements MatchesRepository {
         update.set("battles", match.getBattles());
         mongoOperations.updateFirst(query, update, Match.class, collectionName);
     }
+
+    @Override
+    public List<Match> findAll() {
+        return mongoOperations.findAll(Match.class, collectionName);
+    }
 }

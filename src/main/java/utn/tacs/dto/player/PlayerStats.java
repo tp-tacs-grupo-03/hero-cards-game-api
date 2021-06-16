@@ -22,6 +22,10 @@ public class PlayerStats {
         this.inProgressMatch = 0;
     }
 
+    int getTotalMatches(){
+        return wonMatches + lostMatches + surrenderedMatches + inProgressMatch;
+    }
+
     public PlayerStats incrementWin(){
         wonMatches++;
         inProgressMatch--;

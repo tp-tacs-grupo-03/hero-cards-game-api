@@ -33,7 +33,6 @@ import java.util.List;
 public class MatchController {
 
     private MatchService matchService;
-    private Stats stats;
 
     public MatchController(MatchService matchService) {
         this.matchService = matchService;
@@ -88,8 +87,7 @@ public class MatchController {
         players.add(hostId);
         players.add(matchRequest.getOpponentId());
         MatchCreateRequest matchCreateRequest = new MatchCreateRequest(players, matchRequest.getDeckId(), hostId);
-        MatchModelResponse matchModelResponse = matchService.create(matchCreateRequest);
-        return matchModelResponse;
+        return matchService.create(matchCreateRequest);
     }
 
 

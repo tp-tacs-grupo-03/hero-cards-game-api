@@ -60,7 +60,6 @@ public class Match implements IdComparable, DateComparable, StatusComparable {
         if (cardLeft() == 0){
             this.winnerID = Collections.max(wins().entrySet(), Comparator.comparingLong(Map.Entry::getValue)).getKey();
             this.status = MatchStatusEnum.FINISHED;
-            new Stats().process_win(winnerID, players);
         }
     }
 

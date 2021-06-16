@@ -9,7 +9,12 @@ import java.util.Optional;
 public interface UsersStatsRepository {
 
     void save(PlayerStats userId);
+
     Optional<PlayerStats> find(String userId);
+
     void saveAll(List<PlayerStats> players);
+
     void update(PlayerStats player);
+
+    List<PlayerStats> findAll();
 }

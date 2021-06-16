@@ -22,12 +22,12 @@ public class MatchService {
 
     private MatchesRepository matchesRepository;
     private DecksRepository decksRepository;
-    private final Stats stats;
+    private final StatsService statsService;
 
-    public MatchService(MatchesRepository matchesRepository, DecksRepository decksRepository, Stats stats) {
+    public MatchService(MatchesRepository matchesRepository, DecksRepository decksRepository, StatsService statsService) {
         this.matchesRepository = matchesRepository;
         this.decksRepository = decksRepository;
-        this.stats = stats;
+        this.statsService = statsService;
     }
 
     public BattleModelResponse begin(MatchBattleRequest matchBattleRequest) throws Exception {
@@ -36,6 +36,8 @@ public class MatchService {
             throw new Exception("Match finalizado");
         final Battle battle = match.battle(matchBattleRequest);
         matchesRepository.update(match);
+        if (match.getStatus().equals(MatchStatusEnum.FINISHED))
+            statsService.process_win(match.getWinnerID(), match.getPlayers());
         return new BattleModelResponse(battle.getAttribute(), battle.getPlayers(), battle.getWinner());
     }
 
@@ -51,7 +53,7 @@ public class MatchService {
 
         final Match match = new Match(players, matchCreateRequest.getDeck(), new Date());
         matchesRepository.save(match);
-        stats.process_create(matchCreateRequest);
+        statsService.process_create(matchCreateRequest);
         return MatchModelResponse.toMatchModel(match);
     }
 
@@ -86,6 +88,6 @@ public class MatchService {
         final Match match = matchesRepository.find(matchUpdateRequest.getId()).orElseThrow(()-> new Exception("No hay match con ese id"));
         match.surrender(matchUpdateRequest.getPlayer());
         matchesRepository.update(match);
-        stats.process_surrender(matchUpdateRequest, match);
+        statsService.process_surrender(matchUpdateRequest, match);
     }
 }

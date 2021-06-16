@@ -15,11 +15,21 @@ public class PlayerStatsModel {
     private int playedMatches;
     private int wonMatches;
     private int lostMatches;
+    private int createdMatches;
+    private int inProgressMatches;
+    private int surrenderMatches;
 
-    public PlayerStatsModel(String playerID, int playedMatches, int wonMatches, int lostMatches) {
+    private PlayerStatsModel(String playerID, int playedMatches, int wonMatches, int lostMatches, int createdMatches, int inProgressMatches, int surrenderMatches) {
         this.playerID = playerID;
         this.playedMatches = playedMatches;
         this.wonMatches = wonMatches;
         this.lostMatches = lostMatches;
+        this.createdMatches = createdMatches;
+        this.inProgressMatches = inProgressMatches;
+        this.surrenderMatches = surrenderMatches;
+    }
+
+    static public PlayerStatsModel toPlayerStatsModel(PlayerStats playerStats){
+        return new PlayerStatsModel(playerStats.getId(), playerStats.getTotalMatches(), playerStats.getWonMatches(), playerStats.getLostMatches(), playerStats.getCreatedMatches(), playerStats.getInProgressMatch(), playerStats.getSurrenderedMatches());
     }
 }

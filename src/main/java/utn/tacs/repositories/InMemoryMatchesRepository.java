@@ -48,5 +48,10 @@ public class InMemoryMatchesRepository implements MatchesRepository, Pageable<Ma
         matches.replace(match.getId(), match);
     }
 
+    @Override
+    public List<Match> findAll() {
+        return (List<Match>) matches.values();
+    }
+
 
 }
