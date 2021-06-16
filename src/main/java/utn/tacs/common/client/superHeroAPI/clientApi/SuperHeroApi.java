@@ -30,15 +30,15 @@ public class SuperHeroApi extends ApiClient implements Serializable {
         return this;
     }
 
-    public String getAccessToken() {
-        return token != null ? token: "3848385738531679";
+    private String getAccessToken() {
+        return token != null ? token: System.getenv("super_hero_api_key");
     }
 
-    public String getBaseURL() {
+    private String getBaseURL() {
         return "https://superheroapi.com/api/access_token";
     }
 
-    public String getErrorMsg() {
+    private String getErrorMsg() {
         return "SUPER HERO API HAS NO TOKEN in super_hero_api_key variable environment. Please check README file.";
     }
 
