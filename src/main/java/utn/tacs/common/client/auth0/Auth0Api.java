@@ -31,23 +31,23 @@ public class Auth0Api extends ApiClient implements Serializable {
     private String clientId;
 
 
-    public String getClientId() {
+    private String getClientId() {
         return clientId != null ? clientId: System.getenv("auth0_client_id");
     }
     private String clientSecret;
 
 
-    public String getClientSecret() {
+    private String getClientSecret() {
         return clientSecret != null ? clientSecret: System.getenv("auth0_client_secret");
     }
     private String audience;
 
 
-    public String getAudience() {
+    private String getAudience() {
         return audience != null ? audience: System.getenv("auth0_audience");
     }
 
-    public String getBaseURL() {
+    private String getBaseURL() {
         return "https://dev-jx8fysvq.us.auth0.com";
     }
 
@@ -62,7 +62,6 @@ public class Auth0Api extends ApiClient implements Serializable {
         return Optional.ofNullable(result.getBody());
     }
 
-    @Cacheable(value = "usersAuth0Cache",key = "#req.key")
     public Optional<User[]> getUsers(GetUserRequest req) throws CannotGetUser {
         final String sortQueryParam = req.getSortQueryParam();
         final String filterName = "*" + req.getFilterName() + "*";

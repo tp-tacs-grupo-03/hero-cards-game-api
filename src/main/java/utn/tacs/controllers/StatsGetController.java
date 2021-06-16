@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 @RequestMapping("api/stats")
 @Api(tags = "Stats")
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(value = "*", exposedHeaders = {"ETag"})
 public class StatsGetController {
 
     private final StatsService statsService;
@@ -56,7 +56,6 @@ public class StatsGetController {
             @ApiResponse(code = 200, response = PlayerStatsModel.class, message = "Estadisticas de un usuario")
     })
     public PlayerStatsModel getRecord(@PathVariable("userId") String userId) {
-        System.out.println(userId.replace("%7C", "|"));
         return statsService.find(userId.replace("%7C", "|"));
     }
 }

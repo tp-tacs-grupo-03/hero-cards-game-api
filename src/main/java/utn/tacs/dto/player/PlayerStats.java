@@ -57,4 +57,5 @@ public class PlayerStats {
         incrementProgress();
         return this;
     }
+
 }

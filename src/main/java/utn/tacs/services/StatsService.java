@@ -53,12 +53,12 @@ public class StatsService {
     }
 
     void process_create(MatchCreateRequest matchCreateRequest){
-        PlayerStats hostPlayer = new PlayerStats(matchCreateRequest.getHost()).incrementcreate();
+        PlayerStats hostPlayer = usersStatsRepository.find(matchCreateRequest.getHost()).orElse(new PlayerStats(matchCreateRequest.getHost())).incrementcreate();
         usersStatsRepository.save(hostPlayer);
         List<PlayerStats> players = matchCreateRequest.getPlayers()
                 .stream()
                 .filter(player -> !player.equals(matchCreateRequest.getHost()))
-                .map(player -> new PlayerStats(player).incrementProgress())
+                .map(player -> usersStatsRepository.find(player).orElse(new PlayerStats(player)).incrementProgress())
                 .collect(Collectors.toList());
         usersStatsRepository.saveAll(players);
     }
