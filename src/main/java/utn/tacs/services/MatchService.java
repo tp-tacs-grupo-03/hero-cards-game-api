@@ -3,18 +3,14 @@ package utn.tacs.services;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import utn.tacs.domain.Battle;
-import utn.tacs.domain.CardId;
-import utn.tacs.domain.Deck;
-import utn.tacs.domain.Match;
+import utn.tacs.domain.*;
 import utn.tacs.dto.battle.BattleModelResponse;
 import utn.tacs.dto.battle.MatchBattleRequest;
-import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.match.*;
 import utn.tacs.pagination.Page;
 import utn.tacs.pagination.exceptions.PaginationException;
-import utn.tacs.repositories.DecksRepository;
-import utn.tacs.repositories.MatchesRepository;
+import utn.tacs.domain.repositories.DecksRepository;
+import utn.tacs.domain.repositories.MatchesRepository;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
 
@@ -26,10 +22,12 @@ public class MatchService {
 
     private MatchesRepository matchesRepository;
     private DecksRepository decksRepository;
+    private final StatsService statsService;
 
-    public MatchService(MatchesRepository matchesRepository, DecksRepository decksRepository) {
+    public MatchService(MatchesRepository matchesRepository, DecksRepository decksRepository, StatsService statsService) {
         this.matchesRepository = matchesRepository;
         this.decksRepository = decksRepository;
+        this.statsService = statsService;
     }
 
     public BattleModelResponse begin(MatchBattleRequest matchBattleRequest) throws Exception {
@@ -38,13 +36,9 @@ public class MatchService {
             throw new Exception("Match finalizado");
         final Battle battle = match.battle(matchBattleRequest);
         matchesRepository.update(match);
+        if (match.getStatus().equals(MatchStatusEnum.FINISHED))
+            statsService.process_win(match.getWinnerID(), match.getPlayers());
         return new BattleModelResponse(battle.getAttribute(), battle.getPlayers(), battle.getWinner());
-    }
-
-    public CardModelResponse draw(MatchDrawRequest matchDrawRequest) throws Exception {
-        final Match match = matchesRepository.find(matchDrawRequest.getMatchId()).orElseThrow(()-> new Exception("No hay match con ese id"));
-        final CardId cardId = match.getNextCard(matchDrawRequest.getPlayerId());
-        return new CardModelResponse(cardId.getId());
     }
 
     public MatchModelResponse create(MatchCreateRequest matchCreateRequest) throws Exception {
@@ -53,12 +47,13 @@ public class MatchService {
         final List<Queue<CardId>> split = deck.split(matchCreateRequest.getPlayers().size());
 
         final Map<String, Queue<CardId>> players = new HashMap<>();
-        for (int i =0; i < matchCreateRequest.getPlayers().size(); i++){
+        for (int i = 0; i < matchCreateRequest.getPlayers().size(); i++){
             players.put(matchCreateRequest.getPlayers().get(i), split.get(i));
         }
 
         final Match match = new Match(players, matchCreateRequest.getDeck(), new Date());
         matchesRepository.save(match);
+        statsService.process_create(matchCreateRequest);
         return MatchModelResponse.toMatchModel(match);
     }
 
@@ -93,5 +88,6 @@ public class MatchService {
         final Match match = matchesRepository.find(matchUpdateRequest.getId()).orElseThrow(()-> new Exception("No hay match con ese id"));
         match.surrender(matchUpdateRequest.getPlayer());
         matchesRepository.update(match);
+        statsService.process_surrender(matchUpdateRequest, match);
     }
 }

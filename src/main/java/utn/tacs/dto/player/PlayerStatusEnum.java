@@ -1,4 +1,4 @@
-package utn.tacs.dto.deck.response;
+package utn.tacs.dto.player;
 
 public enum PlayerStatusEnum {
     SURRENDERED

@@ -1,4 +1,4 @@
-package utn.tacs.repositories;
+package utn.tacs.domain.repositories;
 
 import utn.tacs.domain.Deck;
 import utn.tacs.pagination.Page;
@@ -15,7 +15,7 @@ public interface DecksRepository {
 
     void delete(String id);
 
-    void save(Deck deck);
+    Deck save(Deck deck);
 
     void update(Deck deck);
 

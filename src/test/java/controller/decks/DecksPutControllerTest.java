@@ -9,7 +9,7 @@ import utn.tacs.TacsApplication;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Deck;
 import utn.tacs.dto.deck.DeckModelRequest;
-import utn.tacs.repositories.DecksRepository;
+import utn.tacs.domain.repositories.DecksRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;

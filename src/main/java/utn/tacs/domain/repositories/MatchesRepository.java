@@ -1,4 +1,4 @@
-package utn.tacs.repositories;
+package utn.tacs.domain.repositories;
 
 import utn.tacs.domain.Match;
 import utn.tacs.pagination.Page;
@@ -16,4 +16,6 @@ public interface MatchesRepository {
     List<Match> findAll(Page page, Sort sort);
 
     void update(Match match);
+
+    List<Match> findAll();
 }

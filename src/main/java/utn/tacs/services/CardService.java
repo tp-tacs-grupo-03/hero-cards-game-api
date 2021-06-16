@@ -8,7 +8,7 @@ import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.common.client.superHeroAPI.clientApi.SuperHeroApi;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
 import utn.tacs.dto.deck.response.CardDataModel;
-import utn.tacs.repositories.CardsRepository;
+import utn.tacs.domain.repositories.CardsRepository;
 
 import java.net.URISyntaxException;
 import java.util.List;

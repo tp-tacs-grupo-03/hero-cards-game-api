@@ -3,8 +3,9 @@ package utn.tacs.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import utn.tacs.dto.battle.MatchBattleRequest;
-import utn.tacs.dto.deck.response.MatchStatusEnum;
+import utn.tacs.dto.match.MatchStatusEnum;
 import utn.tacs.sorting.DateComparable;
 import utn.tacs.sorting.IdComparable;
 import utn.tacs.sorting.StatusComparable;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class Match implements IdComparable, DateComparable, StatusComparable {
 
+    @Id
     private String id;
     private Map<String, Queue<CardId>> players;
     private String deck;

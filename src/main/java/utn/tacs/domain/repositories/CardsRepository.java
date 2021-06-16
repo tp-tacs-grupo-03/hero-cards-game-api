@@ -1,4 +1,4 @@
-package utn.tacs.repositories;
+package utn.tacs.domain.repositories;
 
 import utn.tacs.dto.deck.response.CardDataModel;
 

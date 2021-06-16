@@ -3,7 +3,7 @@ package utn.tacs.repositories;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utn.tacs.domain.Match;
-import utn.tacs.dto.deck.response.MatchStatusEnum;
+import utn.tacs.dto.match.MatchStatusEnum;
 import utn.tacs.pagination.Page;
 import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.sorting.Sort;

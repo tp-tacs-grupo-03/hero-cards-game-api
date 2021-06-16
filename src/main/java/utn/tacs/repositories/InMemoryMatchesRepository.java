@@ -2,6 +2,7 @@ package utn.tacs.repositories;
 
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.Match;
+import utn.tacs.domain.repositories.MatchesRepository;
 import utn.tacs.pagination.Page;
 import utn.tacs.pagination.Pageable;
 import utn.tacs.sorting.Sort;
@@ -10,7 +11,7 @@ import utn.tacs.sorting.Sortable;
 import java.util.*;
 
 @Service
-public class InMemoryMatchesRepository implements MatchesRepository , Pageable<Match>, Sortable {
+public class InMemoryMatchesRepository implements MatchesRepository, Pageable<Match>, Sortable {
 
     private HashMap<String, Match> matches = new HashMap<>();
 
@@ -45,6 +46,11 @@ public class InMemoryMatchesRepository implements MatchesRepository , Pageable<M
     @Override
     public void update(Match match) {
         matches.replace(match.getId(), match);
+    }
+
+    @Override
+    public List<Match> findAll() {
+        return (List<Match>) matches.values();
     }
 
 

@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import utn.tacs.domain.Stats;
 import utn.tacs.dto.battle.BattleModelResponse;
 import utn.tacs.dto.battle.ListBattles;
 import utn.tacs.dto.battle.MatchBattleRequest;
@@ -86,8 +87,7 @@ public class MatchController {
         final List<String> players = new ArrayList<>();
         players.add(hostId);
         players.add(matchRequest.getOpponentId());
-
-        return matchService.create(new MatchCreateRequest(players, matchRequest.getDeckId()));
+        return matchService.create(new MatchCreateRequest(players, matchRequest.getDeckId(), hostId));
     }
 
 

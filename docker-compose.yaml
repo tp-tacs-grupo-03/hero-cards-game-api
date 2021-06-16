@@ -12,15 +12,18 @@ services:
             - backend-database
     database:
         container_name: database
-        image: postgres # use latest official postgres version
-        env_file:
-            - database.env # configure postgres
+        image: mongo # use latest official mongo version
+        environment:
+            - MONGO_INITDB_DATABASE=tacs-test
+        ports:
+            - '27017:27017'
         volumes:
-            - database-data:/var/lib/postgresql/data/ # persist data even
+            - mongodb_server_data:/data/db
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
         networks:
             - backend-database
 networks:
     backend:
     backend-database:
 volumes:
-    database-data:
+    mongodb_server_data:

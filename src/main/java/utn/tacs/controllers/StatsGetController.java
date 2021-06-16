@@ -6,7 +6,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 import utn.tacs.dto.deck.response.ListPlayerStatsModel;
-import utn.tacs.dto.deck.response.PlayerStatsModel;
+import utn.tacs.dto.match.MatchStatsModel;
+import utn.tacs.dto.player.PlayerStatsModel;
+import utn.tacs.services.StatsService;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -19,13 +21,19 @@ import java.util.stream.IntStream;
 @CrossOrigin("*")
 public class StatsGetController {
 
+    private final StatsService statsService;
+
+    public StatsGetController(StatsService statsService) {
+        this.statsService = statsService;
+    }
+
     @GetMapping("/matches")
     @ApiOperation(value = "Obtener cantidad de partidas de determinado estado entre determinadas fechas")
     @ApiResponses({
-            @ApiResponse(code = 200, response = Integer.class, message = "Estadisticas de las partidas en el estado dado entre las fechas informadas")
+            @ApiResponse(code = 200, response = MatchStatsModel.class, message = "Estadisticas de las partidas entre las fechas informadas")
     })
-    public int getMatches(@RequestParam(value = "matchStatus",required = false) String matchStatus, @RequestParam(value = "initDate", required = false) String initDate, @RequestParam(value = "finishDate",required = false) String finishDate ){
-        return 0;
+    public MatchStatsModel getMatches(@RequestParam(value = "initDate", required = false) String initDate, @RequestParam(value = "finishDate",required = false) String finishDate ) throws Exception {
+        return statsService.findMatches(initDate, finishDate);
     }
 
     @GetMapping("/leadderboard")
@@ -37,13 +45,8 @@ public class StatsGetController {
                                                 @RequestParam(value = "limit",required = false, defaultValue = "100") int limit,
                                                 @RequestParam(value = "sortBy",required = false) String sortField,
                                                 @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
-        //TODO implementar la llamada a servicios para obtener los leadderboards
         final ListPlayerStatsModel stats = new ListPlayerStatsModel();
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
-        List<Integer> collect = IntStream.range(0, 10000).boxed().collect(Collectors.toList());
-        collect.forEach(i -> {
-            stats.addPlayersStatsModel(new PlayerStatsModel("" + randomNum, randomNum * 13, randomNum * 23, randomNum * 17));
-        });
+        stats.setPlayerStatsModels(statsService.findAll());
         return stats;
     }
 
@@ -52,7 +55,7 @@ public class StatsGetController {
     @ApiResponses({
             @ApiResponse(code = 200, response = PlayerStatsModel.class, message = "Estadisticas de un usuario")
     })
-    public PlayerStatsModel getRecord(@PathVariable("userId") String userId){
-        return null;
+    public PlayerStatsModel getRecord(@PathVariable("userId") String userId) throws Exception {
+        return statsService.find(userId);
     }
 }
