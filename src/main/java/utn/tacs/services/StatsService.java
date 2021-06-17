@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.MatchesRepository;
-import utn.tacs.domain.repositories.MatchesStatsRepository;
 import utn.tacs.domain.repositories.UsersStatsRepository;
 import utn.tacs.dto.match.MatchCreateRequest;
 import utn.tacs.dto.match.MatchStatsModel;
@@ -55,12 +54,12 @@ public class StatsService {
     void process_create(MatchCreateRequest matchCreateRequest){
         PlayerStats hostPlayer = usersStatsRepository.find(matchCreateRequest.getHost()).orElse(new PlayerStats(matchCreateRequest.getHost())).incrementcreate();
         usersStatsRepository.save(hostPlayer);
-        List<PlayerStats> players = matchCreateRequest.getPlayers()
+        matchCreateRequest.getPlayers()
                 .stream()
                 .filter(player -> !player.equals(matchCreateRequest.getHost()))
-                .map(player -> usersStatsRepository.find(player).orElse(new PlayerStats(player)).incrementProgress())
-                .collect(Collectors.toList());
-        usersStatsRepository.saveAll(players);
+                .forEach(player -> usersStatsRepository
+                        .save(usersStatsRepository.find(player).orElse(new PlayerStats(player)))
+                );
     }
 
     void process_surrender(MatchUpdateRequest matchUpdateRequest, Match match) {
@@ -69,9 +68,10 @@ public class StatsService {
                 .keySet()
                 .stream()
                 .filter(player -> !player.equals(matchUpdateRequest.getPlayer()))
-                .map(player -> usersStatsRepository.find(player).orElseThrow())
-                .map(PlayerStats::incrementWin)
-                .forEach(usersStatsRepository::update);
+                .forEach(player -> usersStatsRepository
+                        .find(player)
+                        .ifPresent(playerStats -> usersStatsRepository.update(playerStats.incrementWin()))
+                );
     }
 
     void process_win(String winnerID, Map<String, Queue<CardId>> players) {
@@ -79,8 +79,9 @@ public class StatsService {
         players.keySet()
                 .stream()
                 .filter(player -> !player.equals(winnerID))
-                .map(PlayerStats::new)
-                .map(PlayerStats::incrementLost)
-                .forEach(usersStatsRepository::update);
+                .forEach(player -> usersStatsRepository
+                        .find(player)
+                        .ifPresent(playerStats -> usersStatsRepository.update(playerStats.incrementLost()))
+                );
     }
 }
