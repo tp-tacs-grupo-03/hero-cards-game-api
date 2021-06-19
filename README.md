@@ -17,8 +17,3 @@
 in the property `super_hero_api_key`. Example `super_hero_api_key=1231231`
 ### Check the Backend using the following URL
 * [SWAGGER LINK](http://localhost:8080/swagger-ui.html) 
-
-### Database check setup
-* Use this cmd to connect in database and check dbname 
-* `docker exec -it database bash`
-* `psql --host=database --username=postgres --dbname=hero_cards_game`  
