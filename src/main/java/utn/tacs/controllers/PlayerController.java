@@ -19,7 +19,7 @@ import utn.tacs.sorting.exceptions.SortingException;
 
 @RequestMapping("api/players")
 @Api(tags = "Players")
-@CrossOrigin("*")
+@CrossOrigin(value = "*", exposedHeaders = {"ETag"})
 @RestController
 public class PlayerController {
 

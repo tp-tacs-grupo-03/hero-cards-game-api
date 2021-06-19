@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping("api/decks")
 @Api(tags = "Decks")
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(value = "*", exposedHeaders = {"ETag"})
 public class DeckController {
 
     private DeckService deckService;

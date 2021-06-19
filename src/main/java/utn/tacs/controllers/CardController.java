@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
 @RequestMapping("api/cards")
 @Api(tags = "Cards")
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(value = "*", exposedHeaders = {"ETag"})
 public class CardController {
 
     private final CardService finder;

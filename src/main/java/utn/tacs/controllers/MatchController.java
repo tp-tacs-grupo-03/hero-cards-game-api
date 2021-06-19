@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping("api/matches")
 @Api(tags = "Matches")
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(value = "*", exposedHeaders = {"ETag"})
 public class MatchController {
 
     private MatchService matchService;
