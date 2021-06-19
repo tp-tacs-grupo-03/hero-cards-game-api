@@ -3,6 +3,8 @@ services:
     backend:
         build: .
         image: hero-cards-game-api:1.0
+        depends_on:
+          - database
         env_file:
             - prod.env
         ports:
