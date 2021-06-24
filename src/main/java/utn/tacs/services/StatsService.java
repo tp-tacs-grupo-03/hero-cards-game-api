@@ -58,7 +58,7 @@ public class StatsService {
                 .stream()
                 .filter(player -> !player.equals(matchCreateRequest.getHost()))
                 .forEach(player -> usersStatsRepository
-                        .save(usersStatsRepository.find(player).orElse(new PlayerStats(player)))
+                        .save(usersStatsRepository.find(player).orElse(new PlayerStats(player).incrementProgress()))
                 );
     }
 
