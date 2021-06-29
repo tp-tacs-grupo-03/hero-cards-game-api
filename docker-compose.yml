@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+    nginx:
+        image: nginx
+        restart: always
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - ./certs:/certs
+        depends_on:
+            - backend
+        networks:
+            - backend
+            - backend-database
+    backend:
+        build: .
+        image: hero-cards-game-api:1.0
+        depends_on:
+          - database
+        env_file:
+          - prod.env
+        ports:
+            - 8080:8080
+        networks:
+            - backend
+            - backend-database
+    database:
+        container_name: database
+        image: mongo # use latest official mongo version
+        environment:
+            - MONGO_INITDB_DATABASE=tacs-test
+        ports:
+            - '27017:27017'
+        volumes:
+            - mongodb_server_data:/data/db
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+        networks:
+            - backend-database
+networks:
+    backend:
+    backend-database:
+volumes:
+    mongodb_server_data:
