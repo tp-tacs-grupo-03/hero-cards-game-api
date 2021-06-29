@@ -28,7 +28,7 @@ services:
             - backend-database
     database:
         container_name: database
-        image: mongo # use latest official mongo version
+        image: mongo
         environment:
             - MONGO_INITDB_DATABASE=tacs-test
         ports:
