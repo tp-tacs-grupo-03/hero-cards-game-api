@@ -4,8 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -30,24 +32,23 @@ import java.util.List;
 @RequestMapping("api/matches")
 @Api(tags = "Matches")
 @RestController
+@AllArgsConstructor
 @CrossOrigin(value = "*", exposedHeaders = {"ETag"})
 public class MatchController {
 
     private MatchService matchService;
-
-    public MatchController(MatchService matchService) {
-        this.matchService = matchService;
-    }
 
     @GetMapping
     @ApiOperation(value = "Obtener todas las partidas")
     @ApiResponses({
             @ApiResponse(code = 200, response = ListMatchModelResponse.class, message = "Las partidas")
     })
+    @PreAuthorize(value = "hasAuthority('read:matches')")
     public ListMatchModelResponse getAllMatches(@RequestParam(value = "offSet",required = false, defaultValue = "0") int offSet,
                                                   @RequestParam(value = "limit",required = false, defaultValue = "100") int limit,
                                                   @RequestParam(value = "sortBy",required = false, defaultValue = "id") String sortField ,
-                                                  @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
+                                                  @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection)
+    {
         try {
             return matchService.findAll(new MatchPagingRequest(sortField, offSet, limit,sortDirection));
         } catch (PaginationException | SortingException e) {
@@ -60,6 +61,7 @@ public class MatchController {
     @ApiResponses({
             @ApiResponse(code = 200, response = MatchModelResponse.class, message = "La partida")
     })
+    @PreAuthorize(value = "hasAuthority('read:matches')")
     public MatchModelResponse getMatch(@PathVariable("id") String id) throws Exception {
         return matchService.find(new MatchFindRequest(id));
     }
@@ -80,6 +82,7 @@ public class MatchController {
     @ApiResponses({
             @ApiResponse(code = 200, response = MatchModelResponse.class, message = "match")
     })
+    @PreAuthorize(value = "hasAuthority('create:matches')")
     public MatchModelResponse postMatch(@Validated @NonNull @RequestBody MatchModel matchRequest) throws Exception {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String hostId = auth.getName();
@@ -96,6 +99,7 @@ public class MatchController {
     @ApiResponses({
             @ApiResponse(code = 200, response = BattleModelResponse.class, message = "Resultado del combate")
     })
+    @PreAuthorize(value = "hasAuthority('update:matches')")
     public BattleModelResponse modifyMatch(@RequestBody Request request, @PathVariable("id") String id ) throws Exception {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return matchService.begin(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
@@ -106,6 +110,7 @@ public class MatchController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Surrender")
     })
+    @PreAuthorize(value = "hasAuthority('update:matches')")
     public void surrender(@RequestBody MatchRequest request, @PathVariable("id") String id ) throws Exception {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final MatchUpdateRequest matchUpdateRequest = new MatchUpdateRequest();
