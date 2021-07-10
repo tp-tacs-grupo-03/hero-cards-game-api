@@ -21,15 +21,17 @@ public class UserInterceptor implements HandlerInterceptor {
     private UsersRepository usersRepository;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PlayerStats playerStats = new PlayerStats(authentication.getName());
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            PlayerStats playerStats = new PlayerStats(authentication.getName());
 
-        Map<String, Object> claims = ((Jwt) authentication.getPrincipal()).getClaims();
-        playerStats.setImage(claims.get("https:picture").toString() + UUID.randomUUID().toString());
-        playerStats.setName(claims.get("https:username").toString());
+            Map<String, Object> claims = ((Jwt) authentication.getPrincipal()).getClaims();
+            playerStats.setImage(claims.get("https:picture").toString() + UUID.randomUUID().toString());
+            playerStats.setName(claims.get("https:username").toString());
 
-        usersRepository.upsert(playerStats);
+            usersRepository.upsert(playerStats);
+        }catch (Exception ignored){}
 
         return true;
     }
