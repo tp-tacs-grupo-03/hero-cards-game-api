@@ -1,16 +1,19 @@
 package utn.tacs.services;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import utn.tacs.domain.*;
+import utn.tacs.domain.Battle;
+import utn.tacs.domain.CardId;
+import utn.tacs.domain.Deck;
+import utn.tacs.domain.Match;
+import utn.tacs.domain.repositories.DecksRepository;
+import utn.tacs.domain.repositories.MatchesRepository;
 import utn.tacs.dto.battle.BattleModelResponse;
 import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.match.*;
-import utn.tacs.pagination.Page;
-import utn.tacs.pagination.exceptions.PaginationException;
-import utn.tacs.domain.repositories.DecksRepository;
-import utn.tacs.domain.repositories.MatchesRepository;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
 
@@ -74,8 +77,9 @@ public class MatchService {
         return matchesRepository.find(matchFindRequest.getMatchId()).orElseThrow(()->new Exception("No hay match con ese id")).getBattles();
     }
 
-    public ListMatchModelResponse findAll(MatchPagingRequest req) throws PaginationException, SortingException {
-        final List<Match> matches = matchesRepository.findAll(new Page(req.getOffSet(), req.getLimit()),  new Sort(req.getField(), req.getSortDirection()));
+    public ListMatchModelResponse findAll(MatchPagingRequest req) throws SortingException {
+        final Pageable pageable = PageRequest.of(req.getPage(),req.getSize());
+        final List<Match> matches = matchesRepository.findAll(pageable,  new Sort(req.getField(), req.getSortDirection()));
         final ListMatchModelResponse listMatchModelResponse = new ListMatchModelResponse();
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String player = auth.getName();

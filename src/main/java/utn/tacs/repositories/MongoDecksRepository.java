@@ -1,5 +1,6 @@
 package utn.tacs.repositories;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -7,7 +8,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.Deck;
 import utn.tacs.domain.repositories.DecksRepository;
-import utn.tacs.pagination.Page;
 import utn.tacs.sorting.Sort;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Service
 public class MongoDecksRepository implements DecksRepository {
+
     private final MongoOperations mongoOperations;
     private final String collectionName = "Decks";
 
@@ -23,8 +24,12 @@ public class MongoDecksRepository implements DecksRepository {
     }
 
     @Override
-    public List<Deck> findAll(Page page, Sort sort) {
-        return mongoOperations.findAll(Deck.class, collectionName);
+    public List<Deck> findAll(Pageable pageable, Sort sort) {
+        final Query query = new Query();
+        query.with(pageable)
+                .skip(pageable.getPageSize() * pageable.getPageNumber())
+                .limit(pageable.getPageSize());
+        return mongoOperations.find(query, Deck.class, collectionName);
     }
 
     @Override

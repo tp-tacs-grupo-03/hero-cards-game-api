@@ -1,14 +1,12 @@
 package utn.tacs.services;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.MatchesRepository;
 import utn.tacs.domain.repositories.UsersStatsRepository;
-import utn.tacs.dto.match.MatchCreateRequest;
-import utn.tacs.dto.match.MatchStatsModel;
-import utn.tacs.dto.match.MatchStatusEnum;
-import utn.tacs.dto.match.MatchUpdateRequest;
+import utn.tacs.dto.match.*;
 import utn.tacs.dto.player.PlayerStats;
 import utn.tacs.dto.player.PlayerStatsModel;
 import java.text.SimpleDateFormat;
@@ -33,8 +31,8 @@ public class StatsService {
         return PlayerStatsModel.toPlayerStatsModel(usersStatsRepository.find(userId).orElse(new PlayerStats(userId)));
     }
 
-    public List<PlayerStatsModel> findAll() {
-        return usersStatsRepository.findAll().stream().map(PlayerStatsModel::toPlayerStatsModel).collect(Collectors.toList());
+    public List<PlayerStatsModel> findAll(Pageable pageable) {
+        return usersStatsRepository.findAll(pageable).stream().map(PlayerStatsModel::toPlayerStatsModel).collect(Collectors.toList());
     }
 
     public MatchStatsModel findMatches(String initDate, String finishDate) throws Exception {

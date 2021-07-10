@@ -1,5 +1,6 @@
 package utn.tacs.repositories;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.MatchesRepository;
 import utn.tacs.dto.match.MatchPersistModel;
-import utn.tacs.pagination.Page;
 import utn.tacs.sorting.Sort;
 
 import java.util.List;
@@ -32,12 +32,17 @@ public class MongoMatchesRepository implements MatchesRepository {
 
     @Override
     public Optional<Match> find(String id) {
-        return Optional.ofNullable(MatchPersistModel.toMatch(mongoOperations.findOne(new Query(Criteria.where("id").is(id)), MatchPersistModel.class, collectionName)));
+        return Optional.ofNullable(MatchPersistModel.toMatch(mongoOperations.findOne(new Query(Criteria.where("id").is(id)), MatchPersistModel.class)));
     }
 
     @Override
-    public List<Match> findAll(Page page, Sort sort) {
-        return mongoOperations.findAll(MatchPersistModel.class, collectionName).stream().map(MatchPersistModel::toMatch).collect(Collectors.toList());
+    public List<Match> findAll(Pageable pageable, Sort sort) {
+        final Query query = new Query();
+        query.with(pageable)
+                .skip(pageable.getPageSize() * pageable.getPageNumber())
+                .limit(pageable.getPageSize());
+        List<MatchPersistModel> matchPersistModels = mongoOperations.find(query, MatchPersistModel.class, collectionName);
+        return matchPersistModels.stream().map(MatchPersistModel::toMatch).collect(Collectors.toList());
     }
 
     @Override

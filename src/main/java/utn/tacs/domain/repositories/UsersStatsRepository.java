@@ -1,5 +1,6 @@
 package utn.tacs.domain.repositories;
 
+import org.springframework.data.domain.Pageable;
 import utn.tacs.dto.player.PlayerStats;
 
 import java.util.List;
@@ -12,9 +13,7 @@ public interface UsersStatsRepository {
 
     Optional<PlayerStats> find(String userId);
 
-    void saveAll(List<PlayerStats> players);
-
     void update(PlayerStats player);
 
-    List<PlayerStats> findAll();
+    List<PlayerStats> findAll(Pageable pageable);
 }

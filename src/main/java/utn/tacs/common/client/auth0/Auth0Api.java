@@ -3,7 +3,6 @@ package utn.tacs.common.client.auth0;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,8 +13,6 @@ import utn.tacs.common.client.auth0.model.GetUserRequest;
 import utn.tacs.common.client.auth0.model.Token;
 import utn.tacs.common.client.auth0.model.User;
 import utn.tacs.services.exceptions.CannotGetUser;
-import utn.tacs.sorting.Sort;
-import utn.tacs.sorting.SortField;
 
 import java.io.Serializable;
 import java.net.URISyntaxException;
@@ -66,10 +63,8 @@ public class Auth0Api extends ApiClient implements Serializable {
         final String sortQueryParam = req.getSortQueryParam();
         final String filterName = "*" + req.getFilterName() + "*";
         final String url = url("/api/v2/users?page=" + req.getPage() + "&" + sortQueryParam + "&q=nickname:" + filterName);
-        System.out.println(url);        
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         Optional<Token> token = getToken();
         if(token.isEmpty()) {
            throw new CannotGetUser("Cannot get token to get users");
@@ -88,10 +83,8 @@ public class Auth0Api extends ApiClient implements Serializable {
 
     public Optional<User> getUserInfo(String id) throws CannotGetUser {
         final String url = url("/api/v2/users/" + id);
-        System.out.println(url);
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         Optional<Token> token = getToken();
         if(token.isEmpty()) {
             throw new CannotGetUser("Cannot get token to get users");

@@ -1,6 +1,6 @@
 package utn.tacs.repositories;
 
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -10,7 +10,6 @@ import utn.tacs.domain.repositories.UsersStatsRepository;
 import utn.tacs.dto.match.MatchPersistModel;
 import utn.tacs.dto.player.PlayerStats;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -38,11 +37,6 @@ public class MongoUsersStatsRepository implements UsersStatsRepository {
     }
 
     @Override
-    public void saveAll(List<PlayerStats> players) {
-        players.forEach(this::save);
-    }
-
-    @Override
     public void update(PlayerStats player) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(player.getId()));
@@ -58,9 +52,13 @@ public class MongoUsersStatsRepository implements UsersStatsRepository {
     }
 
     @Override
-    public List<PlayerStats> findAll() {
-        return mongoOperations.findAll(PlayerStats.class, collectionName)
-                .stream()
+    public List<PlayerStats> findAll(Pageable pageable) {
+        final Query query = new Query();
+        query.with(pageable)
+                .skip(pageable.getPageSize() * pageable.getPageNumber())
+                .limit(pageable.getPageSize());
+        final List<PlayerStats> playerStats = mongoOperations.find(query, PlayerStats.class, collectionName);
+        return playerStats.stream()
                 .sorted(Comparator.comparing(PlayerStats::getWonMatches, Comparator.reverseOrder()))
                 .collect(Collectors.toList());
     }

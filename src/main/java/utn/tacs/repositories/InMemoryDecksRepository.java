@@ -1,9 +1,8 @@
 package utn.tacs.repositories;
 
+import org.springframework.data.domain.Pageable;
 import utn.tacs.domain.Deck;
 import utn.tacs.domain.repositories.DecksRepository;
-import utn.tacs.pagination.Page;
-import utn.tacs.pagination.Pageable;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.Sortable;
 
@@ -11,12 +10,12 @@ import java.util.*;
 
 
 
-public class InMemoryDecksRepository implements DecksRepository, Pageable<Deck> , Sortable {
+public class InMemoryDecksRepository implements DecksRepository, Sortable {
 
     private HashMap<String, Deck> decks = new HashMap<>();
 
     @Override
-    public List<Deck> findAll(Page page, Sort sort) {
+    public List<Deck> findAll(Pageable page, Sort sort) {
         final List<Deck> sorted=  new ArrayList<>(decks.values());
         switch (sort.getSortField()) {
             case ID: sorted.sort(sort.isAsc() ? getComparatorById(): getComparatorById().reversed());
@@ -26,7 +25,7 @@ public class InMemoryDecksRepository implements DecksRepository, Pageable<Deck> 
             default:
                 throw new IllegalStateException("Unexpected value: " + sort.getSortField());
         }
-        return getPage(page,sorted);
+        return sorted;
     }
 
     @Override

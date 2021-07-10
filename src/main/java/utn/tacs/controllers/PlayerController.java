@@ -10,8 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 import utn.tacs.common.client.auth0.model.User;
 import utn.tacs.dto.deck.ListDeckModelResponse;
 import utn.tacs.dto.deck.ListPlayerModelResponse;
-import utn.tacs.pagination.Page;
-import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.services.PlayerService;
 import utn.tacs.services.exceptions.CannotGetPlayers;
 import utn.tacs.sorting.Sort;
