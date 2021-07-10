@@ -1,28 +1,27 @@
 package utn.tacs.repositories;
 
-import org.springframework.data.domain.Sort;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import utn.tacs.domain.repositories.UsersStatsRepository;
+import org.springframework.transaction.annotation.Transactional;
+import utn.tacs.domain.repositories.UsersRepository;
 import utn.tacs.dto.match.MatchPersistModel;
-import utn.tacs.dto.player.PlayerStats;
+import utn.tacs.domain.PlayerStats;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class MongoUsersStatsRepository implements UsersStatsRepository {
+public class MongoUsersRepository implements UsersRepository {
 
     private final MongoOperations mongoOperations;
     private final String collectionName = "Stats";
 
-    public MongoUsersStatsRepository(MongoOperations mongoOperations) {
+    public MongoUsersRepository(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
     }
 
@@ -33,13 +32,28 @@ public class MongoUsersStatsRepository implements UsersStatsRepository {
     }
 
     @Override
-    public Optional<PlayerStats> find(String userId) {
-        return Optional.ofNullable(mongoOperations.findOne(new Query(Criteria.where("id").is(userId)), PlayerStats.class, collectionName));
+    @Cacheable(value = "playerCache",key = "#userId")
+    public PlayerStats find(String userId) {
+        return Optional.ofNullable(mongoOperations.findOne(new Query(Criteria.where("id").is(userId)), PlayerStats.class, collectionName)).orElseThrow();
     }
 
     @Override
     public void saveAll(List<PlayerStats> players) {
         players.forEach(this::save);
+    }
+
+    @Override
+    @Transactional
+    @CachePut(value = "playerCache", key = "#playerStats.id")
+    public PlayerStats upsert(PlayerStats playerStats) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(playerStats.getId()));
+        Update update = new Update();
+        update.set("name", playerStats.getName());
+        update.set("image", playerStats.getImage());
+        mongoOperations.upsert(query, update, PlayerStats.class, collectionName);
+
+        return mongoOperations.findOne(query, PlayerStats.class, collectionName);
     }
 
     @Override
@@ -54,7 +68,7 @@ public class MongoUsersStatsRepository implements UsersStatsRepository {
         update.set("createdMatches", player.getCreatedMatches());
 
         mongoOperations.updateFirst(query, update, MatchPersistModel.class, collectionName);
-        find(player.getId()).ifPresent(aPlayerStats -> mongoOperations.save(aPlayerStats, collectionName));
+        mongoOperations.save(find(player.getId()), collectionName);
     }
 
     @Override

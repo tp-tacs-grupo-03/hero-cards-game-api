@@ -1,12 +1,14 @@
-package utn.tacs.dto.player;
+package utn.tacs.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class PlayerStats {
+public class PlayerStats implements Serializable {
 
     @Id
     private String id;
@@ -15,6 +17,8 @@ public class PlayerStats {
     private int surrenderedMatches;
     private int inProgressMatch;
     private int createdMatches;
+    private String image;
+    private String name;
 
     public PlayerStats(String id) {
         this.id = id;
@@ -25,7 +29,7 @@ public class PlayerStats {
         this.inProgressMatch = 0;
     }
 
-    int getTotalMatches(){
+    public int getTotalMatches(){
         return wonMatches + lostMatches + surrenderedMatches + inProgressMatch;
     }
 
