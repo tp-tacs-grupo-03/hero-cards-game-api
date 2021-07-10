@@ -77,10 +77,7 @@ public class MongoUsersRepository implements UsersRepository {
     @Override
     public List<PlayerStats> findByName(String name, utn.tacs.sorting.Sort sort) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").regex("*" + name + "*"));
-
-        Sort.Direction order = sort.isAsc()? Sort.Direction.ASC : Sort.Direction.DESC;
-        query.with(Sort.by(order));
+        query.addCriteria(Criteria.where("name").regex(".*" + name + ".*"));
 
         return mongoOperations.find(query, PlayerStats.class, collectionName);
     }
