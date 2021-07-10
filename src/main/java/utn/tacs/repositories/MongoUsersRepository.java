@@ -2,6 +2,7 @@ package utn.tacs.repositories;
 
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -34,7 +35,7 @@ public class MongoUsersRepository implements UsersRepository {
     @Override
     @Cacheable(value = "playerCache",key = "#userId")
     public PlayerStats find(String userId) {
-        return Optional.ofNullable(mongoOperations.findOne(new Query(Criteria.where("id").is(userId)), PlayerStats.class, collectionName)).orElseThrow();
+        return Optional.ofNullable(mongoOperations.findOne(new Query(Criteria.where("id").is(userId)), PlayerStats.class, collectionName)).orElseThrow(() -> new RuntimeException("Not player id found"));
     }
 
     @Override
@@ -71,5 +72,16 @@ public class MongoUsersRepository implements UsersRepository {
                 .stream()
                 .sorted(Comparator.comparing(PlayerStats::getWonMatches, Comparator.reverseOrder()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlayerStats> findByName(String name, utn.tacs.sorting.Sort sort) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").regex("*" + name + "*"));
+
+        Sort.Direction order = sort.isAsc()? Sort.Direction.ASC : Sort.Direction.DESC;
+        query.with(Sort.by(order));
+
+        return mongoOperations.find(query, PlayerStats.class, collectionName);
     }
 }

@@ -22,7 +22,7 @@ import java.util.stream.IntStream;
 @RestController
 @CrossOrigin(value = "*", exposedHeaders = {"ETag"})
 @AllArgsConstructor
-public class StatsGetController {
+public class StatsController {
 
     private final StatsService statsService;
 

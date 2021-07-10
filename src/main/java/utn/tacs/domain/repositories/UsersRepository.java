@@ -1,9 +1,9 @@
 package utn.tacs.domain.repositories;
 
 import utn.tacs.domain.PlayerStats;
+import utn.tacs.sorting.Sort;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public interface UsersRepository {
@@ -17,4 +17,6 @@ public interface UsersRepository {
     void update(PlayerStats player);
 
     List<PlayerStats> findAll();
+
+    List<PlayerStats> findByName(String name, Sort sort);
 }
