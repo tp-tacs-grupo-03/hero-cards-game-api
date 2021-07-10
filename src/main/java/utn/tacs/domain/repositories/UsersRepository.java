@@ -1,18 +1,18 @@
 package utn.tacs.domain.repositories;
 
-import utn.tacs.dto.player.PlayerStats;
+import utn.tacs.domain.PlayerStats;
 
 import java.util.List;
 import java.util.Optional;
 
 
-public interface UsersStatsRepository {
+public interface UsersRepository {
 
     void save(PlayerStats userId);
 
-    Optional<PlayerStats> find(String userId);
+    PlayerStats find(String userId);
 
-    void saveAll(List<PlayerStats> players);
+    PlayerStats upsert(PlayerStats playerStats);
 
     void update(PlayerStats player);
 
