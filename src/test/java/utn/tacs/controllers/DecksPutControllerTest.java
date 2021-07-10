@@ -7,6 +7,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import utn.tacs.TacsApplication;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Deck;
+import utn.tacs.domain.repositories.UsersRepository;
 import utn.tacs.dto.deck.DeckModelRequest;
 import utn.tacs.domain.repositories.DecksRepository;
 
