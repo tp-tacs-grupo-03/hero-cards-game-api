@@ -4,33 +4,30 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import utn.tacs.common.client.auth0.model.User;
-import utn.tacs.dto.deck.ListDeckModelResponse;
-import utn.tacs.dto.deck.ListPlayerModelResponse;
+import utn.tacs.dto.player.User;
+import utn.tacs.dto.player.ListPlayerModelResponse;
 import utn.tacs.services.PlayerService;
-import utn.tacs.services.exceptions.CannotGetPlayers;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
 
 @RequestMapping("api/players")
 @Api(tags = "Players")
 @CrossOrigin(value = "*", exposedHeaders = {"ETag"})
+@AllArgsConstructor
 @RestController
 public class PlayerController {
 
-    private PlayerService playerService;
+    private final PlayerService playerService;
 
-    public PlayerController(PlayerService playerService) {
-        this.playerService = playerService;
-    }
 
     @GetMapping
     @ApiOperation(value = "Get players")
     @ApiResponses({
-            @ApiResponse(code = 200, response = ListDeckModelResponse.class, message = "Player lists")
+            @ApiResponse(code = 200, response = ListPlayerModelResponse.class, message = "Player lists")
     })
     public ListPlayerModelResponse getAllPlayers(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                  @RequestParam(value = "sortBy", required = false, defaultValue = "name") String sortField,
@@ -40,7 +37,7 @@ public class PlayerController {
             return playerService.findAll(page, new Sort(sortField, sortDirection), filterName);
         } catch (SortingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        } catch (CannotGetPlayers pe) {
+        } catch (Exception pe) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, pe.getMessage(), pe);
         }
     }
@@ -48,13 +45,13 @@ public class PlayerController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Get username by id")
     @ApiResponses({
-            @ApiResponse(code = 200, response = ListDeckModelResponse.class, message = "Username by id")
+            @ApiResponse(code = 200, response = User.class, message = "Username by id")
     })
     public User getUsernameByID(@PathVariable("id") String id) {
         try {
             return playerService.findUserById(id);
         }
-        catch (CannotGetPlayers pe) {
+        catch (Exception pe) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, pe.getMessage(), pe);
         }
     }

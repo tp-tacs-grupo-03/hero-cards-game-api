@@ -5,9 +5,12 @@ import org.springframework.stereotype.Service;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.MatchesRepository;
-import utn.tacs.domain.repositories.UsersStatsRepository;
-import utn.tacs.dto.match.*;
-import utn.tacs.dto.player.PlayerStats;
+import utn.tacs.domain.repositories.UsersRepository;
+import utn.tacs.dto.match.MatchCreateRequest;
+import utn.tacs.dto.match.MatchStatsModel;
+import utn.tacs.dto.match.MatchStatusEnum;
+import utn.tacs.dto.match.MatchUpdateRequest;
+import utn.tacs.domain.PlayerStats;
 import utn.tacs.dto.player.PlayerStatsModel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,20 +22,20 @@ import java.util.stream.Collectors;
 @Service
 public class StatsService {
 
-    private final UsersStatsRepository usersStatsRepository;
+    private final UsersRepository usersRepository;
     private final MatchesRepository matchesRepository;
 
-    public StatsService(UsersStatsRepository usersStatsRepository, MatchesRepository matchesRepository) {
-        this.usersStatsRepository = usersStatsRepository;
+    public StatsService(UsersRepository usersRepository, MatchesRepository matchesRepository) {
+        this.usersRepository = usersRepository;
         this.matchesRepository = matchesRepository;
     }
 
     public PlayerStatsModel find(String userId) {
-        return PlayerStatsModel.toPlayerStatsModel(usersStatsRepository.find(userId).orElse(new PlayerStats(userId)));
+        return PlayerStatsModel.toPlayerStatsModel(usersRepository.find(userId));
     }
 
     public List<PlayerStatsModel> findAll(Pageable pageable) {
-        return usersStatsRepository.findAll(pageable).stream().map(PlayerStatsModel::toPlayerStatsModel).collect(Collectors.toList());
+        return usersRepository.findAll(pageable).stream().map(PlayerStatsModel::toPlayerStatsModel).collect(Collectors.toList());
     }
 
     public MatchStatsModel findMatches(String initDate, String finishDate) throws Exception {
@@ -50,36 +53,36 @@ public class StatsService {
     }
 
     void process_create(MatchCreateRequest matchCreateRequest){
-        PlayerStats hostPlayer = usersStatsRepository.find(matchCreateRequest.getHost()).orElse(new PlayerStats(matchCreateRequest.getHost())).incrementcreate();
-        usersStatsRepository.save(hostPlayer);
+        PlayerStats hostPlayer = usersRepository.find(matchCreateRequest.getHost()).incrementcreate();
+        usersRepository.save(hostPlayer);
         matchCreateRequest.getPlayers()
                 .stream()
                 .filter(player -> !player.equals(matchCreateRequest.getHost()))
-                .forEach(player -> usersStatsRepository
-                        .save(usersStatsRepository.find(player).orElse(new PlayerStats(player).incrementProgress()))
+                .forEach(player -> usersRepository
+                        .save(usersRepository.find(player))
                 );
     }
 
     void process_surrender(MatchUpdateRequest matchUpdateRequest, Match match) {
-        usersStatsRepository.find(matchUpdateRequest.getPlayer()).ifPresent(playerStats -> usersStatsRepository.update(playerStats.incrementSurrender()));
+        usersRepository.find(matchUpdateRequest.getPlayer()).incrementSurrender();
         match.getPlayers()
                 .keySet()
                 .stream()
                 .filter(player -> !player.equals(matchUpdateRequest.getPlayer()))
-                .forEach(player -> usersStatsRepository
+                .forEach(player -> usersRepository
                         .find(player)
-                        .ifPresent(playerStats -> usersStatsRepository.update(playerStats.incrementWin()))
+                        .incrementSurrender()
                 );
     }
 
     void process_win(String winnerID, Map<String, Queue<CardId>> players) {
-        usersStatsRepository.find(winnerID).ifPresent(playerStats -> usersStatsRepository.update(playerStats.incrementWin()));
+        usersRepository.find(winnerID).incrementWin();
         players.keySet()
                 .stream()
                 .filter(player -> !player.equals(winnerID))
-                .forEach(player -> usersStatsRepository
+                .forEach(player -> usersRepository
                         .find(player)
-                        .ifPresent(playerStats -> usersStatsRepository.update(playerStats.incrementLost()))
+                        .incrementWin()
                 );
     }
 }

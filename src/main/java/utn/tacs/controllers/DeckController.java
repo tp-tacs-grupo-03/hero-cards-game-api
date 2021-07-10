@@ -6,9 +6,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,21 +32,18 @@ import java.util.stream.Collectors;
 @Api(tags = "Decks")
 @RestController
 @CrossOrigin(value = "*", exposedHeaders = {"ETag"})
+@AllArgsConstructor
 public class DeckController {
 
     private DeckService deckService;
     private CardAttributesValidator cardValidator;
-
-    public DeckController(DeckService deckService, CardAttributesValidator cardValidator) {
-        this.deckService = deckService;
-        this.cardValidator = cardValidator;
-    }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Borrar un deck por ID")
     @ApiResponses({
             @ApiResponse(code = 200, message = "El deck se elimino")
     })
+    @PreAuthorize(value = "hasAuthority('delete:decks')")
     public void deleteDeck(@PathVariable("id") String id){
         deckService.delete(new DeckDeleteRequest(id));
     }
@@ -51,6 +53,7 @@ public class DeckController {
     @ApiResponses({
             @ApiResponse(code = 200, response = ListDeckModelResponse.class, message = "Listado de los decks")
     })
+    @PreAuthorize("hasAuthority('read:decks')")
     public ListDeckModelResponse getAllDecks(@RequestParam(value = "size", required = false, defaultValue = "100") int size,
                                                @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortField,
@@ -68,6 +71,7 @@ public class DeckController {
     @ApiResponses({
             @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck asociado a ese id")
     })
+    @PreAuthorize(value = "hasAuthority('read:decks')")
     public DeckModelResponse getDeck(@PathVariable("id") String id) throws Exception {
         return deckService.findById(id);
     }
@@ -77,8 +81,10 @@ public class DeckController {
     @ApiResponses({
             @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck creado")
     })
-    public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
-        try {
+
+    public Authentication newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
+        return SecurityContextHolder.getContext().getAuthentication();
+       /* try {
             cardValidator.validate(deck.getCards());
         } catch (SomePowerStatsWithoutValueException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
@@ -88,7 +94,7 @@ public class DeckController {
                         deck.getCards().stream().map(CardId::new).collect(Collectors.toList()),
                         deck.getName()
                 )
-        );
+        );*/
     }
 
     @ExceptionHandler({ Exception.class })
@@ -102,6 +108,7 @@ public class DeckController {
     @PutMapping("/{id}")
     @ApiOperation(value = "Modify the deck")
     @ApiResponses({@ApiResponse(code = 202, message = "Deck modified")})
+    @PreAuthorize(value = "hasAuthority('update:decks')")
     public ResponseEntity modifyDeck(@PathVariable("id") String id, @Validated @NonNull @RequestBody DeckModelRequest deckModelRequest) throws Exception {
         deckService.update(new DeckUpdateRequest(id, deckModelRequest.getName(), deckModelRequest.getCards()));
         return ResponseEntity.accepted().build();
