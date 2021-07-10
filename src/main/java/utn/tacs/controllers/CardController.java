@@ -30,7 +30,6 @@ public class CardController {
     @ApiResponses({
             @ApiResponse(code = 200, response = CardModelResponse.class, message = "Carta correspondiente a ese id")
     })
-    @PreAuthorize(value = "hasAuthority('read:cards')")
     public CardModelResponse getCard(@PathVariable("id") String id) throws URISyntaxException {
         return finder.find(new CardFindRequest(new CardId(id)));
     }

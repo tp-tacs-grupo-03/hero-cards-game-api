@@ -1,4 +1,4 @@
-package controller;
+package utn.tacs.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.runner.RunWith;
@@ -17,9 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 public abstract class RequestTestCase {
-    private String token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ink4TUprbHhzOVg4Y3dGZEp5OVZHNiJ9.eyJpc3MiOiJodHRwczovL2Rldi1qeDhmeXN2cS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjAxMzBjYWM5ZGJkMWEwMDY4ZjA2YTdhIiwiYXVkIjpbImh0dHBzOi8vdGFjcy4yMDIxLmNvbSIsImh0dHBzOi8vZGV2LWp4OGZ5c3ZxLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MTk5MDM5MDEsImV4cCI6MTYxOTk5MDMwMSwiYXpwIjoiSDhFWDAwRGVndE5ic3AyUGRVQ1p4dk51dTFSSTZ2ZFoiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIn0.XmVJv3miGJw01yhmx87RGXEktBonrYflFiUt6hNr3NkRFO_DXyRLpxMormI99sTXGss9xmMrOqaKMVomfJv9bq89r1gm4BlU1mEfM-uFhVR6aZG8m-WlZATNr7jSt_yq2l-jjuyqQB0KL6fz9Q3DMLvixREPTEW0hTTX5oYnVb-VrmLspa6EhUBxSXkheSy4Bjg6aFzdYU5sZfZfDmqyHwYEDzAdatyg6d5AqfHDjV0-DtxEpp3MqzQeiDJtWIFTuLN_pPNwEe1Ls8-U6IldyTIvXa7qnLdGj68y4Fqilvg0ABSyjQOvPq2yoVjEsdUMPh9DU_Ot5_QrhQSlhKBGAw";
+    private String token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ink4TUprbHhzOVg4Y3dGZEp5OVZHNiJ9.eyJodHRwczpyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaHR0cHM6cGljdHVyZSI6Imh0dHBzOi8vcy5ncmF2YXRhci5jb20vYXZhdGFyLzYwMzMwNTI5MDcwNzIyNGUwMTA5NjUxOGRkZDA4M2M4P3M9NDgwJnI9cGcmZD1odHRwcyUzQSUyRiUyRmNkbi5hdXRoMC5jb20lMkZhdmF0YXJzJTJGZGUucG5nIiwiaHR0cHM6dXNlcm5hbWUiOiJkZXYiLCJpc3MiOiJodHRwczovL2Rldi1qeDhmeXN2cS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjAxMzBjYWM5ZGJkMWEwMDY4ZjA2YTdhIiwiYXVkIjpbImh0dHBzOi8vdGFjcy4yMDIxLmNvbSIsImh0dHBzOi8vZGV2LWp4OGZ5c3ZxLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MjU4NTY5NzYsImV4cCI6MTYyNTk0MzM3NiwiYXpwIjoiSDhFWDAwRGVndE5ic3AyUGRVQ1p4dk51dTFSSTZ2ZFoiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlOmRlY2tzIiwiY3JlYXRlOm1hdGNoZXMiLCJkZWxldGU6ZGVja3MiLCJyZWFkOmNhcmRzIiwicmVhZDpkZWNrcyIsInJlYWQ6bWF0Y2hlcyIsInJlYWQ6c3RhdHMiLCJ1cGRhdGU6ZGVja3MiLCJ1cGRhdGU6bWF0Y2hlcyJdfQ.ALGEsO8YiOJNRdUmgTlchhCXNABdhDaJzV7QFb17oNuwMLsvCXXCAtQ2Gf5PGoZz6YQKCnhoup06AlgxhAQLsloSVlpKbiyGTgt73gNzdWiXw_XsUCtTWIrpnfHR1oG4cNpa_JuU8k9r2BBn_Fh1Az_PuJERV6Om8VTlSuhpR-o5nrzORku_5CswIB_JWuPlbPmK-m6F8MzmjFSQGlMBTGUuuYfntwUTUkhjwfTRE0rVERWpzbe35KQJS0xOZPw0XUbfk-d6bMRXFq-fYaNXeJY03Oz5OVPIS2bisvybyNsQKKosdX6i20MrN8pK0raxbHL4hilizhns0h0_f1L3OQ";
     public ObjectMapper mapper = new ObjectMapper();
     @Autowired
     private MockMvc mockMvc;
@@ -44,10 +44,7 @@ public abstract class RequestTestCase {
             String endpoint,
             Integer expectedStatusCode
     ) throws Exception {
-        mockMvc
-                .perform(request(HttpMethod.valueOf(method), endpoint)
-                        .header("Authorization", "Bearer " + token)
-                )
+        mockMvc.perform(request(HttpMethod.valueOf(method), endpoint).header("Authorization", "Bearer " + token))
                 .andExpect(status().is(expectedStatusCode));
     }
 

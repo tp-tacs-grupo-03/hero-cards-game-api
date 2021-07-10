@@ -1,6 +1,5 @@
-package controller.decks;
+package utn.tacs.controllers;
 
-import controller.RequestTestCase;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
