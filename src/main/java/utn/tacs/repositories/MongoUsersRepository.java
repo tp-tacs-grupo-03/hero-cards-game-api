@@ -38,11 +38,6 @@ public class MongoUsersRepository implements UsersRepository {
     }
 
     @Override
-    public void saveAll(List<PlayerStats> players) {
-        players.forEach(this::save);
-    }
-
-    @Override
     @Transactional
     @CachePut(value = "playerCache", key = "#playerStats.id")
     public PlayerStats upsert(PlayerStats playerStats) {
@@ -68,7 +63,6 @@ public class MongoUsersRepository implements UsersRepository {
         update.set("createdMatches", player.getCreatedMatches());
 
         mongoOperations.updateFirst(query, update, MatchPersistModel.class, collectionName);
-        mongoOperations.save(find(player.getId()), collectionName);
     }
 
     @Override

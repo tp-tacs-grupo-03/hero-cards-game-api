@@ -12,8 +12,6 @@ public interface UsersRepository {
 
     PlayerStats find(String userId);
 
-    void saveAll(List<PlayerStats> players);
-
     PlayerStats upsert(PlayerStats playerStats);
 
     void update(PlayerStats player);
