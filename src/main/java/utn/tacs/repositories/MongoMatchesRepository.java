@@ -27,7 +27,8 @@ public class MongoMatchesRepository implements MatchesRepository {
 
     @Override
     public void save(Match match) {
-        mongoOperations.save(MatchPersistModel.toMatchPersistModel(match), collectionName);
+        MatchPersistModel save = mongoOperations.save(MatchPersistModel.toMatchPersistModel(match), collectionName);
+        match.setId(save.getId());
     }
 
     @Override
