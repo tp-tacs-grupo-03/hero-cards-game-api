@@ -81,10 +81,8 @@ public class DeckController {
     @ApiResponses({
             @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck creado")
     })
-
-    public Authentication newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
-        return SecurityContextHolder.getContext().getAuthentication();
-       /* try {
+    public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
+       try {
             cardValidator.validate(deck.getCards());
         } catch (SomePowerStatsWithoutValueException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
@@ -94,7 +92,7 @@ public class DeckController {
                         deck.getCards().stream().map(CardId::new).collect(Collectors.toList()),
                         deck.getName()
                 )
-        );*/
+        );
     }
 
     @ExceptionHandler({ Exception.class })
