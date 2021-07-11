@@ -32,7 +32,7 @@ public class MongoMatchesRepository implements MatchesRepository {
 
     @Override
     public Optional<Match> find(String id) {
-        return Optional.ofNullable(MatchPersistModel.toMatch(mongoOperations.findOne(new Query(Criteria.where("id").is(id)), MatchPersistModel.class)));
+        return Optional.ofNullable(MatchPersistModel.toMatch(mongoOperations.findOne(new Query(Criteria.where("id").is(id)), MatchPersistModel.class, collectionName)));
     }
 
     @Override
