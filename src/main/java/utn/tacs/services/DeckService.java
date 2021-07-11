@@ -32,10 +32,18 @@ public class DeckService {
 
     public ListDeckModelResponse findAll(Pageable page, Sort sort) {
         final List<Deck> decks = repository.findAll(page, sort);
+        final int total = repository.getTotal();
         final ListDeckModelResponse listDeckModelResponse = new ListDeckModelResponse();
         listDeckModelResponse.setDeckModelResponses(decks.stream()
                 .map(deck -> new DeckModelResponse(deck.getCardIds(), deck.getId(), deck.getName()))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList())
+        );
+
+        listDeckModelResponse.setPage("" + page.getPageNumber());
+        listDeckModelResponse.setPageSize("" + page.getPageNumber());
+        listDeckModelResponse.setTotal_count("" + total);
+        listDeckModelResponse.setPage_count("" + total/page.getPageSize());
+
         return listDeckModelResponse;
     }
 

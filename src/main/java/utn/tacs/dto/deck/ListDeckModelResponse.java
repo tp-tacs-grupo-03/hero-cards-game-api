@@ -9,5 +9,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ListDeckModelResponse {
+    private String page;
+    private String pageSize;
+    private String page_count;
+    private String total_count;
     private List<DeckModelResponse> deckModelResponses;
 }

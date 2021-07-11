@@ -63,4 +63,9 @@ public class MongoMatchesRepository implements MatchesRepository {
     public List<Match> findAll() {
         return mongoOperations.findAll(MatchPersistModel.class, collectionName).stream().map(MatchPersistModel::toMatch).collect(Collectors.toList());
     }
+
+    @Override
+    public int getTotal() {
+        return Math.toIntExact(mongoOperations.getCollection(collectionName).countDocuments());
+    }
 }

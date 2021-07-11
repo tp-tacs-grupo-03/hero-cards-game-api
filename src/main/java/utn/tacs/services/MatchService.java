@@ -80,10 +80,21 @@ public class MatchService {
     public ListMatchModelResponse findAll(MatchPagingRequest req) throws SortingException {
         final Pageable pageable = PageRequest.of(req.getPage(),req.getSize());
         final List<Match> matches = matchesRepository.findAll(pageable,  new Sort(req.getField(), req.getSortDirection()));
+        final int total = matchesRepository.getTotal();
         final ListMatchModelResponse listMatchModelResponse = new ListMatchModelResponse();
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String player = auth.getName();
-        listMatchModelResponse.setMatchModelResponses(matches.stream().map(MatchModelResponse::toMatchModel).filter(match -> match.getPlayers().contains(player)).collect(Collectors.toList()));
+        listMatchModelResponse.setMatchModelResponses(
+                matches.stream()
+                .map(MatchModelResponse::toMatchModel)
+                .filter(match -> match.getPlayers().contains(player))
+                .collect(Collectors.toList())
+        );
+
+        listMatchModelResponse.setPage("" + pageable.getPageNumber());
+        listMatchModelResponse.setPageSize("" + pageable.getPageNumber());
+        listMatchModelResponse.setTotal_count("" + total);
+        listMatchModelResponse.setPage_count("" + total/pageable.getPageSize());
 
         return listMatchModelResponse;
     }

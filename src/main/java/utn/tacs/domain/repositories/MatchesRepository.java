@@ -18,4 +18,6 @@ public interface MatchesRepository {
     void update(Match match);
 
     List<Match> findAll();
+
+    int getTotal();
 }

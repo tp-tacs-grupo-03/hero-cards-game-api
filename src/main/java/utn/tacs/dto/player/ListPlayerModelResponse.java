@@ -10,5 +10,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ListPlayerModelResponse {
-    List<User> users;
+    private String page;
+    private String pageSize;
+    private String page_count;
+    private String total_count;
+    private List<User> users;
 }

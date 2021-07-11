@@ -19,4 +19,5 @@ public interface DecksRepository {
 
     void update(Deck deck);
 
+    int getTotal();
 }

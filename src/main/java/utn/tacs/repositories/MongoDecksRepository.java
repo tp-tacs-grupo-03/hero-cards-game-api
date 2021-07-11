@@ -56,4 +56,9 @@ public class MongoDecksRepository implements DecksRepository {
         update.set("name", deck.getName());
         mongoOperations.updateFirst(query, update, Deck.class, collectionName);
     }
+
+    @Override
+    public int getTotal() {
+        return Math.toIntExact(mongoOperations.getCollection(collectionName).countDocuments());
+    }
 }
