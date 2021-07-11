@@ -1,5 +1,6 @@
 package utn.tacs.services;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Match;
@@ -33,8 +34,8 @@ public class StatsService {
         return PlayerStatsModel.toPlayerStatsModel(usersRepository.find(userId));
     }
 
-    public List<PlayerStatsModel> findAll() {
-        return usersRepository.findAll().stream().map(PlayerStatsModel::toPlayerStatsModel).collect(Collectors.toList());
+    public List<PlayerStatsModel> findAll(Pageable pageable) {
+        return usersRepository.findAll(pageable).stream().map(PlayerStatsModel::toPlayerStatsModel).collect(Collectors.toList());
     }
 
     public MatchStatsModel findMatches(String initDate, String finishDate) throws Exception {

@@ -2,9 +2,9 @@ package utn.tacs.repositories;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import utn.tacs.domain.Deck;
-import utn.tacs.pagination.Page;
-import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
 
@@ -21,7 +21,7 @@ class InMemoryDecksRepositoryTest {
 
     @BeforeAll
     static void setUp() {
-        List<Integer> collect = IntStream.range(0, 20).boxed().collect(Collectors.toList());
+        List<Integer> collect = IntStream.range(0, 10).boxed().collect(Collectors.toList());
         collect.forEach(i -> {
             final Deck deck = new Deck();
             deck.setId("" + i);
@@ -31,8 +31,9 @@ class InMemoryDecksRepositoryTest {
     }
 
     @Test
-    void testOrderDescById() throws PaginationException, SortingException {
-        final List<Deck> all = memory.findAll(new Page(0, 10), new Sort("id", "desc"));
+    void testOrderDescById() throws SortingException {
+        Pageable pageable = PageRequest.of(0, 10);
+        final List<Deck> all = memory.findAll(pageable, new Sort("id", "desc"));
         assertEquals(10, all.size());
         for(int i=0; i < all.size()-1; i++) {
             assertTrue(all.get(i).getId().compareTo(all.get(i+1).getId()) >= 0);
@@ -40,8 +41,9 @@ class InMemoryDecksRepositoryTest {
     }
 
     @Test
-    void testOrderAscById() throws PaginationException, SortingException {
-        final List<Deck> all = memory.findAll(new Page(0, 10), new Sort("id", "asc"));
+    void testOrderAscById() throws SortingException {
+        Pageable pageable = PageRequest.of(0, 10);
+        final List<Deck> all = memory.findAll(pageable, new Sort("id", "asc"));
         assertEquals(10, all.size());
         for(int i=0; i < all.size()-1; i++) {
             assertTrue(all.get(i).getId().compareTo(all.get(i+1).getId()) <= 0);
@@ -49,8 +51,9 @@ class InMemoryDecksRepositoryTest {
     }
 
     @Test
-    void testOrderAscByName() throws PaginationException, SortingException {
-        final List<Deck> all = memory.findAll(new Page(0, 10), new Sort("name", "asc"));
+    void testOrderAscByName() throws SortingException {
+        Pageable pageable = PageRequest.of(0, 10);
+        final List<Deck> all = memory.findAll(pageable, new Sort("name", "asc"));
         assertEquals(10, all.size());
         for(int i=0; i < all.size()-1; i++) {
             assertTrue(all.get(i).getName().compareTo(all.get(i+1).getName()) <= 0);
@@ -58,8 +61,9 @@ class InMemoryDecksRepositoryTest {
     }
 
     @Test
-    void testOrderDescByName() throws PaginationException, SortingException {
-        final List<Deck> all = memory.findAll(new Page(0, 10), new Sort("name", "desc"));
+    void testOrderDescByName() throws SortingException {
+        Pageable pageable = PageRequest.of(0, 10);
+        final List<Deck> all = memory.findAll(pageable, new Sort("name", "desc"));
         assertEquals(10, all.size());
         for(int i=0; i < all.size()-1; i++) {
             assertTrue(all.get(i).getName().compareTo(all.get(i+1).getName()) >= 0);

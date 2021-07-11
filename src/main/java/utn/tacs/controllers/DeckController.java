@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,8 +21,6 @@ import utn.tacs.controllers.exceptions.SomePowerStatsWithoutValueException;
 import utn.tacs.controllers.validators.CardAttributesValidator;
 import utn.tacs.domain.CardId;
 import utn.tacs.dto.deck.*;
-import utn.tacs.pagination.Page;
-import utn.tacs.pagination.exceptions.PaginationException;
 import utn.tacs.services.DeckService;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
@@ -53,13 +54,14 @@ public class DeckController {
             @ApiResponse(code = 200, response = ListDeckModelResponse.class, message = "Listado de los decks")
     })
     @PreAuthorize("hasAuthority('read:decks')")
-    public ListDeckModelResponse getAllDecks(@RequestParam(value = "limit", required = false, defaultValue = "100") int limit,
-                                               @RequestParam(value = "offSet", required = false, defaultValue = "0") int offSet,
+    public ListDeckModelResponse getAllDecks(@RequestParam(value = "size", required = false, defaultValue = "100") int size,
+                                               @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortField,
                                                @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
         try {
-            return deckService.findAll(new Page(offSet, limit), new Sort(sortField, sortDirection));
-        } catch (SortingException |PaginationException e) {
+            final Pageable pageable = PageRequest.of(page, size);
+            return deckService.findAll(pageable, new Sort(sortField, sortDirection));
+        } catch (SortingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }

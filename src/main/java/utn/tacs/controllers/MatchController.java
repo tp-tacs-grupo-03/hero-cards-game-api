@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -19,8 +21,7 @@ import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.deck.response.MatchModel;
 import utn.tacs.dto.deck.response.Request;
 import utn.tacs.dto.match.*;
-import utn.tacs.pagination.exceptions.PaginationException;
-import utn.tacs.services.*;
+import utn.tacs.services.MatchService;
 import utn.tacs.sorting.exceptions.SortingException;
 
 import java.util.ArrayList;
@@ -43,14 +44,13 @@ public class MatchController {
             @ApiResponse(code = 200, response = ListMatchModelResponse.class, message = "Las partidas")
     })
     @PreAuthorize(value = "hasAuthority('read:matches')")
-    public ListMatchModelResponse getAllMatches(@RequestParam(value = "offSet",required = false, defaultValue = "0") int offSet,
-                                                  @RequestParam(value = "limit",required = false, defaultValue = "100") int limit,
+    public ListMatchModelResponse getAllMatches(@RequestParam(value = "size",required = false, defaultValue = "100") int size,
+                                                  @RequestParam(value = "page",required = false, defaultValue = "0") int page,
                                                   @RequestParam(value = "sortBy",required = false, defaultValue = "id") String sortField ,
-                                                  @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection)
-    {
+                                                  @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
         try {
-            return matchService.findAll(new MatchPagingRequest(sortField, offSet, limit,sortDirection));
-        } catch (PaginationException | SortingException e) {
+            return matchService.findAll(new MatchPagingRequest(sortField, page, size, sortDirection));
+        } catch (SortingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }

@@ -40,4 +40,4 @@ out/
 database.env
 database-data/
 prod.env
-
+dbdata/
