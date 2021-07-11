@@ -81,8 +81,9 @@ public class DeckController {
     @ApiResponses({
             @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck creado")
     })
+
     public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
-       try {
+        try {
             cardValidator.validate(deck.getCards());
         } catch (SomePowerStatsWithoutValueException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);

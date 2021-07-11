@@ -1,6 +1,8 @@
 package utn.tacs.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.PlayerStats;
 import utn.tacs.domain.repositories.UsersRepository;
@@ -26,10 +28,13 @@ public class PlayerService {
     public ListPlayerModelResponse findAll(int page, Sort sort, String filterName) {
         List<PlayerStats> users = usersRepository.findByName(filterName, sort);
         Objects.requireNonNull(users);
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final String hostId = auth.getName();
 
         ListPlayerModelResponse listPlayerModelResponse = new ListPlayerModelResponse();
         listPlayerModelResponse.setUsers(users
                 .stream()
+                .filter(playerStats -> !playerStats.getId().equals(hostId))
                 .map(User::toUser)
                 .collect(Collectors.toList())
         );
