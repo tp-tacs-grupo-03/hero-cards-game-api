@@ -51,5 +51,10 @@ public class InMemoryMatchesRepository implements MatchesRepository, Sortable {
         return (List<Match>) matches.values();
     }
 
+    @Override
+    public int getTotal() {
+        return 0;
+    }
+
 
 }

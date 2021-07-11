@@ -49,4 +49,9 @@ public class InMemoryDecksRepository implements DecksRepository, Sortable {
     public void update(Deck deck) {
         decks.replace(deck.getId(), deck);
     }
+
+    @Override
+    public int getTotal() {
+        return 0;
+    }
 }

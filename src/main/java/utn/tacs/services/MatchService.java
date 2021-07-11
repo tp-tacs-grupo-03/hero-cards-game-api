@@ -36,7 +36,7 @@ public class MatchService {
     public BattleModelResponse begin(MatchBattleRequest matchBattleRequest) throws Exception {
         final Match match = matchesRepository.find(matchBattleRequest.getMatchId()).orElseThrow(()-> new Exception("No hay match con ese id"));
         if (match.isTerminated())
-            throw new Exception("Match finalizado");
+            throw new Exception("Match finalized");
         final Battle battle = match.battle(matchBattleRequest);
         matchesRepository.update(match);
         if (match.getStatus().equals(MatchStatusEnum.FINISHED))
