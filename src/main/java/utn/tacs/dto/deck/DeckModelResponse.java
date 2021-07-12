@@ -22,4 +22,5 @@ public class DeckModelResponse {
         this.id = id;
         this.name = name;
     }
+
 }

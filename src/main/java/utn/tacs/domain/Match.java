@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.match.MatchStatusEnum;
+import utn.tacs.dto.match.MatchUpdateRequest;
 import utn.tacs.sorting.DateComparable;
 import utn.tacs.sorting.IdComparable;
 import utn.tacs.sorting.StatusComparable;
@@ -43,12 +44,12 @@ public class Match implements IdComparable, DateComparable, StatusComparable {
         return this.players.keySet().stream().sorted().collect(Collectors.toList()).get(this.battles.size() % this.players.size());
     }
 
-    public Battle battle(MatchBattleRequest matchBattleRequest) throws Exception {
-        final String playerId = matchBattleRequest.getPlayerId();
+    public Battle battle(MatchUpdateRequest matchUpdateRequest) throws Exception {
+        final String playerId = matchUpdateRequest.getPlayer();
         if (!turn().equals(playerId)) {
             throw new Exception("No es el turno del jugador");
         }
-        Battle battle = new Battle(matchBattleRequest.getAttribute());
+        Battle battle = new Battle(matchUpdateRequest.getAttribute());
         battle.combat(players);
         battles.add(battle);
         calculateWinner();

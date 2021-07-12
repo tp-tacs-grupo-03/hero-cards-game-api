@@ -1,17 +1,15 @@
 package utn.tacs.repositories;
 
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.MatchesRepository;
-import utn.tacs.pagination.Page;
-import utn.tacs.pagination.Pageable;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.Sortable;
 
 import java.util.*;
 
 
-public class InMemoryMatchesRepository implements MatchesRepository, Pageable<Match>, Sortable {
+public class InMemoryMatchesRepository implements MatchesRepository, Sortable {
 
     private HashMap<String, Match> matches = new HashMap<>();
 
@@ -28,7 +26,7 @@ public class InMemoryMatchesRepository implements MatchesRepository, Pageable<Ma
     }
 
     @Override
-    public List<Match> findAll(Page page, Sort sort) {
+    public List<Match> findAll(Pageable pageable, Sort sort) {
         final List<Match> sorted=  new ArrayList<>(matches.values());
         switch (sort.getSortField()) {
             case ID: sorted.sort(sort.isAsc() ? getComparatorById(): getComparatorById().reversed());
@@ -40,7 +38,7 @@ public class InMemoryMatchesRepository implements MatchesRepository, Pageable<Ma
             default:
                 throw new IllegalStateException("Unexpected value: " + sort.getSortField());
         }
-        return getPage(page, sorted);
+        return sorted;
     }
 
     @Override
@@ -51,6 +49,11 @@ public class InMemoryMatchesRepository implements MatchesRepository, Pageable<Ma
     @Override
     public List<Match> findAll() {
         return (List<Match>) matches.values();
+    }
+
+    @Override
+    public int getTotal() {
+        return 0;
     }
 
 

@@ -1,11 +1,11 @@
 package utn.tacs.services;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Deck;
-import utn.tacs.dto.deck.*;
-import utn.tacs.pagination.Page;
 import utn.tacs.domain.repositories.DecksRepository;
+import utn.tacs.dto.deck.*;
 import utn.tacs.sorting.Sort;
 
 import java.util.List;
@@ -30,12 +30,20 @@ public class DeckService {
                 .orElseThrow(() -> new Exception("Deck no encontrado"));
     }
 
-    public ListDeckModelResponse findAll(Page page, Sort sort) {
+    public ListDeckModelResponse findAll(Pageable page, Sort sort) {
         final List<Deck> decks = repository.findAll(page, sort);
+        final int total = repository.getTotal();
         final ListDeckModelResponse listDeckModelResponse = new ListDeckModelResponse();
         listDeckModelResponse.setDeckModelResponses(decks.stream()
                 .map(deck -> new DeckModelResponse(deck.getCardIds(), deck.getId(), deck.getName()))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList())
+        );
+
+        listDeckModelResponse.setPage("" + page.getPageNumber());
+        listDeckModelResponse.setPageSize("" + page.getPageNumber());
+        listDeckModelResponse.setTotal_count("" + total);
+        listDeckModelResponse.setPage_count("" + total/page.getPageSize());
+
         return listDeckModelResponse;
     }
 

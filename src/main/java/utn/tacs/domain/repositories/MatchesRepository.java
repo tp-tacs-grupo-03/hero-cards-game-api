@@ -1,7 +1,7 @@
 package utn.tacs.domain.repositories;
 
+import org.springframework.data.domain.Pageable;
 import utn.tacs.domain.Match;
-import utn.tacs.pagination.Page;
 import utn.tacs.sorting.Sort;
 
 import java.util.List;
@@ -13,9 +13,11 @@ public interface MatchesRepository {
 
     Optional<Match> find(String id);
 
-    List<Match> findAll(Page page, Sort sort);
+    List<Match> findAll(Pageable pageable, Sort sort);
 
     void update(Match match);
 
     List<Match> findAll();
+
+    int getTotal();
 }

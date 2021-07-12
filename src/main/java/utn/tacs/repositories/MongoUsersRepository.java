@@ -1,5 +1,6 @@
 package utn.tacs.repositories;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
@@ -13,7 +14,9 @@ import utn.tacs.domain.repositories.UsersRepository;
 import utn.tacs.dto.match.MatchPersistModel;
 import utn.tacs.domain.PlayerStats;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -67,9 +70,13 @@ public class MongoUsersRepository implements UsersRepository {
     }
 
     @Override
-    public List<PlayerStats> findAll() {
-        return mongoOperations.findAll(PlayerStats.class, collectionName)
-                .stream()
+    public List<PlayerStats> findAll(Pageable pageable) {
+        final Query query = new Query();
+        query.with(pageable)
+                .skip(pageable.getPageSize() * pageable.getPageNumber())
+                .limit(pageable.getPageSize());
+        final List<PlayerStats> playerStats = mongoOperations.find(query, PlayerStats.class, collectionName);
+        return playerStats.stream()
                 .sorted(Comparator.comparing(PlayerStats::getWonMatches, Comparator.reverseOrder()))
                 .collect(Collectors.toList());
     }
@@ -77,10 +84,7 @@ public class MongoUsersRepository implements UsersRepository {
     @Override
     public List<PlayerStats> findByName(String name, utn.tacs.sorting.Sort sort) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").regex("*" + name + "*"));
-
-        Sort.Direction order = sort.isAsc()? Sort.Direction.ASC : Sort.Direction.DESC;
-        query.with(Sort.by(order));
+        query.addCriteria(Criteria.where("name").regex(".*" + name + ".*"));
 
         return mongoOperations.find(query, PlayerStats.class, collectionName);
     }

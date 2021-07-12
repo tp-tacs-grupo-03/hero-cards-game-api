@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,12 +44,13 @@ public class StatsController {
             @ApiResponse(code = 200, response = ListPlayerStatsModel.class, message = "Tablero de posiciones")
     })
     @PreAuthorize(value = "hasAuthority('read:stats')")
-    public ListPlayerStatsModel getLeadderboard(@RequestParam(value = "offSet",required = false, defaultValue = "0") int offSet,
-                                                @RequestParam(value = "limit",required = false, defaultValue = "100") int limit,
+    public ListPlayerStatsModel getLeadderboard(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
+                                                @RequestParam(value = "size",required = false, defaultValue = "100") int size,
                                                 @RequestParam(value = "sortBy",required = false) String sortField,
                                                 @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection){
+        final Pageable pageable = PageRequest.of(page, size);
         final ListPlayerStatsModel stats = new ListPlayerStatsModel();
-        stats.setPlayerStatsModels(statsService.findAll());
+        stats.setPlayerStatsModels(statsService.findAll(pageable));
         return stats;
     }
 

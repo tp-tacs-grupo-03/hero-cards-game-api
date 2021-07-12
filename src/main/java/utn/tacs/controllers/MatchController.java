@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -19,8 +21,7 @@ import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.deck.response.MatchModel;
 import utn.tacs.dto.deck.response.Request;
 import utn.tacs.dto.match.*;
-import utn.tacs.pagination.exceptions.PaginationException;
-import utn.tacs.services.*;
+import utn.tacs.services.MatchService;
 import utn.tacs.sorting.exceptions.SortingException;
 
 import java.util.ArrayList;
@@ -43,14 +44,15 @@ public class MatchController {
             @ApiResponse(code = 200, response = ListMatchModelResponse.class, message = "Las partidas")
     })
     @PreAuthorize(value = "hasAuthority('read:matches')")
-    public ListMatchModelResponse getAllMatches(@RequestParam(value = "offSet",required = false, defaultValue = "0") int offSet,
-                                                  @RequestParam(value = "limit",required = false, defaultValue = "100") int limit,
-                                                  @RequestParam(value = "sortBy",required = false, defaultValue = "id") String sortField ,
-                                                  @RequestParam(value = "sortDirection",required = false, defaultValue = "asc") String sortDirection)
+    public ListMatchModelResponse getAllMatches(@RequestParam(value = "size"            ,required = false, defaultValue = "100" ) int size,
+                                                @RequestParam(value = "page"            ,required = false, defaultValue = "0"   ) int page,
+                                                @RequestParam(value = "sortBy"          ,required = false, defaultValue = "id"  ) String sortField ,
+                                                @RequestParam(value = "sortDirection"   ,required = false, defaultValue = "asc" ) String sortDirection,
+                                                @RequestParam(value = "battles"         ,required = false, defaultValue = "true") boolean battles)
     {
         try {
-            return matchService.findAll(new MatchPagingRequest(sortField, offSet, limit,sortDirection));
-        } catch (PaginationException | SortingException e) {
+            return matchService.findAll(new MatchPagingRequest(sortField, page, size, sortDirection, battles));
+        } catch (SortingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }
@@ -61,19 +63,11 @@ public class MatchController {
             @ApiResponse(code = 200, response = MatchModelResponse.class, message = "La partida")
     })
     @PreAuthorize(value = "hasAuthority('read:matches')")
-    public MatchModelResponse getMatch(@PathVariable("id") String id) throws Exception {
-        return matchService.find(new MatchFindRequest(id));
-    }
-
-    @GetMapping("/{id}/battles")
-    @ApiOperation(value = "Obtener las batallas de un match")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = ListBattles.class, message = "Lista de batallas")
-    })
-    public ListBattles getBattles(@PathVariable("id") String id) throws Exception {
-        final ListBattles listBattles = new ListBattles();
-        listBattles.setBattles(matchService.findBattles(new MatchFindRequest(id)));
-        return listBattles;
+    public MatchModelResponse getMatch(@PathVariable("id") String id,
+                                       @RequestParam(value = "battles", required = false, defaultValue = "true") boolean battle)
+            throws Exception
+    {
+        return matchService.find(new MatchFindRequest(id, battle));
     }
 
     @PostMapping
@@ -92,31 +86,25 @@ public class MatchController {
         return matchService.create(new MatchCreateRequest(players, matchRequest.getDeckId(), hostId));
     }
 
-
-    @PostMapping("/{id}/battles")
-    @ApiOperation(value = "Indicar en tu turno que atributo se usara")
-    @ApiResponses({
-            @ApiResponse(code = 200, response = BattleModelResponse.class, message = "Resultado del combate")
-    })
-    @PreAuthorize(value = "hasAuthority('update:matches')")
-    public BattleModelResponse modifyMatch(@RequestBody Request request, @PathVariable("id") String id ) throws Exception {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return matchService.begin(new MatchBattleRequest(id, auth.getName(), request.getAttribute()));
-    }
-
     @PatchMapping("/{id}")
     @ApiOperation(value = "Actualizar partida")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Surrender")
     })
     @PreAuthorize(value = "hasAuthority('update:matches')")
-    public void surrender(@RequestBody MatchRequest request, @PathVariable("id") String id ) throws Exception {
+    public MatchModelResponse surrender(@RequestBody MatchRequest request, @PathVariable("id") String id ) throws Exception {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final MatchUpdateRequest matchUpdateRequest = new MatchUpdateRequest();
+
+        if (request.getAttribute() != null && request.getStatus() != null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
         matchUpdateRequest.setStatus(request.getStatus());
         matchUpdateRequest.setId(id);
         matchUpdateRequest.setPlayer(auth.getName());
-        matchService.update(matchUpdateRequest);
+        matchUpdateRequest.setAttribute(request.getAttribute());
+
+        return MatchModelResponse.toMatchModel(matchService.update(matchUpdateRequest), true);
     }
 
 }
