@@ -15,7 +15,7 @@ public class InMemoryDecksRepository implements DecksRepository, Sortable {
     private HashMap<String, Deck> decks = new HashMap<>();
 
     @Override
-    public List<Deck> findAll(Pageable page, Sort sort) {
+    public List<Deck> findAll(Pageable page, Sort sort, String name) {
         final List<Deck> sorted=  new ArrayList<>(decks.values());
         switch (sort.getSortField()) {
             case ID: sorted.sort(sort.isAsc() ? getComparatorById(): getComparatorById().reversed());

@@ -31,8 +31,7 @@ public class PlayerController {
     })
     public ListPlayerModelResponse getAllPlayers(@RequestParam(value = "size",required = false, defaultValue = "100") int size,
                                                  @RequestParam(value = "page",required = false, defaultValue = "0") int page,
-                                                 @RequestParam(value = "name", required = false, defaultValue = "") String filterName,
-                                                 @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
+                                                 @RequestParam(value = "name", required = false, defaultValue = "") String filterName) {
         try {
             final Pageable pageable = PageRequest.of(page, size);
             return playerService.findAll(pageable, filterName);

@@ -57,10 +57,11 @@ public class DeckController {
     public ListDeckModelResponse getAllDecks(@RequestParam(value = "size", required = false, defaultValue = "100") int size,
                                                @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortField,
+                                               @RequestParam(value = "name", required = false, defaultValue = "") String filterName,
                                                @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
         try {
             final Pageable pageable = PageRequest.of(page, size);
-            return deckService.findAll(pageable, new Sort(sortField, sortDirection));
+            return deckService.findAll(pageable, new Sort(sortField, sortDirection), filterName);
         } catch (SortingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }

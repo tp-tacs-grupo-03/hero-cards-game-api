@@ -30,8 +30,8 @@ public class DeckService {
                 .orElseThrow(() -> new Exception("Deck no encontrado"));
     }
 
-    public ListDeckModelResponse findAll(Pageable page, Sort sort) {
-        final List<Deck> decks = repository.findAll(page, sort);
+    public ListDeckModelResponse findAll(Pageable page, Sort sort, String filterName) {
+        final List<Deck> decks = repository.findAll(page, sort, filterName);
         final int total = repository.getTotal();
         final ListDeckModelResponse listDeckModelResponse = new ListDeckModelResponse();
         listDeckModelResponse.setDeckModelResponses(decks.stream()

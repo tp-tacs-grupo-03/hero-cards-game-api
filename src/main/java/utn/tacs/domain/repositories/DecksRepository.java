@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface DecksRepository {
 
-    List<Deck> findAll(Pageable pageable, Sort sort);
+    List<Deck> findAll(Pageable pageable, Sort sort, String filterName);
 
     Optional<Deck> find(String id);
 
