@@ -26,8 +26,8 @@ public class PlayerService {
         return User.toUser(usersRepository.find(id));
     }
 
-    public ListPlayerModelResponse findAll(Pageable pageable, Sort sort, String filterName) {
-        List<PlayerStats> users = usersRepository.findByName(pageable, filterName, sort);
+    public ListPlayerModelResponse findAll(Pageable pageable, String filterName) {
+        List<PlayerStats> users = usersRepository.findByName(pageable, filterName);
         Objects.requireNonNull(users);
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String hostId = auth.getName();

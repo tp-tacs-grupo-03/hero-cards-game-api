@@ -14,6 +14,7 @@ import utn.tacs.domain.repositories.UsersRepository;
 import utn.tacs.dto.match.MatchPersistModel;
 import utn.tacs.sorting.Sort;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -78,14 +79,11 @@ public class MongoUsersRepository implements UsersRepository {
         query.with(pageable)
                 .skip(pageable.getPageSize() * pageable.getPageNumber())
                 .limit(pageable.getPageSize());
-        final List<PlayerStats> playerStats = mongoOperations.find(query, PlayerStats.class, collectionName);
-        return playerStats.stream()
-                .sorted(Comparator.comparing(PlayerStats::getWonMatches, Comparator.reverseOrder()))
-                .collect(Collectors.toList());
+        return mongoOperations.find(query, PlayerStats.class, collectionName);
     }
 
     @Override
-    public List<PlayerStats> findByName(Pageable pageable, String name, utn.tacs.sorting.Sort sort) {
+    public List<PlayerStats> findByName(Pageable pageable, String name) {
         Query query = new Query();
         query.with(pageable)
                 .skip(pageable.getPageSize() * pageable.getPageNumber())

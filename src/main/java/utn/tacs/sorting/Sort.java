@@ -14,6 +14,7 @@ public class Sort {
     private SortField sortField;
     private boolean asc;
     private boolean defined = false;
+    private String field;
 
     public Sort(String field, String sortDirection) throws SortingException {
         if (!field.equals("")) {
@@ -24,12 +25,13 @@ public class Sort {
             this.sortField = SortField.valueOf(field.toUpperCase());
             this.asc = sortDirection.toLowerCase().equals("asc");
             this.defined = true;
+            this.field = field;
         }
     }
 
     public org.springframework.data.domain.Sort getSortData() {
         var direction = org.springframework.data.domain.Sort.Direction.fromString(this.asc ? "ASC": "DESC");
-        return org.springframework.data.domain.Sort.by(direction, this.getSortField().name());
+        return org.springframework.data.domain.Sort.by(direction, this.field);
     }
 
 
