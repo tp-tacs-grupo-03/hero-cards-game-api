@@ -20,10 +20,10 @@ public class Sort {
         if (!field.equals("")) {
             long count = Arrays.stream(SortField.values()).filter(x -> x.name().equals(field.toUpperCase())).count();
             if (count == 0) throw new SortingException("Invalid field value");
-            if (Stream.of("asc", "desc").noneMatch(x -> x.equals(sortDirection.toLowerCase())))
+            if (Stream.of("ASC", "DESC").noneMatch(x -> x.equals(sortDirection.toUpperCase())))
                 throw new SortingException("Invalid sort Direction value");
             this.sortField = SortField.valueOf(field.toUpperCase());
-            this.asc = sortDirection.toLowerCase().equals("asc");
+            this.asc = sortDirection.toUpperCase().equals("ASC");
             this.defined = true;
             this.field = field;
         }
