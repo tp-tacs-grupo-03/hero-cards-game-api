@@ -41,3 +41,5 @@ database.env
 database-data/
 prod.env
 dbdata/
+
+mongodb_server_data/
