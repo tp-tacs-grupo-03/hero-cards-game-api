@@ -10,8 +10,10 @@ import lombok.Setter;
 public class MatchFindRequest {
 
     private String matchId;
+    private boolean battle;
 
-    public MatchFindRequest(String matchId) {
+    public MatchFindRequest(String matchId, boolean battle) {
         this.matchId = matchId;
+        this.battle = battle;
     }
 }
