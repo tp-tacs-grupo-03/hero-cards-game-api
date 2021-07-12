@@ -4,5 +4,13 @@ public enum SortField {
     ID,
     NAME,
     STATUS,
-    DATE
+    DATE,
+    PLAYERID,
+    PLAYEDMATCHES,
+    WONMATCHES,
+    LOSTMATCHES,
+    CREATEDMATCHES,
+    INPROGRESSMATCHES,
+    SURRENDERMATCHES,
+    NICKNAME
 }

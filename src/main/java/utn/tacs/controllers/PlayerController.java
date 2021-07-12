@@ -5,14 +5,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import utn.tacs.dto.player.User;
 import utn.tacs.dto.player.ListPlayerModelResponse;
+import utn.tacs.dto.player.User;
 import utn.tacs.services.PlayerService;
-import utn.tacs.sorting.Sort;
-import utn.tacs.sorting.exceptions.SortingException;
 
 @RequestMapping("api/players")
 @Api(tags = "Players")
@@ -29,14 +29,13 @@ public class PlayerController {
     @ApiResponses({
             @ApiResponse(code = 200, response = ListPlayerModelResponse.class, message = "Player lists")
     })
-    public ListPlayerModelResponse getAllPlayers(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                                 @RequestParam(value = "sortBy", required = false, defaultValue = "name") String sortField,
+    public ListPlayerModelResponse getAllPlayers(@RequestParam(value = "size",required = false, defaultValue = "100") int size,
+                                                 @RequestParam(value = "page",required = false, defaultValue = "0") int page,
                                                  @RequestParam(value = "name", required = false, defaultValue = "") String filterName,
                                                  @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
         try {
-            return playerService.findAll(page, new Sort(sortField, sortDirection), filterName);
-        } catch (SortingException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            final Pageable pageable = PageRequest.of(page, size);
+            return playerService.findAll(pageable, filterName);
         } catch (Exception pe) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, pe.getMessage(), pe);
         }
