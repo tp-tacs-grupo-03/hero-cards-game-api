@@ -25,14 +25,6 @@ public class Deck implements IdComparable, NameComparable {
         this.name = name;
     }
 
-    public void addCards(List<CardId> cardIds) {
-        this.cardIds.addAll(cardIds);
-    }
-
-    public void deleteCard(CardId cardId){
-        cardIds.remove(cardId);
-    }
-
     public void shuffle() {
         Collections.shuffle(this.cardIds);
     }

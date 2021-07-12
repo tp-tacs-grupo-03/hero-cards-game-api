@@ -2,9 +2,11 @@ package utn.tacs.services;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import utn.tacs.domain.Battle;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Deck;
@@ -88,7 +90,7 @@ public class MatchService {
     }
 
     public Match update(MatchUpdateRequest matchUpdateRequest) throws Exception {
-        final Match match = matchesRepository.find(matchUpdateRequest.getId()).orElseThrow(()-> new Exception("No hay match con ese id"));
+        final Match match = matchesRepository.find(matchUpdateRequest.getId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "No existe match con ese id"));
 
         if (matchUpdateRequest.getStatus() != null)
             surrender(matchUpdateRequest, match);

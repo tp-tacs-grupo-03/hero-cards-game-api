@@ -63,7 +63,11 @@ public class MatchController {
                                        @RequestParam(value = "battles", required = false, defaultValue = "true") boolean battle)
             throws Exception
     {
-        return matchService.find(new MatchFindRequest(id, battle));
+        try {
+            return matchService.find(new MatchFindRequest(id, battle));
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
     }
 
     @PostMapping
@@ -87,7 +91,7 @@ public class MatchController {
             @ApiResponse(code = 200, message = "Surrender")
     })
     @PreAuthorize(value = "hasAuthority('update:matches')")
-    public MatchModelResponse surrender(@RequestBody MatchRequest request, @PathVariable("id") String id ) throws Exception {
+    public MatchModelResponse update(@RequestBody MatchRequest request, @PathVariable("id") String id ) throws Exception {
         final MatchUpdateRequest matchUpdateRequest = new MatchUpdateRequest();
 
         if (request.getAttribute() != null && request.getStatus() != null)

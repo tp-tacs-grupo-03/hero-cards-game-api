@@ -81,7 +81,7 @@ public class DeckController {
     @ApiResponses({
             @ApiResponse(code = 200, response = DeckModelResponse.class, message = "Deck creado")
     })
-
+    @PreAuthorize(value = "hasAuthority('create:decks')")
     public DeckModelResponse newDeck(@Validated @NonNull @RequestBody DeckModelRequest deck){
         try {
             cardValidator.validate(deck.getCards());
@@ -96,13 +96,6 @@ public class DeckController {
         );
     }
 
-    @ExceptionHandler({ Exception.class })
-    public ResponseEntity<?> handleInvalidDNAException(Exception e) {
-        HashMap<String, String> response = new HashMap<>();
-        response.put("message", e.getMessage());
-        response.put("status", HttpStatus.BAD_REQUEST.toString());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Modify the deck")

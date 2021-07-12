@@ -10,7 +10,6 @@ import utn.tacs.TacsApplication;
 import utn.tacs.common.security.Authenticator;
 import utn.tacs.domain.PlayerStats;
 import utn.tacs.domain.repositories.UsersRepository;
-import utn.tacs.sorting.Sort;
 
 import java.util.ArrayList;
 
@@ -26,7 +25,7 @@ final public class PlayerControllerTest extends RequestTestCase{
     @Test
     void getAllPlayers() throws Exception {
         Mockito.when(authenticator.getHost()).thenReturn("test");
-        Mockito.when(usersRepository.findByName( PageRequest.of(0, 100), "")).thenReturn(new ArrayList<>());
+        Mockito.when(usersRepository.findByName( PageRequest.of(0, 100), "") ).thenReturn(new ArrayList<>());
         assertRequest("GET", "/api/players", 200);
     }
 

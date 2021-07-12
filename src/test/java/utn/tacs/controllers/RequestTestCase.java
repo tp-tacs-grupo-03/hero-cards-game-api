@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
+import utn.tacs.common.client.auth0.Auth0Token;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -37,6 +38,11 @@ public abstract class RequestTestCase {
     }
 
     private void getToken(){
+        String myToken = Auth0Token.getInstance().getToken();
+        if(myToken  != null){
+            token = myToken;
+            return;
+        }
         try {
             HttpResponse<String> stringHttpResponse = Unirest.post("https://dev-jx8fysvq.us.auth0.com/oauth/token")
                     .header("content-type", "application/json")
@@ -45,9 +51,9 @@ public abstract class RequestTestCase {
 
             String a = Arrays.asList(stringHttpResponse.getBody().split(",")).get(0).substring(2);
             Map<String, String> properties = Splitter.on(",").withKeyValueSeparator(":").split(a);
-            token = properties.get("access_token\"");
-            token = token.substring(1, token.length() - 1);
-
+            this.token = properties.get("access_token\"");
+            this.token = this.token.substring(1, this.token.length() - 1);
+            Auth0Token.getInstance().setToken(token);
         } catch (UnirestException e) {
             e.printStackTrace();
         }

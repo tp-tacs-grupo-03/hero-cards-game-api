@@ -55,7 +55,7 @@ public class StatsService {
     }
 
     void process_create(MatchCreateRequest matchCreateRequest){
-        PlayerStats hostPlayer = usersRepository.find(matchCreateRequest.getHost()).incrementcreate();
+        PlayerStats hostPlayer = usersRepository.find(matchCreateRequest.getHost()).incrementCreate();
         usersRepository.save(hostPlayer);
         matchCreateRequest.getPlayers()
                 .stream()
@@ -84,7 +84,7 @@ public class StatsService {
                 .filter(player -> !player.equals(winnerID))
                 .forEach(player -> usersRepository
                         .find(player)
-                        .incrementWin()
+                        .incrementLoss()
                 );
     }
 }
