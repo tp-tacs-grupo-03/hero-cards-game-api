@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utn.tacs.domain.Match;
+import utn.tacs.dto.battle.ListBattles;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,7 @@ public class MatchModelResponse {
 
     private String id;
     private List<String> players;
+    private ListBattles listBattles;
     private String deck;
     private MatchStatusEnum status;
     private Date creationDate;
@@ -27,7 +29,7 @@ public class MatchModelResponse {
     private String turn;
     private PlayerStatus playerStatus;
 
-    public MatchModelResponse(String id, List<String> players, String deck, MatchStatusEnum status, Date creationDate) {
+    private MatchModelResponse(String id, List<String> players, String deck, MatchStatusEnum status, Date creationDate) {
         this.id = id;
         this.players = players;
         this.deck = deck;
@@ -35,8 +37,13 @@ public class MatchModelResponse {
         this.creationDate = creationDate;
     }
 
-    static public MatchModelResponse toMatchModel(Match match){
+    static public MatchModelResponse toMatchModel(Match match, boolean battle){
         MatchModelResponse matchModelResponse = new MatchModelResponse(match.getId(), new ArrayList<>(match.getPlayers().keySet()), match.getDeck(), match.getStatus(), match.getCreationDate());
+        if (battle){
+            ListBattles listBattles = new ListBattles();
+            listBattles.setBattles(match.getBattles());
+            matchModelResponse.setListBattles(listBattles);
+        }
         matchModelResponse.setEndDate(match.getEndDate());
         matchModelResponse.setWinnerID(match.getWinnerID());
         matchModelResponse.setCardsLeft(match.cardLeft());
