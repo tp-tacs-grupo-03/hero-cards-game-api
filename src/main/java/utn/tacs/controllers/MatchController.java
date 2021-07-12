@@ -4,8 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -15,11 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import utn.tacs.dto.battle.BattleModelResponse;
-import utn.tacs.dto.battle.ListBattles;
-import utn.tacs.dto.battle.MatchBattleRequest;
+import utn.tacs.common.security.Authenticator;
 import utn.tacs.dto.deck.response.MatchModel;
-import utn.tacs.dto.deck.response.Request;
 import utn.tacs.dto.match.*;
 import utn.tacs.services.MatchService;
 import utn.tacs.sorting.exceptions.SortingException;
@@ -36,7 +31,8 @@ import java.util.List;
 @CrossOrigin(value = "*", exposedHeaders = {"ETag"})
 public class MatchController {
 
-    private MatchService matchService;
+    private final MatchService matchService;
+    private final Authenticator authentication;
 
     @GetMapping
     @ApiOperation(value = "Obtener todas las partidas")
@@ -77,8 +73,7 @@ public class MatchController {
     })
     @PreAuthorize(value = "hasAuthority('create:matches')")
     public MatchModelResponse postMatch(@Validated @NonNull @RequestBody MatchModel matchRequest) throws Exception {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final String hostId = auth.getName();
+        final String hostId = authentication.getHost();
 
         final List<String> players = new ArrayList<>();
         players.add(hostId);
@@ -93,7 +88,6 @@ public class MatchController {
     })
     @PreAuthorize(value = "hasAuthority('update:matches')")
     public MatchModelResponse surrender(@RequestBody MatchRequest request, @PathVariable("id") String id ) throws Exception {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final MatchUpdateRequest matchUpdateRequest = new MatchUpdateRequest();
 
         if (request.getAttribute() != null && request.getStatus() != null)
@@ -101,7 +95,7 @@ public class MatchController {
 
         matchUpdateRequest.setStatus(request.getStatus());
         matchUpdateRequest.setId(id);
-        matchUpdateRequest.setPlayer(auth.getName());
+        matchUpdateRequest.setPlayer(authentication.getHost());
         matchUpdateRequest.setAttribute(request.getAttribute());
 
         return MatchModelResponse.toMatchModel(matchService.update(matchUpdateRequest), true);
