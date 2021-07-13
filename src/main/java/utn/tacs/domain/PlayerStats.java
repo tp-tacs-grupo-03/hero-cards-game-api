@@ -15,7 +15,7 @@ public class PlayerStats implements Serializable {
     private int wonMatches;
     private int lostMatches;
     private int surrenderedMatches;
-    private int inProgressMatch;
+    private int inProgressMatches;
     private int createdMatches;
     private String image;
     private String name;
@@ -26,33 +26,33 @@ public class PlayerStats implements Serializable {
         this.lostMatches = 0;
         this.surrenderedMatches = 0;
         this.createdMatches = 0;
-        this.inProgressMatch = 0;
+        this.inProgressMatches = 0;
     }
 
     public int getTotalMatches(){
-        return wonMatches + lostMatches + surrenderedMatches + inProgressMatch;
+        return wonMatches + lostMatches + surrenderedMatches + inProgressMatches;
     }
 
     public PlayerStats incrementWin(){
         wonMatches++;
-        inProgressMatch--;
+        inProgressMatches--;
         return this;
     }
 
     public PlayerStats incrementLoss(){
         lostMatches++;
-        inProgressMatch--;
+        inProgressMatches--;
         return this;
     }
 
     public PlayerStats incrementSurrender(){
         surrenderedMatches++;
-        inProgressMatch--;
+        inProgressMatches--;
         return this;
     }
 
     public PlayerStats incrementProgress(){
-        inProgressMatch++;
+        inProgressMatches++;
         return this;
     }
 

@@ -14,11 +14,8 @@ import utn.tacs.domain.repositories.UsersRepository;
 import utn.tacs.dto.match.MatchPersistModel;
 import utn.tacs.sorting.Sort;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public class MongoUsersRepository implements UsersRepository {
@@ -64,7 +61,7 @@ public class MongoUsersRepository implements UsersRepository {
         update.set("wonMatches", player.getWonMatches());
         update.set("lostMatches", player.getLostMatches());
         update.set("surrenderedMatches", player.getSurrenderedMatches());
-        update.set("inProgressMatch", player.getInProgressMatch());
+        update.set("inProgressMatches", player.getInProgressMatches());
         update.set("createdMatches", player.getCreatedMatches());
 
         mongoOperations.updateFirst(query, update, MatchPersistModel.class, collectionName);
@@ -72,11 +69,9 @@ public class MongoUsersRepository implements UsersRepository {
 
     @Override
     public List<PlayerStats> findAll(Pageable pageable, Sort sort) {
-        final Query query = new Query();
-        if (sort.isDefined()) {
-            query.with(sort.getSortData());
-        }
-        query.with(pageable)
+        final Query query = new Query()
+                .with(sort.getSortData())
+                .with(pageable)
                 .skip(pageable.getPageSize() * pageable.getPageNumber())
                 .limit(pageable.getPageSize());
         return mongoOperations.find(query, PlayerStats.class, collectionName);
