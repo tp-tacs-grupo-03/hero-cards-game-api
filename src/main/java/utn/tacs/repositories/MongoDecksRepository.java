@@ -24,11 +24,12 @@ public class MongoDecksRepository implements DecksRepository {
     }
 
     @Override
-    public List<Deck> findAll(Pageable pageable, Sort sort) {
+    public List<Deck> findAll(Pageable pageable, Sort sort, String filterName) {
         final Query query = new Query();
         query.with(pageable)
                 .skip(pageable.getPageSize() * pageable.getPageNumber())
                 .limit(pageable.getPageSize());
+        query.addCriteria(Criteria.where("name").regex(".*" + filterName + ".*"));
         return mongoOperations.find(query, Deck.class, collectionName);
     }
 
