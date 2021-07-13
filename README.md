@@ -1,5 +1,6 @@
 ## TP TACS
 ## GRUPO 3
+[![codecov](https://codecov.io/gh/tp-tacs-grupo-03/hero-cards-game-api/branch/main/graph/badge.svg?token=iwngAylNUA)](https://codecov.io/gh/tp-tacs-grupo-03/hero-cards-game-api)
 
 ### How to install
 #### Requirements technology stack
