@@ -5,6 +5,7 @@ import lombok.Setter;
 import utn.tacs.domain.Battle;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Match;
+import utn.tacs.dto.deck.response.MatchTypeEnum;
 
 import java.util.*;
 
@@ -16,6 +17,7 @@ public class MatchPersistModel {
     private Map<String, List<CardId>> players;
     private String deck;
     private MatchStatusEnum status;
+    private MatchTypeEnum type;
     private Date creationDate;
     private Date endDate;
     private String winnerID;
@@ -31,6 +33,7 @@ public class MatchPersistModel {
         matchPersistModel.setBattles(match.getBattles());
         matchPersistModel.setCreationDate(match.getCreationDate());
         matchPersistModel.setDeck(match.getDeck());
+        matchPersistModel.setType(match.getType());
         matchPersistModel.setId(match.getId());
         matchPersistModel.setStatus(match.getStatus());
         matchPersistModel.setEndDate(match.getEndDate());
@@ -57,6 +60,7 @@ public class MatchPersistModel {
         match.setCreationDate(matchPersistModel.getCreationDate());
         match.setEndDate(matchPersistModel.getEndDate());
         match.setWinnerID(matchPersistModel.getWinnerID());
+        match.setType(matchPersistModel.getType());
         match.setDeck(matchPersistModel.getDeck());
         match.setStatus(matchPersistModel.getStatus());
 

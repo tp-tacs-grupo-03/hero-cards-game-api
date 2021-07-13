@@ -8,14 +8,15 @@ import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
 import utn.tacs.domain.exceptions.NotFoundCharacter;
 import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.deck.response.Attribute;
+import utn.tacs.dto.deck.response.MatchTypeEnum;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class Battle {
 
     private Attribute attribute;
@@ -23,7 +24,9 @@ public class Battle {
     private Map<String, CardModelResponse> players;
     private String winner;
 
-
+    public Battle() {
+        this.players = new HashMap<>();
+    }
 
     public Battle(Attribute attribute) {
         this.attribute = attribute;
@@ -45,4 +48,12 @@ public class Battle {
         }
     }
 
+    public void combatBot(Map<String, Queue<CardId>> players) throws Exception {
+        final SuperHeroApi superHeroApi = new SuperHeroApi();
+        CardId cardId = players.get("~~~ALBERTO-BOT~~~").peek();
+        final Character cht = superHeroApi.getCharacter(cardId.getId()).orElseThrow(()-> new NotFoundCharacter(cardId.getId()));
+        final Card card = new Card(cardId, cht.getPowerstats());
+        this.setAttribute(card.getBestAttribute());
+        this.combat(players);
+    }
 }

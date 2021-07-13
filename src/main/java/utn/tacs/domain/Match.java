@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import utn.tacs.dto.battle.MatchBattleRequest;
+import utn.tacs.dto.deck.response.Attribute;
+import utn.tacs.dto.deck.response.MatchTypeEnum;
 import utn.tacs.dto.match.MatchStatusEnum;
 import utn.tacs.dto.match.MatchUpdateRequest;
 import utn.tacs.sorting.DateComparable;
@@ -23,17 +25,19 @@ public class Match implements IdComparable, DateComparable, StatusComparable {
     private Map<String, Queue<CardId>> players;
     private String deck;
     private MatchStatusEnum status;
+    private MatchTypeEnum type;
     private Date creationDate;
     private Date endDate;
     private String winnerID;
     private List<Battle> battles;
 
-    public Match(Map<String, Queue<CardId>> players, String deck, Date creationDate) {
-        this.players = players;
+    public Match(Map<String, Queue<CardId>> players, String deck, MatchTypeEnum type) {
         this.deck = deck;
         this.status = MatchStatusEnum.IN_PROGRESS;
-        this.creationDate = creationDate;
-        battles = new ArrayList<>();
+        this.creationDate = new Date();
+        this.type = type;
+        this.players = players;
+        this.battles = new ArrayList<>();
     }
 
     public CardId getNextCard(String playerId) {
@@ -52,7 +56,17 @@ public class Match implements IdComparable, DateComparable, StatusComparable {
         Battle battle = new Battle(matchUpdateRequest.getAttribute());
         battle.combat(players);
         battles.add(battle);
+        if(this.type == MatchTypeEnum.TRAINING && cardLeft() > 0){
+            Battle battleBot = this.combatBot();
+            battles.add(battleBot);
+        }
         calculateWinner();
+        return battle;
+    }
+
+    private Battle combatBot() throws Exception {
+        Battle battle = new Battle();
+        battle.combatBot(players);
         return battle;
     }
 

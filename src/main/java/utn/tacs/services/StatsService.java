@@ -67,10 +67,10 @@ public class StatsService {
         return matchStatsModel;
     }
 
-    void process_create(MatchCreateRequest matchCreateRequest){
+    void process_create(MatchCreateRequest matchCreateRequest, List<String> playersId){
         PlayerStats hostPlayer = usersRepository.find(matchCreateRequest.getHost()).incrementCreate();
         usersRepository.save(hostPlayer);
-        matchCreateRequest.getPlayers()
+        playersId
                 .stream()
                 .filter(player -> !player.equals(matchCreateRequest.getHost()))
                 .forEach(player -> usersRepository
