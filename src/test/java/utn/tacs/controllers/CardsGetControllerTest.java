@@ -19,14 +19,8 @@ import utn.tacs.services.CardService;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 final class CardsGetControllerTest extends RequestTestCase {
 
-    @MockBean
-    private CardService cardService;
-
     @Test
     void findCardById() throws Exception{
-        Mockito.when(cardService.find(new CardFindRequest(new CardId("1"))))
-                .thenReturn(new CardModelResponse());
-
         assertRequest("GET","/api/cards/1", 200);
     }
 }
