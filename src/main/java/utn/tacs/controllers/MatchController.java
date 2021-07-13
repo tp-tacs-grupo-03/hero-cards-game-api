@@ -61,7 +61,6 @@ public class MatchController {
     @PreAuthorize(value = "hasAuthority('read:matches')")
     public MatchModelResponse getMatch(@PathVariable("id") String id,
                                        @RequestParam(value = "battles", required = false, defaultValue = "true") boolean battle)
-            throws Exception
     {
         try {
             return matchService.find(new MatchFindRequest(id, battle));
@@ -78,11 +77,7 @@ public class MatchController {
     @PreAuthorize(value = "hasAuthority('create:matches')")
     public MatchModelResponse postMatch(@Validated @NonNull @RequestBody MatchModel matchRequest) throws Exception {
         final String hostId = authentication.getHost();
-
-        final List<String> players = new ArrayList<>();
-        players.add(hostId);
-        players.add(matchRequest.getOpponentId());
-        return matchService.create(new MatchCreateRequest(players, matchRequest.getDeckId(), hostId));
+        return matchService.create(new MatchCreateRequest(matchRequest.getOpponentId(), matchRequest.getDeckId(), hostId, matchRequest.getType()));
     }
 
     @PatchMapping("/{id}")

@@ -36,17 +36,32 @@ public class MatchService {
     public MatchModelResponse create(MatchCreateRequest matchCreateRequest) throws Exception {
         final Deck deck = decksRepository.find(matchCreateRequest.getDeck()).orElseThrow(() -> new Exception("No hay deck con ese id"));
         deck.shuffle();
-        final List<Queue<CardId>> split = deck.split(matchCreateRequest.getPlayers().size());
 
-        final Map<String, Queue<CardId>> players = new HashMap<>();
-        for (int i = 0; i < matchCreateRequest.getPlayers().size(); i++){
-            players.put(matchCreateRequest.getPlayers().get(i), split.get(i));
+        List<String> playersId = new ArrayList<>();
+        playersId.add(matchCreateRequest.getHost());
+
+        switch (matchCreateRequest.getType()){
+            case RANKED:
+                playersId.add(matchCreateRequest.getOpponent());
+                break;
+            case TRAINING:
+                playersId.add("~~~ALBERTO-BOT~~~");
+                break;
+            default:
+                throw new Exception("No existe el tipo" + matchCreateRequest.getType());
         }
 
-        final Match match = new Match(players, matchCreateRequest.getDeck(), LocalDateTime.now());
+        final List<Queue<CardId>> split = deck.split(playersId.size());
+
+        final Map<String, Queue<CardId>> players = new HashMap<>();
+        for (int i = 0; i < playersId.size(); i++){
+            players.put(playersId.get(i), split.get(i));
+        }
+
+        final Match match = new Match(players, deck.getId(), matchCreateRequest.getType());
         matchesRepository.save(match);
-        statsService.process_create(matchCreateRequest);
-        return MatchModelResponse.toMatchModel(match, false);
+        statsService.process_create(matchCreateRequest, playersId);
+        return MatchModelResponse.toMatchModel(match, true);
     }
 
     public MatchModelResponse find(MatchFindRequest matchFindRequest) throws Exception {

@@ -3,8 +3,15 @@ package utn.tacs.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.w3c.dom.Attr;
+import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Powerstats;
+import utn.tacs.domain.exceptions.NotFoundCharacter;
+import utn.tacs.dto.card.CardModelResponse;
 import utn.tacs.dto.deck.response.Attribute;
+
+import java.util.Map;
+import java.util.Queue;
 
 @Getter
 @Setter
@@ -31,6 +38,18 @@ class Card {
 
     int getValueOf(Attribute attribute){
         return powerstats.getAttribute(attribute);
+    }
+
+    public Attribute getBestAttribute(){
+        Attribute bestAttr = null;
+        int bestValue = 0;
+        for (Map.Entry<Attribute, Integer> element : powerstats.getAttributes().entrySet()) {
+            if(element.getValue() > bestValue){
+                bestAttr = element.getKey();
+                bestValue = element.getValue();
+            }
+        }
+        return bestAttr;
     }
 
 }

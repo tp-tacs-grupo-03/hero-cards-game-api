@@ -14,4 +14,5 @@ public class MatchModel {
 
     private String opponentId;
     private String deckId;
+    private MatchTypeEnum type;
 }

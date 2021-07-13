@@ -3,6 +3,7 @@ package utn.tacs.dto.match;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import utn.tacs.dto.deck.response.MatchTypeEnum;
 
 import java.util.List;
 
@@ -11,13 +12,15 @@ import java.util.List;
 @NoArgsConstructor
 public class MatchCreateRequest {
 
-    private List<String> players;
     private String host;
+    private String opponent;
     private String deck;
+    private MatchTypeEnum type;
 
-    public MatchCreateRequest(List<String> players, String deck, String hostId) {
-        this.players = players;
+    public MatchCreateRequest(String opponent, String deck, String hostId, MatchTypeEnum type) {
+        this.opponent = opponent;
         this.deck = deck;
         this.host = hostId;
+        this.type = type;
     }
 }
