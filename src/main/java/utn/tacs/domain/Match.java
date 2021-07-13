@@ -13,6 +13,8 @@ import utn.tacs.sorting.DateComparable;
 import utn.tacs.sorting.IdComparable;
 import utn.tacs.sorting.StatusComparable;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,16 +27,16 @@ public class Match implements IdComparable, DateComparable, StatusComparable {
     private Map<String, Queue<CardId>> players;
     private String deck;
     private MatchStatusEnum status;
+    private LocalDateTime creationDate;
+    private LocalDateTime endDate;
     private MatchTypeEnum type;
-    private Date creationDate;
-    private Date endDate;
     private String winnerID;
     private List<Battle> battles;
 
     public Match(Map<String, Queue<CardId>> players, String deck, MatchTypeEnum type) {
         this.deck = deck;
         this.status = MatchStatusEnum.IN_PROGRESS;
-        this.creationDate = new Date();
+        this.creationDate = LocalDateTime.now();
         this.type = type;
         this.players = players;
         this.battles = new ArrayList<>();
@@ -102,6 +104,6 @@ public class Match implements IdComparable, DateComparable, StatusComparable {
 
     @Override
     public long getDate() {
-        return this.creationDate.getTime();
+        return this.creationDate.toEpochSecond(ZoneOffset.UTC);
     }
 }

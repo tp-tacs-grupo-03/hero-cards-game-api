@@ -1,7 +1,6 @@
 package utn.tacs.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utn.tacs.common.client.superHeroAPI.clientApi.SuperHeroApi;
 import utn.tacs.common.client.superHeroAPI.clientApi.model.Character;
@@ -33,7 +32,7 @@ public class Battle {
         this.players = new HashMap<>();
     }
 
-    public void combat(Map<String, Queue<CardId>> players) throws Exception {
+    void combat(Map<String, Queue<CardId>> players) throws Exception {
         final SuperHeroApi superHeroApi = new SuperHeroApi();
         int max = 0;
         for (Map.Entry<String, Queue<CardId>> element : players.entrySet()) {

@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.ehcache:ehcache:3.8.1'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	compile "org.springframework.data:spring-data-mongodb:3.0.3.RELEASE"
+	compile "joda-time:joda-time:2.10"
 	compileOnly 'org.projectlombok:lombok:1.18.20'
 	compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.3.1'
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'
@@ -59,8 +60,9 @@ test {
 jacocoTestReport {
 	dependsOn test // tests are required to run before generating the report
 	reports {
-		xml.enabled false
+		xml.enabled true
 		csv.enabled false
+		xml.destination	layout.buildDirectory.dir('jacocoXml').get().asFile
 		html.destination layout.buildDirectory.dir('jacocoHtml').get().asFile
 	}
 }

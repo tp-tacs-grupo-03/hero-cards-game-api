@@ -16,12 +16,12 @@ import java.util.Queue;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Card {
+class Card {
 
     private CardId cardId;
     private PowerStats powerstats;
 
-    public Card(CardId value, Powerstats powerstats) throws Exception {
+    Card(CardId value, Powerstats powerstats) throws Exception {
         if (powerstats == null) {
             throw new Exception("No se pudo conseguir las stats de la carta " +
                     value.getId());
@@ -36,7 +36,7 @@ public class Card {
         .addAttribute(Attribute.STRENGTH, powerstats.getStrength());
     }
 
-    public int getValueOf(Attribute attribute){
+    int getValueOf(Attribute attribute){
         return powerstats.getAttribute(attribute);
     }
 
