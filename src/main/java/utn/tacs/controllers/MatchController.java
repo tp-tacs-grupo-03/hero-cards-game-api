@@ -97,7 +97,7 @@ public class MatchController {
         matchUpdateRequest.setPlayer(authentication.getHost());
         matchUpdateRequest.setAttribute(request.getAttribute());
 
-        return MatchModelResponse.toMatchModel(matchService.update(matchUpdateRequest), true);
+        return matchService.update(matchUpdateRequest);
     }
 
 }

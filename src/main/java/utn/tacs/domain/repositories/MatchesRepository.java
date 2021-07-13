@@ -15,9 +15,11 @@ public interface MatchesRepository {
 
     List<Match> findAll(Pageable pageable, Sort sort);
 
+    List<Match> findAllById(Pageable pageable, Sort sort, String playerID);
+
     void update(Match match);
 
     List<Match> findAll();
 
-    int getTotal();
+    int getTotal(String playerID);
 }

@@ -9,6 +9,7 @@ import utn.tacs.dto.deck.response.MatchTypeEnum;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -16,6 +17,7 @@ public class MatchPersistModel {
 
     private String id;
     private Map<String, List<CardId>> players;
+    private List<String> playersId;
     private String deck;
     private MatchStatusEnum status;
     private LocalDateTime creationDate;
@@ -36,6 +38,7 @@ public class MatchPersistModel {
         matchPersistModel.setDeck(match.getDeck());
         matchPersistModel.setType(match.getType());
         matchPersistModel.setId(match.getId());
+        matchPersistModel.setPlayersId(match.getPlayers().keySet().stream().collect(Collectors.toList()));
         matchPersistModel.setStatus(match.getStatus());
         matchPersistModel.setEndDate(match.getEndDate());
         matchPersistModel.setWinnerID(match.getWinnerID());
