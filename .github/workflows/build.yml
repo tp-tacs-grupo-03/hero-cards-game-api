@@ -30,7 +30,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew test
     - name: list
-      run: ls
+      run: ls ./build
     - uses: codecov/codecov-action@v1
       with:
         file: ./**/target/jacocoXml
