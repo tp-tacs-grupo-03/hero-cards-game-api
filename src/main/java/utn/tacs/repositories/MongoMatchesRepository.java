@@ -37,19 +37,8 @@ public class MongoMatchesRepository implements MatchesRepository {
     }
 
     @Override
-    public List<Match> findAll(Pageable pageable, Sort sort) {
-        final Query query = new Query();
-        query.with(pageable)
-                .skip(pageable.getPageSize() * pageable.getPageNumber())
-                .limit(pageable.getPageSize());
-        List<MatchPersistModel> matchPersistModels = mongoOperations.find(query, MatchPersistModel.class, collectionName);
-        return matchPersistModels.stream().map(MatchPersistModel::toMatch).collect(Collectors.toList());
-    }
-
-    @Override
     public List<Match> findAllById(Pageable pageable, Sort sort, String playerID) {
-        final Query query =
-                new Query(Criteria.where("playersId").in(playerID));
+        final Query query = new Query(Criteria.where("playersId").in(playerID));
         query.with(pageable)
                 .skip(pageable.getPageSize() * pageable.getPageNumber())
                 .limit(pageable.getPageSize());
