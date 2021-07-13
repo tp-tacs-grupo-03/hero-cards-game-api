@@ -47,6 +47,17 @@ public class MongoMatchesRepository implements MatchesRepository {
     }
 
     @Override
+    public List<Match> findAllById(Pageable pageable, Sort sort, String playerID) {
+        final Query query =
+                new Query(Criteria.where("playersId").in(playerID));
+        query.with(pageable)
+                .skip(pageable.getPageSize() * pageable.getPageNumber())
+                .limit(pageable.getPageSize());
+        List<MatchPersistModel> matchPersistModels = mongoOperations.find(query, MatchPersistModel.class, collectionName);
+        return matchPersistModels.stream().map(MatchPersistModel::toMatch).collect(Collectors.toList());
+    }
+
+    @Override
     public void update(Match match) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(match.getId()));
@@ -66,7 +77,7 @@ public class MongoMatchesRepository implements MatchesRepository {
     }
 
     @Override
-    public int getTotal() {
-        return Math.toIntExact(mongoOperations.getCollection(collectionName).countDocuments());
+    public int getTotal(String playerId) {
+        return (int) mongoOperations.count(new Query(Criteria.where("playersId").in(playerId)), collectionName);
     }
 }

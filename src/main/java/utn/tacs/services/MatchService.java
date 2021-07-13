@@ -12,6 +12,7 @@ import utn.tacs.domain.Deck;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.DecksRepository;
 import utn.tacs.domain.repositories.MatchesRepository;
+import utn.tacs.dto.deck.response.MatchModel;
 import utn.tacs.dto.match.*;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
@@ -79,15 +80,14 @@ public class MatchService {
 
     public ListMatchModelResponse findAll(MatchPagingRequest req) throws SortingException {
         final Pageable pageable = PageRequest.of(req.getPage(),req.getSize());
-        final List<Match> matches = matchesRepository.findAll(pageable,  new Sort(req.getField(), req.getSortDirection()));
-        final int total = matchesRepository.getTotal();
-        final ListMatchModelResponse listMatchModelResponse = new ListMatchModelResponse();
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String player = auth.getName();
+        final List<Match> matches = matchesRepository .findAllById(pageable,  new Sort(req.getField(), req.getSortDirection()), player);
+        final int total = matchesRepository.getTotal(player);
+        final ListMatchModelResponse listMatchModelResponse = new ListMatchModelResponse();
         listMatchModelResponse.setMatchModelResponses(
                 matches.stream()
                         .map(match -> MatchModelResponse.toMatchModel(match, req.isBattle()))
-                        .filter(match -> match.getPlayers().contains(player))
                         .collect(Collectors.toList()
                         )
         );
@@ -99,7 +99,7 @@ public class MatchService {
         return listMatchModelResponse;
     }
 
-    public Match update(MatchUpdateRequest matchUpdateRequest) throws Exception {
+    public MatchModelResponse update(MatchUpdateRequest matchUpdateRequest) throws Exception {
         final Match match = matchesRepository.find(matchUpdateRequest.getId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "No existe match con ese id"));
 
         if (matchUpdateRequest.getStatus() != null)
@@ -107,7 +107,15 @@ public class MatchService {
         else if (matchUpdateRequest.getAttribute() != null)
             fight(matchUpdateRequest, match);
 
-        return match;
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final String player = auth.getName();
+        MatchModelResponse response = MatchModelResponse.toMatchModel(match, true);
+        if (!match.isTerminated() && match.isPlayer(player)){
+            response.setPlayerStatus(new PlayerStatus(match, player));
+        }
+        response.setTurn(match.turn());
+        response.setCardsLeft(match.cardLeft());
+        return response;
     }
 
     private void fight(MatchUpdateRequest matchBattleRequest, Match match) throws Exception {
