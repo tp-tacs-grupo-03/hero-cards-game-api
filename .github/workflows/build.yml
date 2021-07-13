@@ -11,9 +11,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    env:
+      super_hero_api_key: ${{secrets.SUPER_HERO_API_KEY}}
+      auth0_client_id: ${{secrets.AUTH0_CLIENT_ID}}
+      auth0_client_secret: ${{secrets.AUTH0_CLIENT_SECRET}}
+      auth0_audience: ${{secrets.AUTH0_AUDIENCE}}
+    
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
