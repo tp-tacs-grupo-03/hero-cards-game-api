@@ -20,4 +20,6 @@ public interface UsersRepository {
     List<PlayerStats> findAll(Pageable pageable, Sort sort);
 
     List<PlayerStats> findByName(Pageable pageable, String name);
+
+    int getTotal();
 }

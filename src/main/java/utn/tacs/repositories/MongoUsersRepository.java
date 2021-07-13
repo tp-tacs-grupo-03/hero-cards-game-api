@@ -87,4 +87,11 @@ public class MongoUsersRepository implements UsersRepository {
 
         return mongoOperations.find(query, PlayerStats.class, collectionName);
     }
+
+
+    @Override
+    public int getTotal() {
+        return Math.toIntExact(mongoOperations.getCollection(collectionName).countDocuments());
+    }
+
 }

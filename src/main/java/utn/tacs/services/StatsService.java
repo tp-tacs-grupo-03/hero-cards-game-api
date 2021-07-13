@@ -11,6 +11,7 @@ import utn.tacs.dto.match.MatchStatsModel;
 import utn.tacs.dto.match.MatchStatusEnum;
 import utn.tacs.dto.match.MatchUpdateRequest;
 import utn.tacs.domain.PlayerStats;
+import utn.tacs.dto.player.ListPlayerStatsModel;
 import utn.tacs.dto.player.PlayerStatsModel;
 import utn.tacs.sorting.Sort;
 
@@ -36,8 +37,20 @@ public class StatsService {
         return PlayerStatsModel.toPlayerStatsModel(usersRepository.find(userId));
     }
 
-    public List<PlayerStatsModel> findAll(Pageable pageable, Sort sort) {
-        return usersRepository.findAll(pageable, sort).stream().map(PlayerStatsModel::toPlayerStatsModel).collect(Collectors.toList());
+    public ListPlayerStatsModel findAll(Pageable pageable, Sort sort) {
+
+        final ListPlayerStatsModel players = new ListPlayerStatsModel();
+        final List<PlayerStats> playerStatsModel = usersRepository.findAll(pageable, sort);
+        final int total = usersRepository.getTotal();
+
+        players.setPlayerStats(playerStatsModel);
+
+        players.setPage(pageable.getPageNumber());
+        players.setPageSize(pageable.getPageSize());
+        players.setTotal_count(total);
+        players.setPage_count(total/pageable.getPageSize());
+
+        return players;
     }
 
     public MatchStatsModel findMatches(String initDate, String finishDate) throws Exception {
