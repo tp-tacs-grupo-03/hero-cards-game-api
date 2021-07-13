@@ -54,6 +54,7 @@ class MatchControllerTest extends RequestTestCase{
         MatchModel matchModel = new MatchModel();
         matchModel.setDeckId("1");
         matchModel.setOpponentId("12");
+        matchModel.setType(MatchTypeEnum.RANKED);
         String json = mapper.writeValueAsString(matchModel);
 
 
