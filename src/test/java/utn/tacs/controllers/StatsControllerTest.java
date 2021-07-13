@@ -12,6 +12,7 @@ import utn.tacs.domain.Match;
 import utn.tacs.domain.PlayerStats;
 import utn.tacs.domain.repositories.MatchesRepository;
 import utn.tacs.domain.repositories.UsersRepository;
+import utn.tacs.dto.deck.response.MatchTypeEnum;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
 
@@ -42,7 +43,7 @@ class StatsControllerTest extends RequestTestCase{
         players.put("Test", split.get(0));
         players.put("z1234", split.get(1));
         LocalDateTime date = LocalDateTime.now();
-        Match match = new Match(players, "1", date);
+        Match match = new Match(players, "1", MatchTypeEnum.RANKED);
         List<Match> matches = new ArrayList<>();
         matches.add(match);
 
