@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import utn.tacs.dto.deck.response.ListPlayerStatsModel;
+import utn.tacs.dto.player.ListPlayerStatsModel;
 import utn.tacs.dto.match.MatchStatsModel;
 import utn.tacs.dto.player.PlayerStatsModel;
 import utn.tacs.services.StatsService;
@@ -51,9 +51,7 @@ public class StatsController {
         final Pageable pageable = PageRequest.of(page, size);
         try {
             final Sort sort = new Sort(sortField, sortDirection);
-            final ListPlayerStatsModel stats = new ListPlayerStatsModel();
-            stats.setPlayerStatsModels(statsService.findAll(pageable, sort));
-            return stats;
+            return statsService.findAll(pageable, sort);
         } catch (SortingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         } catch (Exception pe) {
