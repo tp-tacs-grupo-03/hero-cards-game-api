@@ -1,6 +1,10 @@
-package controller;
+package utn.tacs.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Splitter;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,6 +13,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
+import utn.tacs.common.client.auth0.Auth0Token;
+
+import java.util.Arrays;
+import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
@@ -17,12 +25,39 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 public abstract class RequestTestCase {
-    private String token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ink4TUprbHhzOVg4Y3dGZEp5OVZHNiJ9.eyJpc3MiOiJodHRwczovL2Rldi1qeDhmeXN2cS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjAxMzBjYWM5ZGJkMWEwMDY4ZjA2YTdhIiwiYXVkIjpbImh0dHBzOi8vdGFjcy4yMDIxLmNvbSIsImh0dHBzOi8vZGV2LWp4OGZ5c3ZxLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MTk5MDM5MDEsImV4cCI6MTYxOTk5MDMwMSwiYXpwIjoiSDhFWDAwRGVndE5ic3AyUGRVQ1p4dk51dTFSSTZ2ZFoiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIn0.XmVJv3miGJw01yhmx87RGXEktBonrYflFiUt6hNr3NkRFO_DXyRLpxMormI99sTXGss9xmMrOqaKMVomfJv9bq89r1gm4BlU1mEfM-uFhVR6aZG8m-WlZATNr7jSt_yq2l-jjuyqQB0KL6fz9Q3DMLvixREPTEW0hTTX5oYnVb-VrmLspa6EhUBxSXkheSy4Bjg6aFzdYU5sZfZfDmqyHwYEDzAdatyg6d5AqfHDjV0-DtxEpp3MqzQeiDJtWIFTuLN_pPNwEe1Ls8-U6IldyTIvXa7qnLdGj68y4Fqilvg0ABSyjQOvPq2yoVjEsdUMPh9DU_Ot5_QrhQSlhKBGAw";
+    private String token = "";
     public ObjectMapper mapper = new ObjectMapper();
+
     @Autowired
     private MockMvc mockMvc;
+
+    public RequestTestCase() {
+        getToken();
+    }
+
+    private void getToken(){
+        String myToken = Auth0Token.getInstance().getToken();
+        if(myToken  != null){
+            token = myToken;
+            return;
+        }
+        try {
+            HttpResponse<String> stringHttpResponse = Unirest.post("https://dev-jx8fysvq.us.auth0.com/oauth/token")
+                    .header("content-type", "application/json")
+                    .body("{\"client_id\":\"smXhNQvNPYBjbkh4NAwAHLvd8faz4bLP\",\"client_secret\":\"q7OsrJWHEJZEBpZihmBLbE6hletU_iEmQ80erD4N13TwxRqGOLLILieXo_aIZOx0\",\"audience\":\"https://tacs.2021.com\",\"grant_type\":\"client_credentials\"}")
+                    .asString();
+
+            String a = Arrays.asList(stringHttpResponse.getBody().split(",")).get(0).substring(2);
+            Map<String, String> properties = Splitter.on(",").withKeyValueSeparator(":").split(a);
+            this.token = properties.get("access_token\"");
+            this.token = this.token.substring(1, this.token.length() - 1);
+            Auth0Token.getInstance().setToken(token);
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected void assertRequestWithBody(
             String method,
@@ -44,10 +79,7 @@ public abstract class RequestTestCase {
             String endpoint,
             Integer expectedStatusCode
     ) throws Exception {
-        mockMvc
-                .perform(request(HttpMethod.valueOf(method), endpoint)
-                        .header("Authorization", "Bearer " + token)
-                )
+        mockMvc.perform(request(HttpMethod.valueOf(method), endpoint).header("Authorization", "Bearer " + token))
                 .andExpect(status().is(expectedStatusCode));
     }
 

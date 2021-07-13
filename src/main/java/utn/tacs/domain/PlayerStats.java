@@ -39,7 +39,7 @@ public class PlayerStats implements Serializable {
         return this;
     }
 
-    public PlayerStats incrementLost(){
+    public PlayerStats incrementLoss(){
         lostMatches++;
         inProgressMatches--;
         return this;
@@ -56,7 +56,7 @@ public class PlayerStats implements Serializable {
         return this;
     }
 
-    public PlayerStats incrementcreate(){
+    public PlayerStats incrementCreate(){
         createdMatches++;
         incrementProgress();
         return this;
