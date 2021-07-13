@@ -33,5 +33,5 @@ jobs:
       run: ls ./build
     - uses: codecov/codecov-action@v1
       with:
-        file: ./**/target/jacocoXml
+        file: ./build/jacocoXml
         name: codecov
