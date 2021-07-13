@@ -29,18 +29,9 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew test
-      
-  coverage:  
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-java@v1
-          with:
-            java-version: 11
-        - run: ./gradlew jacocoTestReport
-
-        - uses: codecov/codecov-action@v1
-          with:
-            file: ./**/target/site/jacoco/jacoco.xml
-            name: codecov
+    - name: list
+      run: ls ./build
+    - uses: codecov/codecov-action@v1
+      with:
+        file: ./**/target/jacocoXml
+        name: codecov
