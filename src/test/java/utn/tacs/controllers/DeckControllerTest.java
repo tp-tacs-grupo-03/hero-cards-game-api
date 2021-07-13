@@ -74,7 +74,7 @@ final class DeckControllerTest extends RequestTestCase {
         List<CardId> cardIds = new ArrayList<>(Arrays.asList(new CardId("1"), new CardId("2")));
         Deck arena = new Deck(cardIds, "Arena");
         arena.setId("1");
-        when(repository.findAll(PageRequest.of(0, 100), new Sort("id", "asc"))).thenReturn(new ArrayList<>(Collections.singletonList(arena)));
+        when(repository.findAll(PageRequest.of(0, 100), new Sort("id", "asc"), "")).thenReturn(new ArrayList<>(Collections.singletonList(arena)));
         assertRequest("GET", "/api/decks", 200);
     }
 
