@@ -6,6 +6,7 @@ import utn.tacs.domain.Battle;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Match;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
@@ -16,8 +17,8 @@ public class MatchPersistModel {
     private Map<String, List<CardId>> players;
     private String deck;
     private MatchStatusEnum status;
-    private Date creationDate;
-    private Date endDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime endDate;
     private String winnerID;
     private List<Battle> battles;
 

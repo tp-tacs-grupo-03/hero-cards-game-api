@@ -33,7 +33,7 @@ public class StatsController {
             @ApiResponse(code = 200, response = MatchStatsModel.class, message = "Estadisticas de las partidas entre las fechas informadas")
     })
     @PreAuthorize(value = "hasAuthority('read:stats')")
-    public MatchStatsModel getMatches(@RequestParam(value = "initDate", required = false) String initDate, @RequestParam(value = "finishDate",required = false) String finishDate ) throws Exception {
+    public MatchStatsModel getMatches(@RequestParam(value = "initDate", required = true) String initDate, @RequestParam(value = "finishDate",required = true) String finishDate ) throws Exception {
         return statsService.findMatches(initDate, finishDate);
     }
 
@@ -44,10 +44,10 @@ public class StatsController {
             @ApiResponse(code = 200, response = ListPlayerStatsModel.class, message = "Tablero de posiciones")
     })
     @PreAuthorize(value = "hasAuthority('read:stats')")
-    public ListPlayerStatsModel getLeadderboard(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
-                                                @RequestParam(value = "size",required = false, defaultValue = "100") int size,
-                                                @RequestParam(value = "sortBy",required = false, defaultValue = "createdMatches") String sortField,
-                                                @RequestParam(value = "sortDirection",required = false, defaultValue = "ASC") String sortDirection){
+    public ListPlayerStatsModel getLeaderboard(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
+                                               @RequestParam(value = "size",required = false, defaultValue = "100") int size,
+                                               @RequestParam(value = "sortBy",required = false, defaultValue = "createdMatches") String sortField,
+                                               @RequestParam(value = "sortDirection",required = false, defaultValue = "ASC") String sortDirection){
         final Pageable pageable = PageRequest.of(page, size);
         try {
             final Sort sort = new Sort(sortField, sortDirection);

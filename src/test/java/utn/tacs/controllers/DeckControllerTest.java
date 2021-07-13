@@ -61,6 +61,17 @@ final class DeckControllerTest extends RequestTestCase {
     }
 
     @Test
+    void newDeck_invalidCard() throws Exception {
+        DeckModelRequest deckModelRequest = new DeckModelRequest();
+        List<String> cardIds = new ArrayList<>(Arrays.asList("9", "2"));
+        deckModelRequest.setCards(cardIds);
+        deckModelRequest.setName("arena");
+        String json = mapper.writeValueAsString(deckModelRequest);
+
+        assertRequestWithBody("POST", "/api/decks",json, 400);
+    }
+
+    @Test
     void getDeck() throws Exception {
         List<CardId> cardIds = new ArrayList<>(Arrays.asList(new CardId("1"), new CardId("2")));
         Deck arena = new Deck(cardIds, "Arena");

@@ -7,8 +7,8 @@ import lombok.Setter;
 import utn.tacs.domain.Match;
 import utn.tacs.dto.battle.ListBattles;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,14 +22,14 @@ public class MatchModelResponse {
     private ListBattles listBattles;
     private String deck;
     private MatchStatusEnum status;
-    private Date creationDate;
-    private Date endDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime endDate;
     private String winnerID;
     private int cardsLeft;
     private String turn;
     private PlayerStatus playerStatus;
 
-    private MatchModelResponse(String id, List<String> players, String deck, MatchStatusEnum status, Date creationDate) {
+    private MatchModelResponse(String id, List<String> players, String deck, MatchStatusEnum status, LocalDateTime creationDate) {
         this.id = id;
         this.players = players;
         this.deck = deck;

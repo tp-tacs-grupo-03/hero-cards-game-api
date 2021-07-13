@@ -3,14 +3,14 @@ package utn.tacs.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import utn.tacs.dto.battle.MatchBattleRequest;
 import utn.tacs.dto.match.MatchStatusEnum;
 import utn.tacs.dto.match.MatchUpdateRequest;
 import utn.tacs.sorting.DateComparable;
 import utn.tacs.sorting.IdComparable;
 import utn.tacs.sorting.StatusComparable;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,12 +23,12 @@ public class Match implements IdComparable, DateComparable, StatusComparable {
     private Map<String, Queue<CardId>> players;
     private String deck;
     private MatchStatusEnum status;
-    private Date creationDate;
-    private Date endDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime endDate;
     private String winnerID;
     private List<Battle> battles;
 
-    public Match(Map<String, Queue<CardId>> players, String deck, Date creationDate) {
+    public Match(Map<String, Queue<CardId>> players, String deck, LocalDateTime creationDate) {
         this.players = players;
         this.deck = deck;
         this.status = MatchStatusEnum.IN_PROGRESS;
@@ -88,6 +88,6 @@ public class Match implements IdComparable, DateComparable, StatusComparable {
 
     @Override
     public long getDate() {
-        return this.creationDate.getTime();
+        return this.creationDate.toEpochSecond(ZoneOffset.UTC);
     }
 }

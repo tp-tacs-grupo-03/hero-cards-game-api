@@ -15,7 +15,11 @@ import utn.tacs.dto.player.ListPlayerStatsModel;
 import utn.tacs.dto.player.PlayerStatsModel;
 import utn.tacs.sorting.Sort;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -53,12 +57,13 @@ public class StatsService {
         return players;
     }
 
-    public MatchStatsModel findMatches(String initDate, String finishDate) throws Exception {
+    public MatchStatsModel findMatches(String initDate, String finishDate) {
         List<Match> matches = matchesRepository.findAll();
-        Date init = new SimpleDateFormat("yyyy/MM/dd").parse(initDate);
-        Date finish = new SimpleDateFormat("yyyy/MM/dd").parse(finishDate);
+        LocalDateTime init = getTime(initDate);
+        LocalDateTime finish = getTime(finishDate);
         MatchStatsModel matchStatsModel = new MatchStatsModel();
-        List<Match> matchesInDate = matches.stream().filter(match -> match.getCreationDate().after(init) && match.getCreationDate().before(finish)).collect(Collectors.toList());
+        List<Match> matchesInDate = matches.stream().filter(match -> match.getCreationDate().isAfter(init) && match.getCreationDate().isBefore(finish)).collect(Collectors.toList());
+
         matchStatsModel.setCreatedMatches(matchesInDate.size());
         matchStatsModel.setCanceledMatches((int) matchesInDate.stream().filter(match -> match.getStatus().equals(MatchStatusEnum.CANCELED)).count());
         matchStatsModel.setEndedMatches((int) matchesInDate.stream().filter(match -> match.getStatus().equals(MatchStatusEnum.FINISHED)).count());
@@ -66,6 +71,12 @@ public class StatsService {
 
         return matchStatsModel;
     }
+
+    private LocalDateTime getTime(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        return LocalDate.parse(date, formatter).atStartOfDay();
+    }
+
 
     void process_create(MatchCreateRequest matchCreateRequest){
         PlayerStats hostPlayer = usersRepository.find(matchCreateRequest.getHost()).incrementCreate();

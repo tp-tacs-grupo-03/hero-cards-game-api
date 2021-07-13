@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Queue;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class Battle {
 
@@ -23,14 +22,12 @@ public class Battle {
     private Map<String, CardModelResponse> players;
     private String winner;
 
-
-
-    public Battle(Attribute attribute) {
+    Battle(Attribute attribute) {
         this.attribute = attribute;
         this.players = new HashMap<>();
     }
 
-    public void combat(Map<String, Queue<CardId>> players) throws Exception {
+    void combat(Map<String, Queue<CardId>> players) throws Exception {
         final SuperHeroApi superHeroApi = new SuperHeroApi();
         int max = 0;
         for (Map.Entry<String, Queue<CardId>> element : players.entrySet()) {

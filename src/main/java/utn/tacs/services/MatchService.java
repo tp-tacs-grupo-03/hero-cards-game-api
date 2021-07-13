@@ -7,25 +7,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import utn.tacs.domain.Battle;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Deck;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.DecksRepository;
 import utn.tacs.domain.repositories.MatchesRepository;
-import utn.tacs.dto.battle.BattleModelResponse;
 import utn.tacs.dto.match.*;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class MatchService {
 
-    private MatchesRepository matchesRepository;
-    private DecksRepository decksRepository;
+    private final MatchesRepository matchesRepository;
+    private final DecksRepository decksRepository;
     private final StatsService statsService;
 
     public MatchService(MatchesRepository matchesRepository, DecksRepository decksRepository, StatsService statsService) {
@@ -44,7 +43,7 @@ public class MatchService {
             players.put(matchCreateRequest.getPlayers().get(i), split.get(i));
         }
 
-        final Match match = new Match(players, matchCreateRequest.getDeck(), new Date());
+        final Match match = new Match(players, matchCreateRequest.getDeck(), LocalDateTime.now());
         matchesRepository.save(match);
         statsService.process_create(matchCreateRequest);
         return MatchModelResponse.toMatchModel(match, false);
@@ -61,10 +60,6 @@ public class MatchService {
         matchModelResponse.setTurn(match.turn());
         matchModelResponse.setCardsLeft(match.cardLeft());
         return matchModelResponse;
-    }
-
-    public List<Battle> findBattles(MatchFindRequest matchFindRequest) throws Exception {
-        return matchesRepository.find(matchFindRequest.getMatchId()).orElseThrow(()->new Exception("No hay match con ese id")).getBattles();
     }
 
     public ListMatchModelResponse findAll(MatchPagingRequest req) throws SortingException {

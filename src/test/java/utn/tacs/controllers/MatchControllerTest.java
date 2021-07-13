@@ -20,6 +20,7 @@ import utn.tacs.dto.player.PlayerStatusEnum;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,7 +82,7 @@ class MatchControllerTest extends RequestTestCase{
         players.put("Test", split.get(0));
         players.put("z1234", split.get(1));
 
-        Match match = new Match(players, "1", new Date());
+        Match match = new Match(players, "1", LocalDateTime.now());
         List<Match> matches = new ArrayList<>();
         matches.add(match);
         when(matchesRepository.findAll(PageRequest.of(0,10), new Sort("name", "asc"))).thenReturn(matches);
@@ -106,7 +107,7 @@ class MatchControllerTest extends RequestTestCase{
         players.put("Test", split.get(0));
         players.put("z1234", split.get(1));
 
-        Match match = new Match(players, "1", new Date());
+        Match match = new Match(players, "1", LocalDateTime.now());
 
         when(matchesRepository.find("1")).thenReturn(Optional.of(match));
         assertRequest("GET", "/api/matches/1", 200);
@@ -143,7 +144,34 @@ class MatchControllerTest extends RequestTestCase{
         players.put("Test", split.get(0));
         players.put("z1234", split.get(1));
 
-        Match match = new Match(players, "1", new Date());
+        Match match = new Match(players, "1", LocalDateTime.now());
+
+
+        when(matchesRepository.find("1")).thenReturn(Optional.of(match));
+
+        assertRequestWithBody("PATCH", "/api/matches/1", json, 200);
+    }
+
+    @Test
+    void update_match() throws Exception {
+        when(authenticator.getHost()).thenReturn("Test");
+        when(usersRepository.find("Test")).thenReturn(new PlayerStats("Test"));
+        when(usersRepository.find("z1234")).thenReturn(new PlayerStats("z1234"));
+
+        MatchRequest matchRequest = new MatchRequest();
+        matchRequest.setAttribute(Attribute.INTELLIGENCE);
+        String json = mapper.writeValueAsString(matchRequest);
+
+        List<CardId> cardIds = new ArrayList<>(Arrays.asList(new CardId("1"), new CardId("2")));
+        Deck arena = new Deck(cardIds, "Arena");
+        arena.setId("1");
+
+        List<Queue<CardId>> split = arena.split(2);
+        final Map<String, Queue<CardId>> players = new HashMap<>();
+        players.put("Test", split.get(0));
+        players.put("z1234", split.get(1));
+
+        Match match = new Match(players, "1", LocalDateTime.now());
 
 
         when(matchesRepository.find("1")).thenReturn(Optional.of(match));
