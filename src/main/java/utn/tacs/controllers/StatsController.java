@@ -46,7 +46,7 @@ public class StatsController {
     @PreAuthorize(value = "hasAuthority('read:stats')")
     public ListPlayerStatsModel getLeadderboard(@RequestParam(value = "page",required = false, defaultValue = "0") int page,
                                                 @RequestParam(value = "size",required = false, defaultValue = "100") int size,
-                                                @RequestParam(value = "sortBy",required = false, defaultValue = "") String sortField,
+                                                @RequestParam(value = "sortBy",required = false, defaultValue = "createdMatches") String sortField,
                                                 @RequestParam(value = "sortDirection",required = false, defaultValue = "ASC") String sortDirection){
         final Pageable pageable = PageRequest.of(page, size);
         try {
