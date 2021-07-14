@@ -56,20 +56,6 @@ public class MongoUsersRepository implements UsersRepository {
     }
 
     @Override
-    public void update(PlayerStats player) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(player.getId()));
-        Update update = new Update();
-        update.set("wonMatches", player.getWonMatches());
-        update.set("lostMatches", player.getLostMatches());
-        update.set("surrenderedMatches", player.getSurrenderedMatches());
-        update.set("inProgressMatches", player.getInProgressMatches());
-        update.set("createdMatches", player.getCreatedMatches());
-
-        mongoOperations.updateFirst(query, update, PlayerStats.class, collectionName);
-    }
-
-    @Override
     public List<PlayerStats> findAll(Pageable pageable, Sort sort) {
         final Query query = new Query()
                 .with(sort.getSortData())
@@ -85,7 +71,7 @@ public class MongoUsersRepository implements UsersRepository {
         query.with(pageable)
                 .skip(pageable.getPageSize() * pageable.getPageNumber())
                 .limit(pageable.getPageSize());
-        query.addCriteria(Criteria.where("name").regex(".*" + name + ".*"));
+        query.addCriteria(Criteria.where("name").regex(".*" + name + ".*", "i"));
 
         return mongoOperations.find(query, PlayerStats.class, collectionName);
     }

@@ -16,8 +16,6 @@ public interface UsersRepository {
 
     PlayerStats upsert(PlayerStats playerStats);
 
-    void update(PlayerStats player);
-
     List<PlayerStats> findAll(Pageable pageable, Sort sort);
 
     List<PlayerStats> findByName(Pageable pageable, String name);
