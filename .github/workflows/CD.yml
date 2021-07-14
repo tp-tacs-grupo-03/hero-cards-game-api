@@ -18,7 +18,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PEM }}
         port: ${{ secrets.PORT }}
-        script: |
-          echo "I am"
-          git pull
-          docker-compose up --build
+        script: ls
