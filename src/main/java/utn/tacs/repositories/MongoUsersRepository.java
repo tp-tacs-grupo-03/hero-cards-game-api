@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import utn.tacs.domain.AtomicUpdate;
 import utn.tacs.domain.PlayerStats;
 import utn.tacs.domain.repositories.UsersRepository;
 import utn.tacs.dto.match.MatchPersistModel;
@@ -16,6 +17,7 @@ import utn.tacs.sorting.Sort;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Repository
 public class MongoUsersRepository implements UsersRepository {
@@ -64,7 +66,7 @@ public class MongoUsersRepository implements UsersRepository {
         update.set("inProgressMatches", player.getInProgressMatches());
         update.set("createdMatches", player.getCreatedMatches());
 
-        mongoOperations.updateFirst(query, update, MatchPersistModel.class, collectionName);
+        mongoOperations.updateFirst(query, update, PlayerStats.class, collectionName);
     }
 
     @Override
@@ -86,6 +88,20 @@ public class MongoUsersRepository implements UsersRepository {
         query.addCriteria(Criteria.where("name").regex(".*" + name + ".*"));
 
         return mongoOperations.find(query, PlayerStats.class, collectionName);
+    }
+
+    @Override
+    public void atomicUpdate(String userId, AtomicUpdate atomicUpdate) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(userId));
+        Update update = new Update();
+        Optional.of(atomicUpdate.getCreatedMatches()    ).ifPresent((value) -> update.inc("createdMatches", value));
+        Optional.of(atomicUpdate.getWonMatches()        ).ifPresent((value) -> update.inc("wonMatches", value));
+        Optional.of(atomicUpdate.getLostMatches()       ).ifPresent((value) -> update.inc("lostMatches", value));
+        Optional.of(atomicUpdate.getInProgressMatches() ).ifPresent((value) -> update.inc("inProgressMatches", value));
+        Optional.of(atomicUpdate.getSurrenderedMatches()).ifPresent((value) -> update.inc("surrenderedMatches", value));
+
+        mongoOperations.updateFirst(query, update, PlayerStats.class, collectionName);
     }
 
 

@@ -63,7 +63,7 @@ public class MatchController {
                                        @RequestParam(value = "battles", required = false, defaultValue = "true") boolean battle)
     {
         try {
-            return matchService.find(new MatchFindRequest(id, battle));
+            return matchService.find(new MatchFindRequest(id, battle, authentication.getHost()));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }

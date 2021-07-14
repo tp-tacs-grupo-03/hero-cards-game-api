@@ -33,33 +33,4 @@ public class PlayerStats implements Serializable {
         return wonMatches + lostMatches + surrenderedMatches + inProgressMatches;
     }
 
-    public PlayerStats incrementWin(){
-        wonMatches++;
-        inProgressMatches--;
-        return this;
-    }
-
-    public PlayerStats incrementLoss(){
-        lostMatches++;
-        inProgressMatches--;
-        return this;
-    }
-
-    public PlayerStats incrementSurrender(){
-        surrenderedMatches++;
-        inProgressMatches--;
-        return this;
-    }
-
-    public PlayerStats incrementProgress(){
-        inProgressMatches++;
-        return this;
-    }
-
-    public PlayerStats incrementCreate(){
-        createdMatches++;
-        incrementProgress();
-        return this;
-    }
-
 }
