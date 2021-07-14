@@ -19,8 +19,11 @@ services:
         image: hero-cards-game-api:1.0
         depends_on:
             - database
-        env_file:
-            - prod.env
+        environment:
+            - super_hero_api_key=10226310284967175
+            - auth0_client_id=hmiOl6U2PyonXcjGX0VVr3qCTAe1TCmh
+            - auth0_client_secret=JF0ZF571Jyau0-qrZlSdDqTjbCRPzjQl0QRcW3Pr8syvuWJEyYnRY5ZighMK2RCP
+            - auth0_audience=https://tacs.2021.com
         ports:
             - 8080:8080
         networks:
