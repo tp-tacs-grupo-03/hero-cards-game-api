@@ -10,6 +10,6 @@ jobs:
     steps:
     - name: ssh
       run: |
-          echo "${{secrets.PEM}}" >> tacs-2021-v3.pem
+          tee tacs-2021-v3.pem <<< "${{secrets.PEM}}"
           ssh -i "tacs-2021-v3.pem" ec2-user@ec2-52-35-83-13.us-west-2.compute.amazonaws.com
           ls
