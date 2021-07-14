@@ -8,14 +8,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
-      uses: actions/checkout@v1
-      
-    - name: executing remote ssh commands using ssh key
-      uses: ./
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.PEM }}
-        port: ${{ secrets.PORT }}
-        script: ls
+    - name: ssh
+      run: |
+          cat ${{secrets.PEM}} >> tacs-2021-v3.pem
+          ssh -i "tacs-2021-v3.pem" ec2-user@ec2-52-35-83-13.us-west-2.compute.amazonaws.com
+          ls
