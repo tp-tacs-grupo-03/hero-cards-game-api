@@ -18,5 +18,5 @@ jobs:
           aws-region: us-west-2
       - name: Build, tag, and push image to Amazon ECR
         run: |
-          git pull
-          docker-compose up --build
+          aws git pull
+          aws docker-compose up --build
