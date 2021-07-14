@@ -36,7 +36,7 @@ public class PlayerService {
         ListPlayerModelResponse listPlayerModelResponse = new ListPlayerModelResponse();
         listPlayerModelResponse.setUsers(users
                 .stream()
-                .filter(playerStats -> !playerStats.getId().equals(hostId))
+                .filter(playerStats -> !playerStats.getId().equals(hostId) && !playerStats.getId().equals("~~~ALBERTO-BOT~~~"))
                 .map(User::toUser)
                 .collect(Collectors.toList())
         );

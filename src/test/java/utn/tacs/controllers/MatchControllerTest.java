@@ -63,7 +63,7 @@ class MatchControllerTest extends RequestTestCase{
 
     @Test
     void getAllMatches_nonMatchResponse() throws Exception {
-        when(matchesRepository.findAll(PageRequest.of(0,10), new Sort("name", "asc"))).thenReturn(new ArrayList<>());
+        when(matchesRepository.findAllById(PageRequest.of(0,10), new Sort("name", "asc"), "")).thenReturn(new ArrayList<>());
         when(matchesRepository.getTotal("1")).thenReturn(0);
 
         assertRequest("GET", "/api/matches", 200);
@@ -72,7 +72,6 @@ class MatchControllerTest extends RequestTestCase{
     @Test
     void getAllMatches_withMatches() throws Exception {
         when(authenticator.getHost()).thenReturn("Test");
-        when(matchesRepository.findAll(PageRequest.of(0,10), new Sort("name", "asc"))).thenReturn(new ArrayList<>());
         when(matchesRepository.getTotal("1")).thenReturn(0);
 
         List<CardId> cardIds = new ArrayList<>(Arrays.asList(new CardId("1"), new CardId("2")));
@@ -87,7 +86,7 @@ class MatchControllerTest extends RequestTestCase{
         Match match = new Match(players, "1", MatchTypeEnum.RANKED);
         List<Match> matches = new ArrayList<>();
         matches.add(match);
-        when(matchesRepository.findAll(PageRequest.of(0,10), new Sort("name", "asc"))).thenReturn(matches);
+        when(matchesRepository.findAllById(PageRequest.of(0,10), new Sort("name", "asc"), "")).thenReturn(matches);
 
         assertRequest("GET", "/api/matches", 200);
     }

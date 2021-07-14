@@ -38,7 +38,7 @@ public class MatchPersistModel {
         matchPersistModel.setDeck(match.getDeck());
         matchPersistModel.setType(match.getType());
         matchPersistModel.setId(match.getId());
-        matchPersistModel.setPlayersId(match.getPlayers().keySet().stream().collect(Collectors.toList()));
+        matchPersistModel.setPlayersId(new ArrayList<>(match.getPlayers().keySet()));
         matchPersistModel.setStatus(match.getStatus());
         matchPersistModel.setEndDate(match.getEndDate());
         matchPersistModel.setWinnerID(match.getWinnerID());

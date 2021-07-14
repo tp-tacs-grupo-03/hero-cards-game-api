@@ -13,8 +13,6 @@ public interface MatchesRepository {
 
     Optional<Match> find(String id);
 
-    List<Match> findAll(Pageable pageable, Sort sort);
-
     List<Match> findAllById(Pageable pageable, Sort sort, String playerID);
 
     void update(Match match);
