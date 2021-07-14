@@ -12,12 +12,9 @@ import utn.tacs.domain.Deck;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.DecksRepository;
 import utn.tacs.domain.repositories.MatchesRepository;
-import utn.tacs.dto.deck.response.MatchModel;
 import utn.tacs.dto.match.*;
 import utn.tacs.sorting.Sort;
 import utn.tacs.sorting.exceptions.SortingException;
-
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -68,10 +65,9 @@ public class MatchService {
     public MatchModelResponse find(MatchFindRequest matchFindRequest) throws Exception {
         final Match match = matchesRepository.find(matchFindRequest.getMatchId()).orElseThrow(()->new Exception("No hay match con ese id"));
         final MatchModelResponse matchModelResponse = MatchModelResponse.toMatchModel(match, matchFindRequest.isBattle());
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final String player = auth.getName();
-        if (!match.isTerminated() && match.isPlayer(player)){
-            matchModelResponse.setPlayerStatus(new PlayerStatus(match, player));
+
+        if (!match.isTerminated() && match.isPlayer(matchFindRequest.getPlayer())){
+            matchModelResponse.setPlayerStatus(new PlayerStatus(match, matchFindRequest.getPlayer()));
         }
         matchModelResponse.setTurn(match.turn());
         matchModelResponse.setCardsLeft(match.cardLeft());
@@ -107,11 +103,10 @@ public class MatchService {
         else if (matchUpdateRequest.getAttribute() != null)
             fight(matchUpdateRequest, match);
 
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final String player = auth.getName();
+
         MatchModelResponse response = MatchModelResponse.toMatchModel(match, true);
-        if (!match.isTerminated() && match.isPlayer(player)){
-            response.setPlayerStatus(new PlayerStatus(match, player));
+        if (!match.isTerminated() && match.isPlayer(matchUpdateRequest.getPlayer())){
+            response.setPlayerStatus(new PlayerStatus(match, matchUpdateRequest.getPlayer()));
         }
         response.setTurn(match.turn());
         response.setCardsLeft(match.cardLeft());

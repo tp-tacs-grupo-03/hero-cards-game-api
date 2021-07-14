@@ -2,6 +2,7 @@ package utn.tacs.services;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import utn.tacs.domain.AtomicUpdate;
 import utn.tacs.domain.CardId;
 import utn.tacs.domain.Match;
 import utn.tacs.domain.repositories.MatchesRepository;
@@ -78,36 +79,29 @@ public class StatsService {
     }
 
     void process_create(MatchCreateRequest matchCreateRequest, List<String> playersId){
-        PlayerStats hostPlayer = usersRepository.find(matchCreateRequest.getHost()).incrementCreate();
-        usersRepository.save(hostPlayer);
+        usersRepository.atomicUpdate(matchCreateRequest.getHost(), AtomicUpdate.builder().createdMatches(1).inProgressMatches(1).build());
         playersId
                 .stream()
                 .filter(player -> !player.equals(matchCreateRequest.getHost()))
-                .forEach(player -> usersRepository
-                        .save(usersRepository.find(player))
+                .forEach(player -> usersRepository.atomicUpdate(player, AtomicUpdate.builder().inProgressMatches(1).build())
                 );
     }
 
     void process_surrender(MatchUpdateRequest matchUpdateRequest, Match match) {
-        usersRepository.find(matchUpdateRequest.getPlayer()).incrementSurrender();
+        usersRepository.atomicUpdate(matchUpdateRequest.getPlayer(), AtomicUpdate.builder().surrenderedMatches(1).inProgressMatches(-1).build());
         match.getPlayers()
                 .keySet()
                 .stream()
                 .filter(player -> !player.equals(matchUpdateRequest.getPlayer()))
-                .forEach(player -> usersRepository
-                        .find(player)
-                        .incrementSurrender()
+                .forEach(player -> usersRepository.atomicUpdate(player, AtomicUpdate.builder().wonMatches(1).inProgressMatches(-1).build())
                 );
     }
 
     void process_win(String winnerID, Map<String, Queue<CardId>> players) {
-        usersRepository.find(winnerID).incrementWin();
+        usersRepository.atomicUpdate(winnerID, AtomicUpdate.builder().wonMatches(1).inProgressMatches(-1).build());
         players.keySet()
                 .stream()
                 .filter(player -> !player.equals(winnerID))
-                .forEach(player -> usersRepository
-                        .find(player)
-                        .incrementLoss()
-                );
+                .forEach(player -> usersRepository.atomicUpdate(player, AtomicUpdate.builder().lostMatches(1).inProgressMatches(-1).build()));
     }
 }
