@@ -3,20 +3,22 @@ name: deploy to production
 on:
   push:
     branches: [ main ]
-
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-      - name: Build, tag, and push image to Amazon ECR
-        run: |
-          aws git pull
-          aws docker-compose up --build
+    - name: checkout
+      uses: actions/checkout@v1
+      
+    - name: executing remote ssh commands using ssh key
+      uses: ./
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PEM }}
+        port: ${{ secrets.PORT }}
+        script: |
+          echo "I am"
+          git pull
+          docker-compose up --build
